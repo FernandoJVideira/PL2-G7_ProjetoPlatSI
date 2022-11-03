@@ -90,6 +90,11 @@ class RbacController extends Controller
         $updateProduto->description = 'Atualizar um produto';
         $auth->add($updateProduto);
 
+        //create a permition called updateStock and adding it to the authManager
+        $updateSstock = $auth->createPermission('updateStock');
+        $updateSstock->description = 'Atualizar o stock de um produto';
+        $auth->add($updateSstock);
+
         //create a permition called updateTiposDePagamento and adding it to the authManager
         $updateTiposDePagamento = $auth->createPermission('updateTiposDePagamento');
         $updateTiposDePagamento->description = 'Atualizar um tipo de pagamento';
@@ -147,10 +152,74 @@ class RbacController extends Controller
 
         //View permissions
 
+        //create a permition called viewGestores and adding it to the authManager
+        $viewGestores = $auth->createPermission('viewGestores');
+        $viewGestores->description = 'Ver a listagem de todos gestores';
+        $auth->add($viewGestores);
+
+        //create a permition called viewAdmins and adding it to the authManager
+        $viewAdmins = $auth->createPermission('viewAdmins');
+        $viewAdmins->description = 'Ver a listagem de todos administradores';
+        $auth->add($viewAdmins);
+
         //create a permition called viewFuncionarios and adding it to the authManager
         $viewFuncionarios = $auth->createPermission('viewFuncionarios');
         $viewFuncionarios->description = 'Ver a listagem de todos funcionários';
         $auth->add($viewFuncionarios);
+
+        //create a permition called viewEstatisticas and adding it to the authManager
+        $viewEstatisticas = $auth->createPermission('viewEstatisticas');
+        $viewEstatisticas->description = 'Ver as estatisticas da loja';
+        $auth->add($viewEstatisticas);
+
+        //create a permition called viewHistoricoDeEncomendas and adding it to the authManager
+        $viewHistoricoDeEncomendas = $auth->createPermission('viewHistoricoDeEncomendas');
+        $viewHistoricoDeEncomendas->description = 'Ver o historico de encomendas';
+        $auth->add($viewHistoricoDeEncomendas);
+
+        //Delete permissions
+
+        //create a permition called deleteAdmin and adding it to the authManager
+        $deleteAdmin = $auth->createPermission('deleteAdmin');
+        $deleteAdmin->description = 'Desativar um administrador';
+        $auth->add($deleteAdmin);
+
+        //create a permition called deleteGestor and adding it to the authManager
+        $deleteGestor = $auth->createPermission('deleteGestor');
+        $deleteGestor->description = 'Desativar um gestor';
+        $auth->add($deleteGestor);
+
+        //create a permition called deleteFuncionario and adding it to the authManager
+        $deleteFuncionario = $auth->createPermission('deleteFuncionario');
+        $deleteFuncionario->description = 'Desativar um funcionário';
+        $auth->add($deleteFuncionario);
+
+        //create a permition called deleteCliente and adding it to the authManager
+        $deleteCliente = $auth->createPermission('deleteCliente');
+        $deleteCliente->description = 'Desativar um cliente';
+        $auth->add($deleteCliente);
+
+        //create a permition called deleteProduto and adding it to the authManager
+        $deleteProduto = $auth->createPermission('deleteProduto');
+        $deleteProduto->description = 'Desativar um produto';
+        $auth->add($deleteProduto);
+
+        //create a permition called deleteIva and adding it to the authManager
+        $deleteIva = $auth->createPermission('deleteIva');
+        $deleteIva->description = 'Desativar uma taxa IVA';
+        $auth->add($deleteIva);
+
+        //create a permition called deleteCategoria and adding it to the authManager
+        $deleteCategoria = $auth->createPermission('deleteCategoria');
+        $deleteCategoria->description = 'Desativar uma categoria';
+        $auth->add($deleteCategoria);
+
+        //create a permition called deleteMorada and adding it to the authManager
+        $deleteMorada = $auth->createPermission('deleteMorada');
+        $deleteMorada->description = 'Remover uma morada';
+        $auth->add($deleteMorada);
+
+
 
         /* Creating the roles and assigning permissions to them. */
 
