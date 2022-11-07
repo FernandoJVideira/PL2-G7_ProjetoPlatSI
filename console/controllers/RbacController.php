@@ -297,7 +297,7 @@ class RbacController extends Controller
         $auth->addChild($funcionario, $updateDadosFuncionario);
         $auth->addChild($funcionario, $updateDadosCliente);
         $auth->addChild($funcionario, $deleteCliente);
-        $auth->addChild($gestor, $deleteMorada);
+        $auth->addChild($funcionario, $deleteMorada);
         $auth->addChild($funcionario, $updateStock);
 
 

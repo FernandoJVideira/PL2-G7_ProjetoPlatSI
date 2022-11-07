@@ -86,6 +86,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -161,7 +162,7 @@ class SiteController extends Controller
             $user = User::find()->where(['email' => $model->email])->one();
 
             $auth = \Yii::$app->authManager;
-            $userRole = $auth->getRole('user');
+            $userRole = $auth->getRole('cliente');
             $auth->assign($userRole, $user->id);
 
             return $this->goHome();
