@@ -6,6 +6,7 @@ use common\models\LoginForm;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
 
@@ -80,6 +81,10 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            if(!Yii::$app->user->can("backend")){
+                Yii::$app->user->logout();
+                return $this->redirect(Url::toRoute("/../../frontend/web/site/login"));
+            }
             return $this->goBack();
         }
 
