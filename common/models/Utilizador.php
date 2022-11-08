@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $idUser
  * @property string|null $nome
+ * @property string $nif
  * @property string|null $telemovel
  * @property int|null $id_loja
  * @property int|null $id_user
@@ -35,9 +36,10 @@ class Utilizador extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idUser'], 'required'],
+            [['idUser', 'nif'], 'required'],
             [['idUser', 'id_loja', 'id_user'], 'integer'],
-            [['nome', 'telemovel'], 'string', 'max' => 255],
+            [['nome', 'nif', 'telemovel'], 'string', 'max' => 255],
+            [['nif'], 'unique'],
             [['idUser'], 'unique'],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
             [['id_loja'], 'exist', 'skipOnError' => true, 'targetClass' => Loja::class, 'targetAttribute' => ['id_loja' => 'idLoja']],
@@ -52,6 +54,7 @@ class Utilizador extends \yii\db\ActiveRecord
         return [
             'idUser' => 'Id User',
             'nome' => 'Nome',
+            'nif' => 'Nif',
             'telemovel' => 'Telemovel',
             'id_loja' => 'Id Loja',
             'id_user' => 'Id User',

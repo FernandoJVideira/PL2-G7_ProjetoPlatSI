@@ -43,6 +43,7 @@ CREATE TABLE `morada` (
 CREATE TABLE `utilizador` (
   `idUser` int PRIMARY KEY,
   `nome` varchar(255),
+  `nif` varchar(255),
   `telemovel` varchar(255),
   `id_loja` int,
   `id_user` int
