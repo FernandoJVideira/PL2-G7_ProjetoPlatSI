@@ -311,5 +311,8 @@ class RbacController extends Controller
         $auth->addChild($cliente, $viewHistoricoDeEncomendas);
         $auth->addChild($cliente, $deleteMorada);
         $auth->addChild($cliente, $favoritos);
+
+        //add admin role to id 1
+        $auth->assign($admin, 1);
     }
 }
