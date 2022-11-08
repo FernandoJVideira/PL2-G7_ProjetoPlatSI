@@ -8,11 +8,12 @@ use Yii;
  * This is the model class for table "fatura".
  *
  * @property int $idFatura
- * @property string $nomeUtilizador
- * @property string $nifUtilizador
- * @property string $nomeEmpresa
- * @property string $nifEmpresa
- * @property string $descricaoLoja
+ * @property string|null $nomeUtilizador
+ * @property string|null $nifUtilizador
+ * @property string|null $nomeEmpresa
+ * @property string|null $nifEmpresa
+ * @property string|null $descricaoLoja
+ * @property float|null $desconto
  * @property string|null $dataCriacao
  * @property int|null $id_metodo
  * @property int|null $id_utilizador
@@ -39,12 +40,11 @@ class Fatura extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idFatura', 'nomeUtilizador', 'nifUtilizador', 'nomeEmpresa', 'nifEmpresa', 'descricaoLoja'], 'required'],
+            [['idFatura'], 'required'],
             [['idFatura', 'id_metodo', 'id_utilizador', 'id_loja', 'id_carrinho'], 'integer'],
+            [['desconto'], 'number'],
             [['dataCriacao'], 'safe'],
-            [['nomeUtilizador'], 'string', 'max' => 255],
-            [['nifUtilizador', 'nifEmpresa'], 'string', 'max' => 9],
-            [['nomeEmpresa', 'descricaoLoja'], 'string', 'max' => 50],
+            [['nomeUtilizador', 'nifUtilizador', 'nomeEmpresa', 'nifEmpresa', 'descricaoLoja'], 'string', 'max' => 255],
             [['idFatura'], 'unique'],
             [['id_carrinho'], 'exist', 'skipOnError' => true, 'targetClass' => Carrinho::class, 'targetAttribute' => ['id_carrinho' => 'idCarrinho']],
             [['id_metodo'], 'exist', 'skipOnError' => true, 'targetClass' => Metodopagamento::class, 'targetAttribute' => ['id_metodo' => 'idMetodo']],
@@ -63,6 +63,7 @@ class Fatura extends \yii\db\ActiveRecord
             'nomeEmpresa' => 'Nome Empresa',
             'nifEmpresa' => 'Nif Empresa',
             'descricaoLoja' => 'Descricao Loja',
+            'desconto' => 'Desconto',
             'dataCriacao' => 'Data Criacao',
             'id_metodo' => 'Id Metodo',
             'id_utilizador' => 'Id Utilizador',

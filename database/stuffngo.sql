@@ -107,14 +107,14 @@ CREATE TABLE `metodoPagamento` (
 ) ENGINE InnoDB;
 
 CREATE TABLE `iva` (
-  `idIva` int PRIMARY KEY,
+  `idIva` int PRIMARY KEY AUTO_INCREMENT,
   `iva` float UNIQUE NOT NULL,
   `descricao` varchar(255) NOT NULL,
   `ativo` boolean DEFAULT 1
 ) ENGINE InnoDB;
 
 CREATE TABLE `fatura` (
-  `idFatura` int PRIMARY KEY,
+  `idFatura` int PRIMARY KEY AUTO_INCREMENT,
   `nomeUtilizador` varchar(255) NOT NULL,
   `nifUtilizador` varchar(9) NOT NULL,
   `nomeEmpresa` varchar(50) NOT NULL,
