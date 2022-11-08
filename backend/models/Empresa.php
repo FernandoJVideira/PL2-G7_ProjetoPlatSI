@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
 
@@ -8,10 +8,10 @@ use Yii;
  * This is the model class for table "empresa".
  *
  * @property int $idEmpresa
- * @property string|null $descricao_social
- * @property string|null $email
- * @property string|null $telefone
- * @property string|null $nif
+ * @property string $descricao_social
+ * @property string $email
+ * @property string $telefone
+ * @property string $nif
  * @property int|null $id_morada
  *
  * @property Loja[] $lojas
@@ -33,10 +33,12 @@ class Empresa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idEmpresa'], 'required'],
-            [['idEmpresa', 'id_morada'], 'integer'],
-            [['descricao_social', 'email', 'telefone', 'nif'], 'string', 'max' => 255],
-            [['idEmpresa'], 'unique'],
+            [['descricao_social', 'email', 'telefone', 'nif'], 'required'],
+            [['id_morada'], 'integer'],
+            [['descricao_social'], 'string', 'max' => 255],
+            [['email', 'telefone'], 'string', 'max' => 50],
+            [['nif'], 'string', 'max' => 9],
+            [['email'], 'unique'],
             [['id_morada'], 'exist', 'skipOnError' => true, 'targetClass' => Morada::class, 'targetAttribute' => ['id_morada' => 'idMorada']],
         ];
     }

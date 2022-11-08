@@ -30,9 +30,7 @@ class Senhadigital extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idSenha'], 'required'],
-            [['idSenha', 'id_seccao', 'numeroAtual', 'ultimoNumero'], 'integer'],
-            [['idSenha'], 'unique'],
+            [['id_seccao', 'numeroAtual', 'ultimoNumero'], 'integer'],
             [['id_seccao'], 'exist', 'skipOnError' => true, 'targetClass' => Seccao::class, 'targetAttribute' => ['id_seccao' => 'idSeccao']],
         ];
     }

@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "promocao".
  *
  * @property int $idPromocao
- * @property float|null $percentagem
- * @property string|null $data_limite
+ * @property float $percentagem
+ * @property string $data_limite
  *
  * @property Carrinho[] $carrinhos
  */
@@ -29,11 +29,9 @@ class Promocao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idPromocao'], 'required'],
-            [['idPromocao'], 'integer'],
+            [['percentagem', 'data_limite'], 'required'],
             [['percentagem'], 'number'],
             [['data_limite'], 'safe'],
-            [['idPromocao'], 'unique'],
         ];
     }
 

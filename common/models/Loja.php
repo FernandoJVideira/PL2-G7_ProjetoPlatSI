@@ -9,9 +9,9 @@ use Yii;
  *
  * @property int $idLoja
  * @property int|null $id_empresa
- * @property string|null $descricao
- * @property string|null $email
- * @property string|null $telefone
+ * @property string $descricao
+ * @property string $email
+ * @property string $telefone
  * @property int|null $ativo
  * @property int|null $id_morada
  *
@@ -41,10 +41,12 @@ class Loja extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idLoja'], 'required'],
-            [['idLoja', 'id_empresa', 'ativo', 'id_morada'], 'integer'],
-            [['descricao', 'email', 'telefone'], 'string', 'max' => 255],
-            [['idLoja'], 'unique'],
+            [['id_empresa', 'ativo', 'id_morada'], 'integer'],
+            [['descricao', 'email', 'telefone'], 'required'],
+            [['descricao'], 'string', 'max' => 255],
+            [['email'], 'string', 'max' => 50],
+            [['telefone'], 'string', 'max' => 12],
+            [['email'], 'unique'],
             [['id_empresa'], 'exist', 'skipOnError' => true, 'targetClass' => Empresa::class, 'targetAttribute' => ['id_empresa' => 'idEmpresa']],
             [['id_morada'], 'exist', 'skipOnError' => true, 'targetClass' => Morada::class, 'targetAttribute' => ['id_morada' => 'idMorada']],
         ];

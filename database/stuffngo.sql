@@ -1,58 +1,58 @@
 use stuffngo;
 
 CREATE TABLE `empresa` (
-  `idEmpresa` int PRIMARY KEY,
-  `descricao_social` varchar(255),
-  `email` varchar(255),
-  `telefone` varchar(255),
-  `nif` varchar(255),
+  `idEmpresa` int PRIMARY KEY AUTO_INCREMENT,
+  `descricao_social` varchar(255) NOT NULL,
+  `email` varchar(50) UNIQUE NOT NULL,
+  `telefone` varchar(20) NOT NULL,
+  `nif` varchar(9) NOT NULL,
   `id_morada` int
 ) ENGINE InnoDB;
 
 CREATE TABLE `loja` (
-  `idLoja` int PRIMARY KEY,
+  `idLoja` int PRIMARY KEY AUTO_INCREMENT,
   `id_empresa` int,
-  `descricao` varchar(255),
-  `email` varchar(255),
-  `telefone` varchar(255),
-  `ativo` boolean,
+  `descricao` varchar(255) NOT NULL,
+  `email` varchar(50) UNIQUE NOT NULL,
+  `telefone` varchar(12) NOT NULL,
+  `ativo` boolean DEFAULT 1,
   `id_morada` int
 ) ENGINE InnoDB;
 
 CREATE TABLE `senhaDigital` (
-  `idSenha` int PRIMARY KEY,
+  `idSenha` int PRIMARY KEY AUTO_INCREMENT,
   `id_seccao` int,
-  `numeroAtual` int,
-  `ultimoNumero` int
+  `numeroAtual` int DEFAULT 0,
+  `ultimoNumero` int DEFAULT 0
 ) ENGINE InnoDB;
 
 CREATE TABLE `seccao` (
-  `idSeccao` int PRIMARY KEY,
-  `nome` varchar(255)
+  `idSeccao` int PRIMARY KEY AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL
 ) ENGINE InnoDB;
 
 CREATE TABLE `morada` (
-  `idMorada` int PRIMARY KEY,
-  `rua` varchar(255),
-  `cidade` varchar(255),
-  `cod_postal` varchar(255),
-  `pais` varchar(255),
+  `idMorada` int PRIMARY KEY AUTO_INCREMENT,
+  `rua` varchar(255) NOT NULL,
+  `cidade` varchar(20) NOT NULL,
+  `cod_postal` varchar(12) NOT NULL,
+  `pais` varchar(20) NOT NULL,
   `id_user` int
 ) ENGINE InnoDB;
 
 CREATE TABLE `utilizador` (
-  `idUser` int PRIMARY KEY,
-  `nome` varchar(255),
-  `nif` varchar(255),
-  `telemovel` varchar(255),
+  `idUser` int PRIMARY KEY AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `nif` varchar(9) UNIQUE NOT NULL,
+  `telemovel` varchar(20) NOT NULL,
   `id_loja` int,
   `id_user` int
 ) ENGINE InnoDB;
 
 CREATE TABLE `carrinho` (
-  `idCarrinho` int PRIMARY KEY,
-  `estado` boolean,
-  `data_criacao` datetime,
+  `idCarrinho` int PRIMARY KEY AUTO_INCREMENT,
+  `estado` boolean DEFAULT 0,
+  `data_criacao` datetime DEFAULT CURRENT_TIMESTAMP,
   `id_morada` int,
   `id_loja` int,
   `id_user` int,
@@ -60,68 +60,67 @@ CREATE TABLE `carrinho` (
 ) ENGINE InnoDB;
 
 CREATE TABLE `favorito` (
-  `idFavorito` int PRIMARY KEY,
+  `idFavorito` int PRIMARY KEY AUTO_INCREMENT,
   `id_produto` int,
   `id_user` int
 ) ENGINE InnoDB;
 
 CREATE TABLE `linhaCarrinho` (
-  `idLinha` int PRIMARY KEY,
-  `estado` int,
+  `idLinha` int PRIMARY KEY AUTO_INCREMENT,
+  `estado` int DEFAULT 0,
+  `quantidade` int NOT NULL,
   `id_carrinho` int,
-  `id_produto` int,
-  `quantidade` int
+  `id_produto` int
 ) ENGINE InnoDB;
 
 CREATE TABLE `produto` (
-  `idProduto` int PRIMARY KEY,
-  `nome` varchar(255),
-  `descricao` text,
-  `preco_unit` float,
-  `dataCriacao` datetime,
-  `imagem` varchar(255),
-  `ativo` boolean,
+  `idProduto` int PRIMARY KEY AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `descricao` text NOT NULL,
+  `preco_unit` float NOT NULL,
+  `dataCriacao` datetime DEFAULT CURRENT_TIMESTAMP,
+  `imagem` varchar(255) NOT NULL,
+  `ativo` boolean DEFAULT 1,
   `id_categoria` int
 ) ENGINE InnoDB;
 
 CREATE TABLE `stock` (
-  `idStock` int PRIMARY KEY,
+  `idStock` int PRIMARY KEY AUTO_INCREMENT,
+  `quant_stock` int NOT NULL,
+  `quant_req` int DEFAULT 0,
   `id_produto` int,
-  `id_loja` int,
-  `quant_stock` int,
-  `quant_req` int
+  `id_loja` int
 ) ENGINE InnoDB;
 
 CREATE TABLE `categoria` (
-  `idCategoria` int PRIMARY KEY,
-  `nome` varchar(255),
-  `ativo` boolean,
+  `idCategoria` int PRIMARY KEY AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `ativo` boolean DEFAULT 1,
   `id_iva` int,
   `id_categoria` int
 ) ENGINE InnoDB;
 
 CREATE TABLE `metodoPagamento` (
-  `idMetodo` int PRIMARY KEY,
-  `metodoPagamento` varchar(255),
-  `ativo` boolean
+  `idMetodo` int PRIMARY KEY AUTO_INCREMENT,
+  `metodoPagamento` varchar(255) NOT NULL,
+  `ativo` boolean DEFAULT 1
 ) ENGINE InnoDB;
 
 CREATE TABLE `iva` (
   `idIva` int PRIMARY KEY,
-  `iva` float,
-  `descricao` varchar(255),
-  `ativo` boolean
+  `iva` float UNIQUE NOT NULL,
+  `descricao` varchar(255) NOT NULL,
+  `ativo` boolean DEFAULT 1
 ) ENGINE InnoDB;
 
 CREATE TABLE `fatura` (
   `idFatura` int PRIMARY KEY,
-  `nomeUtilizador` varchar(255),
-  `nifUtilizador` varchar(255),
-  `nomeEmpresa` varchar(255),
-  `nifEmpresa` varchar(255),
-  `descricaoLoja` varchar(255),
-  `desconto` float,
-  `dataCriacao` datetime,
+  `nomeUtilizador` varchar(255) NOT NULL,
+  `nifUtilizador` varchar(9) NOT NULL,
+  `nomeEmpresa` varchar(50) NOT NULL,
+  `nifEmpresa` varchar(9) NOT NULL,
+  `descricaoLoja` varchar(50) NOT NULL,
+  `dataCriacao` datetime DEFAULT CURRENT_TIMESTAMP,
   `id_metodo` int,
   `id_utilizador` int,
   `id_loja` int,
@@ -129,19 +128,19 @@ CREATE TABLE `fatura` (
 ) ENGINE InnoDB;
 
 CREATE TABLE `linhaFatura` (
-  `idLinha` int PRIMARY KEY,
-  `quantidade` int,
-  `preco_unit` float,
+  `idLinha` int PRIMARY KEY AUTO_INCREMENT,
+  `quantidade` int NOT NULL,
+  `preco_unit` float NOT NULL,
+  `iva` float NOT NULL,
   `id_categoria` int,
-  `iva` float,
   `id_fatura` int,
   `id_produto` int
 ) ENGINE InnoDB;
 
 CREATE TABLE `promocao` (
-  `idPromocao` int PRIMARY KEY,
-  `percentagem` float,
-  `data_limite` datetime
+  `idPromocao` int PRIMARY KEY AUTO_INCREMENT,
+  `percentagem` float NOT NULL,
+  `data_limite` datetime NOT NULL
 ) ENGINE InnoDB;
 
 ALTER TABLE `empresa` ADD FOREIGN KEY (`id_morada`) REFERENCES `morada` (`idMorada`);

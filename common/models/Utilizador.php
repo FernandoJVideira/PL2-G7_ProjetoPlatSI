@@ -8,9 +8,9 @@ use Yii;
  * This is the model class for table "utilizador".
  *
  * @property int $idUser
- * @property string|null $nome
+ * @property string $nome
  * @property string $nif
- * @property string|null $telemovel
+ * @property string $telemovel
  * @property int|null $id_loja
  * @property int|null $id_user
  *
@@ -36,11 +36,12 @@ class Utilizador extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idUser', 'nif'], 'required'],
-            [['idUser', 'id_loja', 'id_user'], 'integer'],
-            [['nome', 'nif', 'telemovel'], 'string', 'max' => 255],
+            [['nome', 'nif', 'telemovel'], 'required'],
+            [['id_loja', 'id_user'], 'integer'],
+            [['nome'], 'string', 'max' => 255],
+            [['nif'], 'string', 'max' => 9],
+            [['telemovel'], 'string', 'max' => 20],
             [['nif'], 'unique'],
-            [['idUser'], 'unique'],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
             [['id_loja'], 'exist', 'skipOnError' => true, 'targetClass' => Loja::class, 'targetAttribute' => ['id_loja' => 'idLoja']],
         ];

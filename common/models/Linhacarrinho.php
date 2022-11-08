@@ -9,9 +9,9 @@ use Yii;
  *
  * @property int $idLinha
  * @property int|null $estado
+ * @property int $quantidade
  * @property int|null $id_carrinho
  * @property int|null $id_produto
- * @property int|null $quantidade
  *
  * @property Carrinho $carrinho
  * @property Produto $produto
@@ -32,9 +32,8 @@ class Linhacarrinho extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idLinha'], 'required'],
-            [['idLinha', 'estado', 'id_carrinho', 'id_produto', 'quantidade'], 'integer'],
-            [['idLinha'], 'unique'],
+            [['estado', 'quantidade', 'id_carrinho', 'id_produto'], 'integer'],
+            [['quantidade'], 'required'],
             [['id_carrinho'], 'exist', 'skipOnError' => true, 'targetClass' => Carrinho::class, 'targetAttribute' => ['id_carrinho' => 'idCarrinho']],
             [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'idProduto']],
         ];
@@ -48,9 +47,9 @@ class Linhacarrinho extends \yii\db\ActiveRecord
         return [
             'idLinha' => 'Id Linha',
             'estado' => 'Estado',
+            'quantidade' => 'Quantidade',
             'id_carrinho' => 'Id Carrinho',
             'id_produto' => 'Id Produto',
-            'quantidade' => 'Quantidade',
         ];
     }
 

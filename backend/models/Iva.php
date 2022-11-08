@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
 
@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "iva".
  *
  * @property int $idIva
- * @property float|null $iva
- * @property string|null $descricao
+ * @property float $iva
+ * @property string $descricao
  * @property int|null $ativo
  *
  * @property Categoria[] $categorias
@@ -30,10 +30,11 @@ class Iva extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idIva'], 'required'],
+            [['idIva', 'iva', 'descricao'], 'required'],
             [['idIva', 'ativo'], 'integer'],
             [['iva'], 'number'],
             [['descricao'], 'string', 'max' => 255],
+            [['iva'], 'unique'],
             [['idIva'], 'unique'],
         ];
     }

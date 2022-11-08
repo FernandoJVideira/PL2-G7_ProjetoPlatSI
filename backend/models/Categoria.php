@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
 
@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "categoria".
  *
  * @property int $idCategoria
- * @property string|null $nome
+ * @property string $nome
  * @property int|null $ativo
  * @property int|null $id_iva
  * @property int|null $id_categoria
@@ -35,10 +35,9 @@ class Categoria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idCategoria'], 'required'],
-            [['idCategoria', 'ativo', 'id_iva', 'id_categoria'], 'integer'],
+            [['nome'], 'required'],
+            [['ativo', 'id_iva', 'id_categoria'], 'integer'],
             [['nome'], 'string', 'max' => 255],
-            [['idCategoria'], 'unique'],
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_categoria' => 'idCategoria']],
             [['id_iva'], 'exist', 'skipOnError' => true, 'targetClass' => Iva::class, 'targetAttribute' => ['id_iva' => 'idIva']],
         ];

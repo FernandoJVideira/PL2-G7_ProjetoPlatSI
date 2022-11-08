@@ -8,11 +8,11 @@ use Yii;
  * This is the model class for table "produto".
  *
  * @property int $idProduto
- * @property string|null $nome
- * @property string|null $descricao
- * @property float|null $preco_unit
+ * @property string $nome
+ * @property string $descricao
+ * @property float $preco_unit
  * @property string|null $dataCriacao
- * @property string|null $imagem
+ * @property string $imagem
  * @property int|null $ativo
  * @property int|null $id_categoria
  *
@@ -38,13 +38,12 @@ class Produto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idProduto'], 'required'],
-            [['idProduto', 'ativo', 'id_categoria'], 'integer'],
+            [['nome', 'descricao', 'preco_unit', 'imagem'], 'required'],
             [['descricao'], 'string'],
             [['preco_unit'], 'number'],
             [['dataCriacao'], 'safe'],
+            [['ativo', 'id_categoria'], 'integer'],
             [['nome', 'imagem'], 'string', 'max' => 255],
-            [['idProduto'], 'unique'],
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_categoria' => 'idCategoria']],
         ];
     }

@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "seccao".
  *
  * @property int $idSeccao
- * @property string|null $nome
+ * @property string $nome
  *
  * @property Loja[] $lojaIdLojas
  * @property LojaSeccao[] $lojaSeccaos
@@ -30,10 +30,8 @@ class Seccao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idSeccao'], 'required'],
-            [['idSeccao'], 'integer'],
+            [['nome'], 'required'],
             [['nome'], 'string', 'max' => 255],
-            [['idSeccao'], 'unique'],
         ];
     }
 

@@ -8,10 +8,10 @@ use Yii;
  * This is the model class for table "morada".
  *
  * @property int $idMorada
- * @property string|null $rua
- * @property string|null $cidade
- * @property string|null $cod_postal
- * @property string|null $pais
+ * @property string $rua
+ * @property string $cidade
+ * @property string $cod_postal
+ * @property string $pais
  * @property int|null $id_user
  *
  * @property Empresa[] $empresas
@@ -34,10 +34,11 @@ class Morada extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idMorada'], 'required'],
-            [['idMorada', 'id_user'], 'integer'],
-            [['rua', 'cidade', 'cod_postal', 'pais'], 'string', 'max' => 255],
-            [['idMorada'], 'unique'],
+            [['rua', 'cidade', 'cod_postal', 'pais'], 'required'],
+            [['id_user'], 'integer'],
+            [['rua'], 'string', 'max' => 255],
+            [['cidade', 'pais'], 'string', 'max' => 20],
+            [['cod_postal'], 'string', 'max' => 12],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_user' => 'idUser']],
         ];
     }

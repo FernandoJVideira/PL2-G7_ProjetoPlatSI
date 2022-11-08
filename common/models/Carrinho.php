@@ -37,10 +37,8 @@ class Carrinho extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idCarrinho'], 'required'],
-            [['idCarrinho', 'estado', 'id_morada', 'id_loja', 'id_user', 'id_promocao'], 'integer'],
+            [['estado', 'id_morada', 'id_loja', 'id_user', 'id_promocao'], 'integer'],
             [['data_criacao'], 'safe'],
-            [['idCarrinho'], 'unique'],
             [['id_promocao'], 'exist', 'skipOnError' => true, 'targetClass' => Promocao::class, 'targetAttribute' => ['id_promocao' => 'idPromocao']],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_user' => 'idUser']],
             [['id_loja'], 'exist', 'skipOnError' => true, 'targetClass' => Loja::class, 'targetAttribute' => ['id_loja' => 'idLoja']],

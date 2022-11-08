@@ -30,9 +30,7 @@ class Favorito extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idFavorito'], 'required'],
-            [['idFavorito', 'id_produto', 'id_user'], 'integer'],
-            [['idFavorito'], 'unique'],
+            [['id_produto', 'id_user'], 'integer'],
             [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'idProduto']],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_user' => 'idUser']],
         ];

@@ -8,10 +8,10 @@ use Yii;
  * This is the model class for table "linhafatura".
  *
  * @property int $idLinha
- * @property int|null $quantidade
- * @property float|null $preco_unit
+ * @property int $quantidade
+ * @property float $preco_unit
+ * @property float $iva
  * @property int|null $id_categoria
- * @property float|null $iva
  * @property int|null $id_fatura
  * @property int|null $id_produto
  *
@@ -35,10 +35,9 @@ class Linhafatura extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idLinha'], 'required'],
-            [['idLinha', 'quantidade', 'id_categoria', 'id_fatura', 'id_produto'], 'integer'],
+            [['quantidade', 'preco_unit', 'iva'], 'required'],
+            [['quantidade', 'id_categoria', 'id_fatura', 'id_produto'], 'integer'],
             [['preco_unit', 'iva'], 'number'],
-            [['idLinha'], 'unique'],
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_categoria' => 'idCategoria']],
             [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'idProduto']],
             [['id_fatura'], 'exist', 'skipOnError' => true, 'targetClass' => Fatura::class, 'targetAttribute' => ['id_fatura' => 'idFatura']],
@@ -54,8 +53,8 @@ class Linhafatura extends \yii\db\ActiveRecord
             'idLinha' => 'Id Linha',
             'quantidade' => 'Quantidade',
             'preco_unit' => 'Preco Unit',
-            'id_categoria' => 'Id Categoria',
             'iva' => 'Iva',
+            'id_categoria' => 'Id Categoria',
             'id_fatura' => 'Id Fatura',
             'id_produto' => 'Id Produto',
         ];

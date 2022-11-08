@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "metodopagamento".
  *
  * @property int $idMetodo
- * @property string|null $metodoPagamento
+ * @property string $metodoPagamento
  * @property int|null $ativo
  *
  * @property Fatura[] $faturas
@@ -31,10 +31,9 @@ class Metodopagamento extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idMetodo'], 'required'],
-            [['idMetodo', 'ativo'], 'integer'],
+            [['metodoPagamento'], 'required'],
+            [['ativo'], 'integer'],
             [['metodoPagamento'], 'string', 'max' => 255],
-            [['idMetodo'], 'unique'],
         ];
     }
 
