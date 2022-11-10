@@ -4,7 +4,7 @@ return [
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
-            'dsn' => 'mysql:host=127.0.0.1;dbname=stuffngo',
+            'dsn' => 'mysql:host=localhost;dbname=stuffngo',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',

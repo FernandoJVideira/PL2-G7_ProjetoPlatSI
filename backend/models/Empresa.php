@@ -3,7 +3,6 @@
 namespace backend\models;
 
 use Yii;
-use common\models\Morada;
 
 /**
  * This is the model class for table "empresa".
@@ -51,11 +50,11 @@ class Empresa extends \yii\db\ActiveRecord
     {
         return [
             'idEmpresa' => 'Id Empresa',
-            'descricao_social' => 'Descrição Social',
+            'descricao_social' => 'Descricao Social',
             'email' => 'Email',
             'telefone' => 'Telefone',
             'nif' => 'Nif',
-            'id_morada' => 'Morada',
+            'id_morada' => 'Id Morada',
         ];
     }
 

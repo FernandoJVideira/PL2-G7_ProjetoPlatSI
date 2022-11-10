@@ -59,12 +59,12 @@ class Loja extends \yii\db\ActiveRecord
     {
         return [
             'idLoja' => 'Id Loja',
-            'id_empresa' => 'Empresa',
+            'id_empresa' => 'Id Empresa',
             'descricao' => 'Descricao',
             'email' => 'Email',
             'telefone' => 'Telefone',
             'ativo' => 'Ativo',
-            'id_morada' => 'Morada',
+            'id_morada' => 'Id Morada',
         ];
     }
 
