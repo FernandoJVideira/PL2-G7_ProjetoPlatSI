@@ -25,12 +25,6 @@ $this->title = 'Login';
 
             <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
-            <div class="my-1 mx-0" style="color:#999;">
-                Se se esqueceu da password <?= Html::a('clique aqui', ['site/request-password-reset']) ?>.
-                <br>
-                Necessita de um novo email de verificação? <?= Html::a('clique aqui', ['site/resend-verification-email']) ?>
-            </div>
-
             <div class="form-group">
                 <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
             </div>
