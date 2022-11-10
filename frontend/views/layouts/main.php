@@ -21,14 +21,15 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <script>
-        function myFunction() {
+        function bootstrap(){
             const teste = document.getElementsByTagName("link");
             if(teste.length > 5)
                 teste[5].remove();
         }
+        window.onload = bootstrap();
     </script>
 </head>
-<body class="d-flex flex-column h-100" onload="myFunction()">
+<body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 <header>
     <!-- Topbar Start -->
