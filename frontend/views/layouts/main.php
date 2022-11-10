@@ -20,8 +20,14 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <script>
+        function myFunction() {
+            const teste = document.getElementsByTagName("link");
+            teste[5].remove();
+        }
+    </script>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" onload="myFunction()">
 <?php $this->beginBody() ?>
 <header>
     <!-- Topbar Start -->

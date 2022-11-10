@@ -12,11 +12,11 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/style.css',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css',
         'lib/animate/animate.min.css',
         'lib/owlcarousel/assets/owl.carousel.min.css',
         'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap',
+        'css/style.css',
     ];
     public $js = [
         //'https://code.jquery.com/jquery-3.4.1.min.js',
