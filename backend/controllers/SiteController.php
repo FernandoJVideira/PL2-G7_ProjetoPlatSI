@@ -29,9 +29,9 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => [],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin','gestor', 'funcionario'],
                     ],
                 ],
             ],
@@ -83,7 +83,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             if(!Yii::$app->user->can("backend")){
                 Yii::$app->user->logout();
-                return $this->redirect(Url::toRoute("/../../frontend/web/site/login"));
+                Yii::$app->session->setFlash('error', 'Não tem permissão para aceder a esta área.');
             }
             return $this->goBack();
         }
