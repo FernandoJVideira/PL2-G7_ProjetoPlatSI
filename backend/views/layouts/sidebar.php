@@ -42,6 +42,7 @@
                         'items' => [
                             ['label' => 'Gerir Lojas', 'url' => ['loja/index'], 'iconStyle' => 'far'],
                             ['label' => 'Gerir Utilizadores', 'iconStyle' => 'far'],
+                            ['label' => 'Gerir Empresa', 'url' => ['empresa/index'], 'iconStyle' => 'far']
                         ]
                     ],
                     ['label' => 'Simple Link', 'icon' => 'th', 'badge' => '<span class="right badge badge-danger">New</span>'],
