@@ -23,7 +23,8 @@ AppAsset::register($this);
     <script>
         function myFunction() {
             const teste = document.getElementsByTagName("link");
-            teste[5].remove();
+            if(teste.length > 5)
+                teste[5].remove();
         }
     </script>
 </head>
