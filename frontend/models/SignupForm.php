@@ -97,10 +97,9 @@ class SignupForm extends Model
         $utilizador->nome = $this->nome;
         $utilizador->telemovel = $this->telemovel;
         $utilizador->nif = $this->nif;
-        $utilizador->id_user = $user->id;
+
 
         $morada = new Morada();
-        $morada->id_user = $utilizador->idUser;
         $morada->rua = $this->morada;
         $morada->pais = $this->pais;
         $morada->cidade = $this->cidade;
@@ -109,7 +108,14 @@ class SignupForm extends Model
         if(!$user->validate() && !$utilizador->validate() && !$morada->validate()){
             return false;
         }
+        $user->save();
+        $utilizador->id_user = $user->id;
 
-        return $user->save() && $utilizador->save() && $morada->save();
+        $utilizador->save();
+        $morada->id_user = $utilizador->idUser;
+
+        $morada->save();
+
+        return true;
     }
 }
