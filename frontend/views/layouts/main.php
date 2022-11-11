@@ -20,7 +20,14 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-
+    <script>
+        function bootstrap(){
+            const links = document.getElementsByTagName("link");
+            if(links.length > 5)
+                links[5].remove();
+        }
+        window.onload = bootstrap();
+    </script>
 </head>
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
