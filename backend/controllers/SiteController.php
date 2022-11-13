@@ -2,7 +2,9 @@
 
 namespace backend\controllers;
 
+use app\models\User;
 use common\models\LoginForm;
+use common\models\Utilizador;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -31,7 +33,7 @@ class SiteController extends Controller
                     [
                         'actions' => [],
                         'allow' => true,
-                        'roles' => ['admin','gestor', 'funcionario'],
+                        'roles' => ['Admin','Gestor', 'Funcionario'],
                     ],
                 ],
             ],
@@ -85,7 +87,8 @@ class SiteController extends Controller
                 Yii::$app->user->logout();
                 Yii::$app->session->setFlash('error', 'Não tem permissão para aceder a esta área.');
             }
-            return $this->goBack();
+            $this->redirect(['site/index']);
+            return null;
         }
 
         $model->password = '';
