@@ -6,13 +6,15 @@ use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var common\models\Loja $model */
+/** @var backend\models\Empresa $empresa */
 /** @var common\models\Morada $morada */
 
 $this->title = $model->idLoja;
 $this->params['breadcrumbs'][] = ['label' => 'Lojas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$getMorada = $model->getMorada();
+
 $morada = $morada->rua . " , " . $morada->cod_postal . " , "   . $morada->cidade . " , "  . $morada->pais;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="loja-view">
@@ -34,7 +36,11 @@ $morada = $morada->rua . " , " . $morada->cod_postal . " , "   . $morada->cidade
         'model' => $model,
         'attributes' => [
             'idLoja',
-            'id_empresa',
+            [
+                'attribute' => "id_empresa",
+                'value' => $empresa->descricao_social
+            ],
+
             'descricao',
             'email:email',
             'telefone',

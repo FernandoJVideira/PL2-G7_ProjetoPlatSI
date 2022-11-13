@@ -6,7 +6,7 @@ return [
             'class' => \yii\db\Connection::class,
             'dsn' => 'mysql:host=127.0.0.1;dbname=stuffngo',
             'username' => 'root',
-            'password' => '',
+            'password' => 'Invizimals56+',
             'charset' => 'utf8',
         ],
         'mailer' => [

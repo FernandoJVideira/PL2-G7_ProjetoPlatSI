@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Loja;
 use common\models\LojaSearch;
 use common\models\Morada;
+use backend\models\Empresa;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -58,10 +59,12 @@ class LojaController extends Controller
     {
         $model = $this->findModel($idLoja);
         $morada = Morada::findOne($model->id_morada);
+        $empresa = Empresa::findOne($model->id_empresa);
 
         return $this->render('view', [
             'model' => $model,
             'morada' => $morada,
+            'empresa' => $empresa,
         ]);
     }
 
@@ -74,6 +77,7 @@ class LojaController extends Controller
     {
         $model = new Loja();
         $modelMorada = new Morada();
+        $empresa = Empresa::find()->all();
 
         if ($this->request->isPost) {
 
@@ -93,6 +97,7 @@ class LojaController extends Controller
         return $this->render('create', [
             'model' => $model,
             'morada' => $modelMorada,
+            'empresa' => $empresa,
         ]);
     }
 
@@ -107,6 +112,7 @@ class LojaController extends Controller
     {
         $model = $this->findModel($idLoja);
         $modelMorada = Morada::findOne($model->id_morada);
+        $empresa = Empresa::find()->all();
 
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -116,6 +122,7 @@ class LojaController extends Controller
         return $this->render('update', [
             'model' => $model,
             'morada' => $modelMorada,
+            'empresa' => $empresa,
         ]);
     }
 

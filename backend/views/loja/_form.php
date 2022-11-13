@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -14,6 +15,8 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'id_empresa')->dropDownList(ArrayHelper::map($empresa, 'idEmpresa', 'descricao_social', ['prompt' => 'Escolha uma Empresa...'])) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 

@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use backend\models\Empresa;
+
 use Yii;
 
 /**
