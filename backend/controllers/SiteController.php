@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use app\models\User;
+use backend\models\AuthAssignment;
 use common\models\LoginForm;
 use common\models\Utilizador;
 use Yii;
@@ -65,7 +66,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $count_clientes = AuthAssignment::find()->where(['item_name' => 'Cliente'])->innerJoin('user', 'auth_assignment.user_id = user.id')->andWhere('status ='. \common\models\User::STATUS_ACTIVE)->count();
+        return $this->render('index', ['count_clientes' => $count_clientes]);
     }
 
     /**
