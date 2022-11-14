@@ -120,10 +120,10 @@ class RbacController extends Controller
         $updateStatusEncomenda->description = 'Atualizar o status de uma encomenda';
         $auth->add($updateStatusEncomenda);
 
-        //create a permition called updateMoradaEncomenda and adding it to the authManager
-        $updateMoradaEncomenda = $auth->createPermission('updateMoradaEncomenda');
-        $updateMoradaEncomenda->description = 'Atualizar a morada de uma encomenda';
-        $auth->add($updateMoradaEncomenda);
+        //create a permition called updateDadosEncomenda and adding it to the authManager
+        $updateDadosEncomenda = $auth->createPermission('updateMoradaEncomenda');
+        $updateDadosEncomenda->description = 'Atualizar a morada de uma encomenda';
+        $auth->add($updateDadosEncomenda);
 
         //create a permition called updateDadosCliente and adding it to the authManager
         $updateDadosCliente = $auth->createPermission('updateDadosCliente');
@@ -155,6 +155,12 @@ class RbacController extends Controller
         $updateDadosSeccao->description = 'Atualizar os dados de uma seccao';
         $auth->add($updateDadosSeccao);
 
+        //create a permition called updateDadosEmpresa and adding it to the authManager
+        $updateDadosEmpresa = $auth->createPermission('updateDadosEmpresa');
+        $updateDadosEmpresa->description = 'Atualizar os dados de uma empresa';
+        $auth->add($updateDadosEmpresa);
+
+
         //View permissions
 
         //create a permition called viewGestores and adding it to the authManager
@@ -181,6 +187,21 @@ class RbacController extends Controller
         $viewHistoricoDeEncomendas = $auth->createPermission('viewHistoricoDeEncomendas');
         $viewHistoricoDeEncomendas->description = 'Ver o historico de encomendas';
         $auth->add($viewHistoricoDeEncomendas);
+
+        //create a permition called viewLoja and adding it to the authManager
+        $viewLoja = $auth->createPermission('viewLoja');
+        $viewLoja->description = 'Ver os dados da loja';
+        $auth->add($viewLoja);
+
+        //create a permition called viewEmpresa and adding it to the authManager
+        $viewEmpresa = $auth->createPermission('viewEmpresa');
+        $viewEmpresa->description = 'Ver os dados da empresa';
+        $auth->add($viewEmpresa);
+
+        //create a permition called viewCategorias and adding it to the authManager
+        $viewCategorias = $auth->createPermission('viewCategorias');
+        $viewCategorias->description = 'Ver a listagem de todas as categorias';
+        $auth->add($viewCategorias);
 
         //Delete permissions
 
@@ -249,11 +270,15 @@ class RbacController extends Controller
         $auth->addChild($admin, $updateProduto);
         $auth->addChild($admin, $updateCategoria);
         $auth->addChild($admin, $updateIva);
+        $auth->addChild($admin, $updateDadosEmpresa);
         $auth->addChild($admin, $viewGestores);
         $auth->addChild($admin, $viewAdmins);
         $auth->addChild($admin, $viewFuncionarios);
         $auth->addChild($admin, $viewEstatisticas);
         $auth->addChild($admin, $viewHistoricoDeEncomendas);
+        $auth->addChild($admin, $viewLoja);
+        $auth->addChild($admin, $viewEmpresa);
+        $auth->addChild($admin, $viewCategorias);
         $auth->addChild($admin, $deleteAdmin);
         $auth->addChild($admin, $deleteGestor);
         $auth->addChild($admin, $deleteFuncionario);
@@ -283,6 +308,8 @@ class RbacController extends Controller
         $auth->addChild($gestor, $viewFuncionarios);
         $auth->addChild($gestor, $viewEstatisticas);
         $auth->addChild($gestor, $viewHistoricoDeEncomendas);
+        $auth->addChild($gestor, $viewLoja);
+        $auth->addChild($gestor, $viewCategorias);
         $auth->addChild($gestor, $deleteFuncionario);
         $auth->addChild($gestor, $deleteCliente);
         $auth->addChild($gestor, $deleteProduto);
@@ -294,6 +321,7 @@ class RbacController extends Controller
         $funcionario = $auth->createRole('Funcionario');
         $auth->add($funcionario);
         $auth->addChild($funcionario, $backend);
+        $auth->addChild($funcionario, $viewLoja);
         $auth->addChild($funcionario, $createCliente);
         $auth->addChild($funcionario, $updateDadosFuncionario);
         $auth->addChild($funcionario, $updateDadosCliente);
