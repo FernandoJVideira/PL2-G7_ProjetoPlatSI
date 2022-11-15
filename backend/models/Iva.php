@@ -30,12 +30,11 @@ class Iva extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idIva', 'iva', 'descricao'], 'required'],
-            [['idIva', 'ativo'], 'integer'],
+            [['iva', 'descricao'], 'required'],
             [['iva'], 'number'],
+            [['ativo'], 'integer'],
             [['descricao'], 'string', 'max' => 255],
             [['iva'], 'unique'],
-            [['idIva'], 'unique'],
         ];
     }
 
@@ -48,7 +47,7 @@ class Iva extends \yii\db\ActiveRecord
             'idIva' => 'Id Iva',
             'iva' => 'Iva',
             'descricao' => 'Descricao',
-            'ativo' => 'Ativo',
+            'ativo' => 'Estado',
         ];
     }
 
@@ -60,5 +59,10 @@ class Iva extends \yii\db\ActiveRecord
     public function getCategorias()
     {
         return $this->hasMany(Categoria::class, ['id_iva' => 'idIva']);
+    }
+
+    public function getAtivo()
+    {
+        return $this->ativo ? 'Ativo' : 'Inativo';
     }
 }

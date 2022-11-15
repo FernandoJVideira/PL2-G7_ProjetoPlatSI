@@ -44,7 +44,9 @@
                             ['label' => 'Inactive Page', 'iconStyle' => 'far'],
                         ]
                     ],
-                    ['label' => 'Simple Link', 'icon' => 'th', 'badge' => '<span class="right badge badge-danger">New</span>'],
+                    ['label' => 'IVAS', 'icon' => 'th','url' => ['iva/index']],
+                    ['label' => 'CATEGORIAS', 'icon' => 'th','url' => ['categoria/index']],
+                    ['label' => 'PRODUTOS', 'icon' => 'th','url' => ['produto/index']],
                     ['label' => 'Yii2 PROVIDED', 'header' => true],
                     ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
                     ['label' => 'Gii',  'icon' => 'file-code', 'url' => ['/gii'], 'target' => '_blank'],

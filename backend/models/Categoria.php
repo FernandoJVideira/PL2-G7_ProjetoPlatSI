@@ -4,6 +4,7 @@ namespace backend\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "categoria".
  *
@@ -51,9 +52,9 @@ class Categoria extends \yii\db\ActiveRecord
         return [
             'idCategoria' => 'Id Categoria',
             'nome' => 'Nome',
-            'ativo' => 'Ativo',
-            'id_iva' => 'Id Iva',
-            'id_categoria' => 'Id Categoria',
+            'ativo' => 'Estado',
+            'id_iva' => 'Iva',
+            'id_categoria' => 'Categoria Originária',
         ];
     }
 
@@ -105,5 +106,42 @@ class Categoria extends \yii\db\ActiveRecord
     public function getProdutos()
     {
         return $this->hasMany(Produto::class, ['id_categoria' => 'idCategoria']);
+    }
+
+    public static function get_Nome_Id_Categoria($id_categoria){
+        if($id_categoria){
+            $sub_categoria = Categoria::findOne($id_categoria);
+            $nome = $sub_categoria->nome;
+            return $nome;
+        }
+
+        $nome = "N/A";
+        return $nome;
+    }
+
+    public static function get_Nome_Id_Iva($id_iva){
+        if($id_iva){
+            $Iva = Iva::findOne($id_iva);
+            $nome = $Iva->descricao;
+            return $nome;
+        }
+
+        $nome = "N/A";
+        return $nome;
+    }
+
+    public function getAtivo()
+    {
+        return $this->ativo ? 'Ativo' : 'Inativo';
+    }
+
+    public function getIdCategoria(){
+        $Categoria = Categoria::findOne($this->id_categoria);
+        return $Categoria->nome;
+    }
+
+    public function getIdIva(){
+        $Iva = Iva::findOne($this->id_categoria);
+        return $Iva->descricao;
     }
 }
