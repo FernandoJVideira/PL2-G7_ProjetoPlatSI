@@ -212,3 +212,9 @@ ALTER TABLE `utilizador` ADD FOREIGN KEY (`id_user`) REFERENCES `User` (`id`);
 ALTER TABLE `utilizador` ADD FOREIGN KEY (`id_loja`) REFERENCES `loja` (`idLoja`);
 
 ALTER TABLE `carrinho` ADD FOREIGN KEY (`id_loja`) REFERENCES `loja` (`idLoja`);
+
+INSERT INTO `morada` ('idMorada', 'rua', 'codigoPostal', 'localidade') 
+VALUES (1, 'Rua do Padrão', '1234-567', 'Porto');
+
+INSERT INTO `empresa` ('descricao_social', 'email', 'telefone', 'nif', 'id_morada')
+VALUES ("Stuff N' Go",'stuffngo.main@stuffngo.com','925923001','254342345','1');
