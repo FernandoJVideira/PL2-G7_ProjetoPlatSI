@@ -17,13 +17,6 @@ $morada = $morada->rua . " , " . $morada->cod_postal . " , "   . $morada->cidade
 
     <p>
         <?= Html::a('Update', ['update', 'idEmpresa' => $model->idEmpresa], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'idEmpresa' => $model->idEmpresa], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
     </p>
 
     <?= DetailView::widget([

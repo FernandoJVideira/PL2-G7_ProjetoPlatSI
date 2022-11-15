@@ -62,7 +62,7 @@ class Loja extends \yii\db\ActiveRecord
         return [
             'idLoja' => 'Id Loja',
             'id_empresa' => 'Empresa',
-            'descricao' => 'Descricao',
+            'descricao' => 'Descrição',
             'email' => 'Email',
             'telefone' => 'Telefone',
             'ativo' => 'Ativo',

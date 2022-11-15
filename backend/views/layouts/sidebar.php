@@ -40,9 +40,9 @@
                         'icon' => 'tachometer-alt',
                         'badge' => '<span class="right badge badge-info">2</span>',
                         'items' => [
-                            ['label' => 'Gerir Lojas', 'url' => ['loja/index'], 'iconStyle' => 'far'],
+                            ['label' => 'Gerir Lojas', 'url' => ['loja/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('viewLoja')],
                             ['label' => 'Gerir Utilizadores', 'iconStyle' => 'far'],
-                            ['label' => 'Gerir Empresa', 'url' => ['empresa/index'], 'iconStyle' => 'far']
+                            ['label' => 'Gerir Empresas', 'url' => ['empresa/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('viewEmpresa')],
                         ]
                     ],
                     ['label' => 'Simple Link', 'icon' => 'th', 'badge' => '<span class="right badge badge-danger">New</span>'],

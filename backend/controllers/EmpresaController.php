@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\Empresa;
 use backend\models\EmpresaSearch;
 use common\models\Morada;
+use yii\web\ForbiddenHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -39,6 +40,13 @@ class EmpresaController extends Controller
      */
     public function actionIndex()
     {
+
+        if (!\Yii::$app->user->can('viewEmpresa')) {
+            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            $this->redirect(['site/index']);
+            return null;
+        }
+
         $searchModel = new EmpresaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -56,43 +64,18 @@ class EmpresaController extends Controller
      */
     public function actionView($idEmpresa)
     {
+        if (!\Yii::$app->user->can('viewEmpresa')) {
+            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            $this->redirect(['site/index']);
+            return null;
+        }
+
         $model = $this->findModel($idEmpresa);
         $modelMorada = Morada::findOne($model->id_morada);
 
         return $this->render('view', [
             'model' => $model,
             'morada' => $modelMorada,
-        ]);
-    }
-
-    /**
-     * Creates a new Empresa model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new Empresa();
-        $morada = new Morada();
-
-        if ($this->request->isPost) {
-
-            if ($morada->load($this->request->post()) && $morada->save()) {
-
-                $model->id_morada = $morada->idMorada;
-
-                if ($model->load($this->request->post()) && $model->save()) {
-                    return $this->redirect(['view', 'idEmpresa' => $model->idEmpresa]);
-                }
-            }
-        } else {
-            $model->loadDefaultValues();
-            $morada->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-            'morada' => $morada,
         ]);
     }
 
@@ -105,8 +88,14 @@ class EmpresaController extends Controller
      */
     public function actionUpdate($idEmpresa)
     {
+        if (!\Yii::$app->user->can('updateDadosEmpresa')) {
+            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            $this->redirect(['site/index']);
+            return null;
+        }
+
         $model = $this->findModel($idEmpresa);
-        $morada = Morada::findOne($model->id_morada);
+        $morada = $model->Morada->one();
 
         if ($this->request->isPost) {
 
@@ -124,20 +113,6 @@ class EmpresaController extends Controller
             'model' => $model,
             'morada' => $morada,
         ]);
-    }
-
-    /**
-     * Deletes an existing Empresa model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $idEmpresa Id Empresa
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($idEmpresa)
-    {
-        $this->findModel($idEmpresa)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

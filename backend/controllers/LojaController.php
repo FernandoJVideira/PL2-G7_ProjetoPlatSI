@@ -8,6 +8,7 @@ use common\models\Morada;
 use backend\models\Empresa;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 
 /**
@@ -40,6 +41,13 @@ class LojaController extends Controller
      */
     public function actionIndex()
     {
+
+        if (!\Yii::$app->user->can('viewLoja')) {
+            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            $this->redirect(['site/index']);
+            return null;
+        }
+
         $searchModel = new LojaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -57,9 +65,15 @@ class LojaController extends Controller
      */
     public function actionView($idLoja)
     {
+        if (!\Yii::$app->user->can('viewLoja')) {
+            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            $this->redirect(['site/index']);
+            return null;
+        }
+
         $model = $this->findModel($idLoja);
-        $morada = Morada::findOne($model->id_morada);
-        $empresa = Empresa::findOne($model->id_empresa);
+        $morada = $model->Morada->one();
+        $empresa = $model->Empresa->one();
 
         return $this->render('view', [
             'model' => $model,
@@ -75,6 +89,13 @@ class LojaController extends Controller
      */
     public function actionCreate()
     {
+
+        if (!\Yii::$app->user->can('createLoja')) {
+            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            $this->redirect(['site/index']);
+            return null;
+        }
+
         $model = new Loja();
         $modelMorada = new Morada();
         $empresa = Empresa::find()->all();
@@ -110,6 +131,13 @@ class LojaController extends Controller
      */
     public function actionUpdate($idLoja)
     {
+
+        if (!\Yii::$app->user->can('updateLoja')) {
+            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            $this->redirect(['site/index']);
+            return null;
+        }
+
         $model = $this->findModel($idLoja);
         $modelMorada = Morada::findOne($model->id_morada);
         $empresa = Empresa::find()->all();
@@ -135,7 +163,15 @@ class LojaController extends Controller
      */
     public function actionDelete($idLoja)
     {
-        $this->findModel($idLoja)->delete();
+        if (!\Yii::$app->user->can('deleteLoja')) {
+            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            $this->redirect(['site/index']);
+            return null;
+        }
+
+        $store = $this->findModel($idLoja);
+        $store->ativo = 0;
+        $store->save();
 
         return $this->redirect(['index']);
     }

@@ -24,7 +24,7 @@ class RbacController extends Controller
         $auth->add($createAdmin);
 
         /* Creating a permission called createStore and adding it to the authManager. */
-        $createStore = $auth->createPermission('createStore');
+        $createStore = $auth->createPermission('createLoja');
         $createStore->description = 'Criar uma Loja';
         $auth->add($createStore);
 
@@ -155,6 +155,11 @@ class RbacController extends Controller
         $updateDadosSeccao->description = 'Atualizar os dados de uma seccao';
         $auth->add($updateDadosSeccao);
 
+        //create a permition called updateDadosEmpresa and adding it to the authManager
+        $updateDadosEmpresa = $auth->createPermission('updateDadosEmpresa');
+        $updateDadosEmpresa->description = 'Atualizar os dados da empresa';
+        $auth->add($updateDadosEmpresa);
+
         //View permissions
 
         //create a permition called viewGestores and adding it to the authManager
@@ -171,6 +176,16 @@ class RbacController extends Controller
         $viewFuncionarios = $auth->createPermission('viewFuncionarios');
         $viewFuncionarios->description = 'Ver a listagem de todos funcionários';
         $auth->add($viewFuncionarios);
+
+        //create a permition called viewEmpresa and adding it to the authManager
+        $viewEmpresa = $auth->createPermission('viewEmpresa');
+        $viewEmpresa->description = 'Ver os dados da empresa';
+        $auth->add($viewEmpresa);
+
+        //create a permition called viewLoja and adding it to the authManager
+        $viewLoja = $auth->createPermission('viewLoja');
+        $viewLoja->description = 'Ver os dados da loja';
+        $auth->add($viewLoja);
 
         //create a permition called viewEstatisticas and adding it to the authManager
         $viewEstatisticas = $auth->createPermission('viewEstatisticas');
@@ -229,7 +244,7 @@ class RbacController extends Controller
         /* Creating the roles and assigning permissions to them. */
 
         /* Creating a role called admin and adding it to the authManager. */
-        $admin  = $auth->createRole('admin');
+        $admin  = $auth->createRole('Admin');
         $auth->add($admin);
         $auth->addChild($admin, $backend);
         $auth->addChild($admin, $createAdmin);
@@ -248,10 +263,13 @@ class RbacController extends Controller
         $auth->addChild($admin, $updateDadosCliente);
         $auth->addChild($admin, $updateProduto);
         $auth->addChild($admin, $updateCategoria);
+        $auth->addChild($admin, $updateDadosEmpresa);
         $auth->addChild($admin, $updateIva);
         $auth->addChild($admin, $viewGestores);
         $auth->addChild($admin, $viewAdmins);
         $auth->addChild($admin, $viewFuncionarios);
+        $auth->addChild($admin, $viewEmpresa);
+        $auth->addChild($admin, $viewLoja);
         $auth->addChild($admin, $viewEstatisticas);
         $auth->addChild($admin, $viewHistoricoDeEncomendas);
         $auth->addChild($admin, $deleteAdmin);
@@ -264,7 +282,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $deleteMorada);
 
         /* Creating a role called gestor and adding it to the authManager. */
-        $gestor = $auth->createRole('gestor');
+        $gestor = $auth->createRole('Gestor');
         $auth->add($gestor);
         $auth->addChild($gestor, $backend);
         $auth->addChild($gestor, $createFuncionario);
@@ -282,6 +300,7 @@ class RbacController extends Controller
         $auth->addChild($gestor, $updateIva);
         $auth->addChild($gestor, $viewFuncionarios);
         $auth->addChild($gestor, $viewEstatisticas);
+        $auth->addChild($gestor, $viewLoja);
         $auth->addChild($gestor, $viewHistoricoDeEncomendas);
         $auth->addChild($gestor, $deleteFuncionario);
         $auth->addChild($gestor, $deleteCliente);
@@ -291,8 +310,9 @@ class RbacController extends Controller
         $auth->addChild($gestor, $deleteMorada);
 
         /* Creating a role called funcionario and adding it to the authManager. */
-        $funcionario = $auth->createRole('funcionario');
+        $funcionario = $auth->createRole('Funcionario');
         $auth->add($funcionario);
+        $auth->addChild($funcionario, $backend);
         $auth->addChild($funcionario, $createCliente);
         $auth->addChild($funcionario, $updateDadosFuncionario);
         $auth->addChild($funcionario, $updateDadosCliente);
@@ -303,7 +323,7 @@ class RbacController extends Controller
 
 
         /* Creating a role called cliente and adding it to the authManager. */
-        $cliente = $auth->createRole('cliente');
+        $cliente = $auth->createRole('Cliente');
         $auth->add($cliente);
         $auth->addChild($cliente, $createEncomenda);
         $auth->addChild($cliente, $createReview);

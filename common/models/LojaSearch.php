@@ -40,7 +40,7 @@ class LojaSearch extends Loja
      */
     public function search($params)
     {
-        $query = Loja::find();
+        $query = Loja::find()->where(['ativo' => 1]);
 
         // add conditions that should always apply here
 

@@ -17,11 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Empresa', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //echo $this->render('_search', ['model' => $searchModel]);
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -36,10 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'nif',
             //'id_morada',
             [
-                'class' => ActionColumn::className(),
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update}',
                 'urlCreator' => function ($action, Empresa $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'idEmpresa' => $model->idEmpresa]);
-                 }
+                }
             ],
         ],
     ]); ?>
