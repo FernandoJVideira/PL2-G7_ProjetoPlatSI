@@ -161,7 +161,7 @@ class SiteController extends Controller
             $user = User::find()->where(['email' => $model->email])->one();
 
             $auth = \Yii::$app->authManager;
-            $userRole = $auth->getRole('cliente');
+            $userRole = $auth->getRole('Cliente');
             $auth->assign($userRole, $user->id);
 
             return $this->render('index');
