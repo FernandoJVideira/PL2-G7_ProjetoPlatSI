@@ -7,11 +7,12 @@ use common\models\Utilizador;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use yii\db\ActiveRecord;
 
 /**
  * Signup form
  */
-class SignupForm extends Model
+class SignupForm extends ActiveRecord
 {
     public $username;
     public $email;
@@ -27,8 +28,6 @@ class SignupForm extends Model
     public $codigo_postal;
     public $id_loja;
     public $role;
-
-
 
 
     /**
@@ -85,8 +84,11 @@ class SignupForm extends Model
      *
      * @return bool whether the creating new account was successful and email was sent
      */
-    public function signup($role)
+    public function signup($role, $loja)
     {
+        if(($role == 'Gestor' || $role == 'Funcionario') && $loja == null){
+            return null;
+        }
         if (!$this->validate()) {
             return null;
         }
@@ -98,13 +100,12 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
+
         $utilizador = new Utilizador();
         $utilizador->nome = $this->nome;
         $utilizador->telemovel = $this->telemovel;
         $utilizador->nif = $this->nif;
-        if($this->id_loja != null){
-            $utilizador->id_loja = $this->id_loja;
-        }
+        $utilizador->id_loja = $loja;
 
 
         $morada = new Morada();

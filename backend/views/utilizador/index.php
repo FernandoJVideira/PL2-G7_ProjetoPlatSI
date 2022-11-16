@@ -17,7 +17,7 @@ $this->title = 'Utilizadores('.$_GET['role'].')';
 ?>
 <div class="utilizador-index">
     <p>
-        <?= Html::a('Criar Utilizador', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Criar '. $_GET['role'], ['create', 'role' => $_GET['role']], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -45,20 +45,24 @@ $this->title = 'Utilizadores('.$_GET['role'].')';
             //'id_user',
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view} {delete}',
                 'urlCreator' => function ($action, Utilizador $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'idUser' => $model->idUser]);
+                    return Url::toRoute([$action, 'idUser' => $model->idUser, 'role' => $_GET['role']]);
                  },
                  'buttons' => [
                     'delete' => function($url, $model){
-                        return Html::a('<i class="fas fa-trash"></i>', ['delete', 'idUser' => $model->idUser],
-                            [
-                                'class' => '',
-                                'method' => 'post',
-                                'data' => [
-                                        'confirm' => 'Tem a certeza que pertende eliminar o utilizador?',
-                                        'method' => 'post',
-                                            ],
-                        ]);
+                                    if($model->idUser == Yii::$app->user->id)
+                                        return null;
+                                    else
+                                        return Html::a('<i class="fas fa-trash"></i>', ['delete', 'idUser' => $model->idUser],
+                                            [
+                                                'class' => '',
+                                                'method' => 'post',
+                                                'data' => [
+                                                        'confirm' => 'Tem a certeza que pertende eliminar o utilizador?',
+                                                        'method' => 'post',
+                                                            ],
+                                        ]);
                     }
                 ]
             ],
