@@ -58,10 +58,10 @@ class RbacController extends Controller
         $createEncomenda->description = 'Criar uma encomenda';
         $auth->add($createEncomenda);
 
-        /* Creating a permission called createTipoPagamento and adding it to the authManager. */
-        $createTipoPagamento = $auth->createPermission('createTipoPagamento');
-        $createTipoPagamento->description = 'Criar um tipo de pagamento';
-        $auth->add($createTipoPagamento);
+        /* Creating a permission called createMetodoPagamento and adding it to the authManager. */
+        $createMetodoPagamento = $auth->createPermission('createMetodoPagamento');
+        $createMetodoPagamento->description = 'Criar um tipo de pagamento';
+        $auth->add($createMetodoPagamento);
 
         /* Creating a permission called createIva and adding it to the authManager. */
         $createIva = $auth->createPermission('createIva');
@@ -85,11 +85,6 @@ class RbacController extends Controller
 
         //Update permissions
 
-        //create a permition called updateCliente and adding it to the authManager
-        $updateCliente = $auth->createPermission('updateCliente');
-        $updateCliente->description = 'Atualizar um cliente';
-        $auth->add($updateCliente);
-
         //create a permition called updateProduto and adding it to the authManager
         $updateProduto = $auth->createPermission('updateProduto');
         $updateProduto->description = 'Atualizar um produto';
@@ -100,10 +95,10 @@ class RbacController extends Controller
         $updateStock->description = 'Atualizar o stock de um produto';
         $auth->add($updateStock);
 
-        //create a permition called updateTiposDePagamento and adding it to the authManager
-        $updateTiposDePagamento = $auth->createPermission('updateTiposDePagamento');
-        $updateTiposDePagamento->description = 'Atualizar um tipo de pagamento';
-        $auth->add($updateTiposDePagamento);
+        //create a permition called updateMetodoPagamento and adding it to the authManager
+        $updateMetodoPagamento = $auth->createPermission('updateMetodoPagamento');
+        $updateMetodoPagamento->description = 'Atualizar um metodo de pagamento';
+        $auth->add($updateMetodoPagamento);
 
         //create a permition called updateIva and adding it to the authManager
         $updateIva = $auth->createPermission('updateIva');
@@ -125,40 +120,40 @@ class RbacController extends Controller
         $updateDadosEncomenda->description = 'Atualizar a morada de uma encomenda';
         $auth->add($updateDadosEncomenda);
 
-        //create a permition called updateDadosCliente and adding it to the authManager
-        $updateDadosCliente = $auth->createPermission('updateDadosCliente');
-        $updateDadosCliente->description = 'Atualizar os dados de um cliente';
-        $auth->add($updateDadosCliente);
+        //create a permition called updateCliente and adding it to the authManager
+        $updateCliente = $auth->createPermission('updateCliente');
+        $updateCliente->description = 'Atualizar os dados de um cliente';
+        $auth->add($updateCliente);
 
-        //create a permition called updateDadosFuncionario and adding it to the authManager
-        $updateDadosFuncionario = $auth->createPermission('updateDadosFuncionario');
-        $updateDadosFuncionario->description = 'Atualizar os dados de um funcionário';
-        $auth->add($updateDadosFuncionario);
+        //create a permition called updateFuncionario and adding it to the authManager
+        $updateFuncionario = $auth->createPermission('updateFuncionario');
+        $updateFuncionario->description = 'Atualizar os dados de um funcionário';
+        $auth->add($updateFuncionario);
 
-        //create a permition called updateDadosGestor and adding it to the authManager
-        $updateDadosGestor = $auth->createPermission('updateDadosGestor');
-        $updateDadosGestor->description = 'Atualizar os dados de um gestor';
-        $auth->add($updateDadosGestor);
+        //create a permition called updateGestor and adding it to the authManager
+        $updateGestor = $auth->createPermission('updateGestor');
+        $updateGestor->description = 'Atualizar os dados de um gestor';
+        $auth->add($updateGestor);
 
-        //create a permition called updateDadosAdmin and adding it to the authManager
-        $updateDadosAdmin = $auth->createPermission('updateDadosAdmin');
-        $updateDadosAdmin->description = 'Atualizar os dados de um administrador';
-        $auth->add($updateDadosAdmin);
+        //create a permition called updateAdmin and adding it to the authManager
+        $updateAdmin = $auth->createPermission('updateAdmin');
+        $updateAdmin->description = 'Atualizar os dados de um administrador';
+        $auth->add($updateAdmin);
 
-        //create a permition called updateDadosLoja and adding it to the authManager
-        $updateDadosLoja = $auth->createPermission('updateDadosLoja');
-        $updateDadosLoja->description = 'Atualizar os dados de uma loja';
-        $auth->add($updateDadosLoja);
+        //create a permition called updateLoja and adding it to the authManager
+        $updateLoja = $auth->createPermission('updateLoja');
+        $updateLoja->description = 'Atualizar os dados de uma loja';
+        $auth->add($updateLoja);
 
-        //create a permition called updateDadosSeccao and adding it to the authManager
-        $updateDadosSeccao = $auth->createPermission('updateDadosSeccao');
-        $updateDadosSeccao->description = 'Atualizar os dados de uma seccao';
-        $auth->add($updateDadosSeccao);
+        //create a permition called updateSeccao and adding it to the authManager
+        $updateSeccao = $auth->createPermission('updateSeccao');
+        $updateSeccao->description = 'Atualizar os dados de uma seccao';
+        $auth->add($updateSeccao);
 
-        //create a permition called updateDadosEmpresa and adding it to the authManager
-        $updateDadosEmpresa = $auth->createPermission('updateDadosEmpresa');
-        $updateDadosEmpresa->description = 'Atualizar os dados de uma empresa';
-        $auth->add($updateDadosEmpresa);
+        //create a permition called updateEmpresa and adding it to the authManager
+        $updateEmpresa = $auth->createPermission('updateEmpresa');
+        $updateEmpresa->description = 'Atualizar os dados de uma empresa';
+        $auth->add($updateEmpresa);
 
 
         //View permissions
@@ -260,17 +255,17 @@ class RbacController extends Controller
         $auth->addChild($admin, $createCliente);
         $auth->addChild($admin, $createProduto);
         $auth->addChild($admin, $createCategoria);
-        $auth->addChild($admin, $createTipoPagamento);
+        $auth->addChild($admin, $createMetodoPagamento);
         $auth->addChild($admin, $createIva);
-        $auth->addChild($admin, $updateDadosAdmin);
-        $auth->addChild($admin, $updateDadosLoja);
-        $auth->addChild($admin, $updateDadosGestor);
-        $auth->addChild($admin, $updateDadosFuncionario);
-        $auth->addChild($admin, $updateDadosCliente);
+        $auth->addChild($admin, $updateAdmin);
+        $auth->addChild($admin, $updateLoja);
+        $auth->addChild($admin, $updateGestor);
+        $auth->addChild($admin, $updateFuncionario);
+        $auth->addChild($admin, $updateCliente);
         $auth->addChild($admin, $updateProduto);
         $auth->addChild($admin, $updateCategoria);
         $auth->addChild($admin, $updateIva);
-        $auth->addChild($admin, $updateDadosEmpresa);
+        $auth->addChild($admin, $updateEmpresa);
         $auth->addChild($admin, $viewGestores);
         $auth->addChild($admin, $viewAdmins);
         $auth->addChild($admin, $viewFuncionarios);
@@ -296,12 +291,12 @@ class RbacController extends Controller
         $auth->addChild($gestor, $createCliente);
         $auth->addChild($gestor, $createProduto);
         $auth->addChild($gestor, $createCategoria);
-        $auth->addChild($gestor, $createTipoPagamento);
+        $auth->addChild($gestor, $createMetodoPagamento);
         $auth->addChild($gestor, $createIva);
-        $auth->addChild($gestor, $updateDadosLoja);
-        $auth->addChild($gestor, $updateDadosGestor);
-        $auth->addChild($gestor, $updateDadosFuncionario);
-        $auth->addChild($gestor, $updateDadosCliente);
+        $auth->addChild($gestor, $updateLoja);
+        $auth->addChild($gestor, $updateGestor);
+        $auth->addChild($gestor, $updateFuncionario);
+        $auth->addChild($gestor, $updateCliente);
         $auth->addChild($gestor, $updateProduto);
         $auth->addChild($gestor, $updateCategoria);
         $auth->addChild($gestor, $updateIva);
@@ -323,8 +318,8 @@ class RbacController extends Controller
         $auth->addChild($funcionario, $backend);
         $auth->addChild($funcionario, $viewLoja);
         $auth->addChild($funcionario, $createCliente);
-        $auth->addChild($funcionario, $updateDadosFuncionario);
-        $auth->addChild($funcionario, $updateDadosCliente);
+        $auth->addChild($funcionario, $updateFuncionario);
+        $auth->addChild($funcionario, $updateCliente);
         $auth->addChild($funcionario, $deleteCliente);
         $auth->addChild($funcionario, $deleteMorada);
         $auth->addChild($funcionario, $updateStock);
@@ -336,7 +331,7 @@ class RbacController extends Controller
         $auth->add($cliente);
         $auth->addChild($cliente, $createEncomenda);
         $auth->addChild($cliente, $createReview);
-        $auth->addChild($cliente, $updateDadosCliente);
+        $auth->addChild($cliente, $updateCliente);
         $auth->addChild($cliente, $viewHistoricoDeEncomendas);
         $auth->addChild($cliente, $deleteMorada);
         $auth->addChild($cliente, $favoritos);
