@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\AuthAssignment;
+use common\models\AuthItem;
 use common\models\Loja;
 use common\models\Morada;
 use common\models\User;
@@ -19,57 +20,27 @@ use yii\filters\VerbFilter;
 /**
  * UtilizadorController implements the CRUD actions for Utilizador model.
  */
-class UtilizadorController extends Controller
+class UtilizadorController extends BaseAuthController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'actions' => [],
-                            'allow' => true,
-                            'roles' => ['Admin','Gestor', 'Funcionario'],
-                        ],
-                    ],
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
-
     /**
      * Lists all Utilizador models.
      *
      * @return string
      */
     public function actionIndex($role)
-    {//fazer função dinamica
-        if(Yii::$app->user->can('View'.$role) || $role == 'Cliente'){
-            $searchModel = new UtilizadorSearch();
-            $dataProvider = $searchModel->search($this->request->queryParams, $role);
+    {
+        if(!$this->checkAccess('view', null, $role))
+        {
+            $this->noAccess('Não tem permissões para aceder a esta página.');
+        }
 
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        }
-        else{
-            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
-        }
+        $searchModel = new UtilizadorSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams, $role);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -80,17 +51,21 @@ class UtilizadorController extends Controller
      */
     public function actionView($idUser)
     {
-        $role = Utilizador::getPerfil($idUser);
-        if(Yii::$app->user->can('view'.$role) || $role == 'Cliente'){
-            return $this->render('view', [
-                'model' => $this->findModel($idUser),
-            ]);
-        }
-        else{
+
+        if(!$this->checkAccess('view', $idUser))
+        {
             Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
             $this->redirect(['site/index']);
             return null;
         }
+
+        $model = $this->findModel($idUser);
+        $user = $model->user;
+
+        return $this->render('view', [
+            'model' => $model,
+            'user' => $user,
+        ]);
 
     }
 
@@ -99,26 +74,35 @@ class UtilizadorController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($role)
     {
+        if(!$this->checkAccess('create',null ,$role))
+        {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            $this->redirect(['site/index']);
+            return null;
+        }
+
         $signupForm = new SignupForm();
 
         if ($this->request->isPost) {
-
             $signupForm->load($this->request->post());
-            $role = $signupForm->role;
-            $signupForm->signup($role);
-
-        } else {
-            $signupForm->loadDefaultValues();
+            $loja = $this->request->post('SignupForm')['id_loja'];
+            $role = $this->request->post('SignupForm')['role'];
+            if($signupForm->signup($role, $loja)){
+                Yii::$app->session->setFlash('success', 'Utilizador criado com sucesso.');
+                return $this->redirect(['index', 'role' => $role]);
+            }
+            $erro = 'loja';
         }
         $lojas = Loja::find()->all();
-        $roles = AuthAssignment::find()->distinct()->all();
+        $roles = AuthItem::find()->where('type = 1')->all();
 
         return $this->render('create', [
             'model' => $signupForm,
             'lojas' => $lojas,
             'roles' => $roles,
+            'erro' => $erro ?? null,
         ]);
     }
 
@@ -131,17 +115,29 @@ class UtilizadorController extends Controller
      */
     public function actionUpdate($idUser)
     {
-        $model = $this->findModel($idUser);
+        if(!$this->checkAccess('update',$idUser))
+        {
+            $this->noAccess('Não tem permissões para aceder a esta página.');
+        }
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idUser' => $model->idUser, 'role' => Utilizador::getPerfil($idUser)]);
+        $model = $this->findModel($idUser);
+        $role = Utilizador::getPerfil($idUser);
+        if ($this->request->isPost) {
+            if(!(($role == 'Gestor' || $role == 'Funcionario') && $this->request->post('Utilizador')['id_loja'] == null)){
+                if ($model->load($this->request->post()) && $model->save())
+                    return $this->redirect(['view', 'idUser' => $model->idUser, 'role' => Utilizador::getPerfil($idUser)]);
+            }
+            $erro = 'loja';
         }
 
         $lojas = Loja::find()->all();
+        $roles = AuthItem::find()->where('type = 1')->all();
 
         return $this->render('update', [
             'model' => $model,
             'lojas' => $lojas,
+            'roles' => $roles,
+            'erro' => $erro ?? null,
         ]);
     }
 
@@ -154,11 +150,16 @@ class UtilizadorController extends Controller
      */
     public function actionDelete($idUser)
     {
+        if(!$this->checkAccess('delete', $idUser) || $idUser == Yii::$app->user->id)
+        {
+            $this->noAccess('Não tem permissões para concluir esta ação.');
+        }
+
         $model = $this->findModel($idUser)->getUser()->one();
         $model->updateAttributes(['status' => User::STATUS_DELETED]);
         $model->save();
-
         return $this->redirect(['index', 'role' => Utilizador::getPerfil($idUser)]);
+
     }
 
     /**

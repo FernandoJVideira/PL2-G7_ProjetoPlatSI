@@ -15,9 +15,9 @@ $this->title = 'Actualizar Utilizador: ' . $model->user->username;
     <?= $this->render('_form', [
         'model' => $model,
         'lojas' => $lojas,
-        'user' => $user,
-        'morada' => $morada,
         'roles' => $roles,
+        'erro' => $erro ?? null,
+
     ]) ?>
 
 </div>

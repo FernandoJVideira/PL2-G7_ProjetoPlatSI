@@ -1,7 +1,9 @@
 <?php
 
+use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+//use yii\widgets\DetailView;
+use kartik\detail\DetailView;
 
 /** @var yii\web\View $this */
 /** @var common\models\Utilizador $model */
@@ -14,9 +16,9 @@ $this->title = $model->user->username;
 <div class="utilizador-view">
 
     <p>
-        <?= Html::a('Update', ['update', 'idUser' => $model->idUser], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Update', ['update', 'idUser' => $model->idUser, 'role' => \common\models\Utilizador::getPerfil($model->idUser)], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'idUser' => $model->idUser], [
-            'class' => 'btn btn-danger',
+            'class' => 'btn btn-danger'.($model->idUser == Yii::$app->user->id ? ' disabled' : ''),
             'data' => [
                 'confirm' => 'Tem a certeza que pertende eliminar o utilizador?',
                 'method' => 'post',
@@ -24,7 +26,7 @@ $this->title = $model->user->username;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
+    <?= \yii\widgets\DetailView::widget([
         'model' => $model,
         'attributes' => [
             'nome',
@@ -36,7 +38,62 @@ $this->title = $model->user->username;
                 'value' => isset($model->loja->descricao)? $model->loja->descricao : 'Não definido',
                 'visible' => $model->id_loja != null,
             ],
+
         ],
     ]) ?>
+    <?= DetailView::widget([
+        'model' => $user,
+        'buttons1' => '{update}',
+        'panel' => [
+            'heading' => 'Informações de Login',
+            'type' => DetailView::TYPE_INFO,
+        ],
+        'formOptions' => ['action' => ['user/update', 'id' => $model->idUser], 'method' => 'post'],
+        'attributes' => [
+            [
+                'label' => 'Username',
+                'attribute' => 'username',
+            ],
+            [
+                'label' => 'Email',
+                'attribute' => 'email',
+            ],
+        ],
+    ]) ?>
+    <?php $gridViewDataProvider = new \yii\data\ArrayDataProvider([
+        'allModels' => $model->moradas,
+        'sort' => [
+            'attributes' => ['idMorada'],
+        ],
+        'pagination' => ['pageSize' => 10]
+    ]);
+    echo GridView::widget([
+        'dataProvider' => $gridViewDataProvider,
+        'summary' => 'A mostrar <b>{begin}-{end}</b> de <b>{totalCount}</b> morada(s)',
+        'columns' => [
+            'rua',
+            'cod_postal',
+            'cidade',
+            'pais',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('<i class="fas fa-pencil-alt"></i>', ['morada/update', 'idMorada' => $model->idMorada]);
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        return Html::a('<i class="fas fa-trash"></i>', ['morada/delete', 'idMorada' => $model->idMorada], [
+                            'data' => [
+                                'confirm' => 'Tem a certeza que pertende eliminar a morada?',
+                                'method' => 'post',
+                            ],
+                        ]);
+                    },
+                ],
+            ],
+        ]
+    ])
 
+    ?>
 </div>
