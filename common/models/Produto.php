@@ -56,12 +56,12 @@ class Produto extends \yii\db\ActiveRecord
         return [
             'idProduto' => 'Id Produto',
             'nome' => 'Nome',
-            'descricao' => 'Descricao',
-            'preco_unit' => 'Preco Unit',
+            'descricao' => 'Descrição',
+            'preco_unit' => 'Preço',
             'dataCriacao' => 'Data Criacao',
             'imagem' => 'Imagem',
             'ativo' => 'Ativo',
-            'id_categoria' => 'Id Categoria',
+            'id_categoria' => 'Categoria',
         ];
     }
 

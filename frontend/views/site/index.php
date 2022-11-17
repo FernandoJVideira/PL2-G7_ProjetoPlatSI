@@ -1,9 +1,13 @@
 <?php
 
+use common\widgets\Alert;
+
 /** @var yii\web\View $this */
+
 
 $this->title = "Stuff n' Go";
 ?>
+
 <div class="site-index">
     <div class="p-5 mb-4 bg-transparent rounded-3">
         <div class="container-fluid py-5 text-center">
@@ -14,7 +18,6 @@ $this->title = "Stuff n' Go";
     </div>
 
     <div class="body-content">
-
         <div class="row">
             <div class="col-lg-4">
                 <h2>Heading</h2>
@@ -47,6 +50,5 @@ $this->title = "Stuff n' Go";
                 <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
             </div>
         </div>
-
     </div>
 </div>

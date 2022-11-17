@@ -218,3 +218,12 @@ VALUES (1, 'Rua do Padrão', '1234-567', 'Porto');
 
 INSERT INTO `empresa` ('descricao_social', 'email', 'telefone', 'nif', 'id_morada')
 VALUES ("Stuff N' Go",'stuffngo.main@stuffngo.com','925923001','254342345','1');
+
+INSERT INTO `user` ('id', 'username', 'auth_key', 'password_hash', 'email', 'status' 'created_at', 'updated_at', 'verification_token')
+VALUES (1,"admin","jikMkvQvtypNQ5Ckog4oxvrxthv1T4MR","$2y$13$FNODBBRP9hBpA/JIc8MqEuexHM.flPGWDKl55weAz7ujs4s9z42sK","admin@admin.com",10,16679037522,1667903752,"CCeBGhSvSLztSBkCQ5-tmYFxJOLhU-bH_1667903752");
+
+INSERT INTO `utilizador` ('idUser', 'nome', 'nif', 'telemovel', 'id_user')
+VALUES (1,"Admin","123456789","912345678",1);
+
+INSERT INTO `morada` ('idMorada', 'rua', 'cidade','cod_postal', 'pais', 'id_user')
+VALUES(2,"Rua Manuel Leal","Leiria","2400-567","Portugal",1);
