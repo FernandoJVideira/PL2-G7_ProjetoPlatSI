@@ -31,7 +31,7 @@ class UtilizadorController extends BaseAuthController
     {
         if(!$this->checkAccess('view', null, $role))
         {
-            $this->noAccess('Não tem permissões para aceder a esta página.');
+            $this->showMessage('Não tem permissões para aceder a esta página.');
         }
 
         $searchModel = new UtilizadorSearch();
@@ -54,9 +54,7 @@ class UtilizadorController extends BaseAuthController
 
         if(!$this->checkAccess('view', $idUser))
         {
-            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
+            $this->showMessage('Não tem permissões para aceder a esta página.');
         }
 
         $model = $this->findModel($idUser);
@@ -78,16 +76,14 @@ class UtilizadorController extends BaseAuthController
     {
         if(!$this->checkAccess('create',null ,$role))
         {
-            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
+            $this->showMessage('Não tem permissões para aceder a esta página.');
         }
 
         $signupForm = new SignupForm();
 
         if ($this->request->isPost) {
             $signupForm->load($this->request->post());
-            $loja = $this->request->post('SignupForm')['id_loja'];
+            isset($this->request->post()['Utilizador']['idLoja']) ? $loja = $this->request->post()['Utilizador']['idLoja'] : $loja = null;
             $role = $this->request->post('SignupForm')['role'];
             if($signupForm->signup($role, $loja)){
                 Yii::$app->session->setFlash('success', 'Utilizador criado com sucesso.');
@@ -117,7 +113,7 @@ class UtilizadorController extends BaseAuthController
     {
         if(!$this->checkAccess('update',$idUser))
         {
-            $this->noAccess('Não tem permissões para aceder a esta página.');
+            $this->showMessage('Não tem permissões para aceder a esta página.');
         }
 
         $model = $this->findModel($idUser);
@@ -152,7 +148,7 @@ class UtilizadorController extends BaseAuthController
     {
         if(!$this->checkAccess('delete', $idUser) || $idUser == Yii::$app->user->id)
         {
-            $this->noAccess('Não tem permissões para concluir esta ação.');
+            $this->showMessage('Não tem permissões para concluir esta ação.');
         }
 
         $model = $this->findModel($idUser)->getUser()->one();

@@ -14,7 +14,6 @@ $this->title = $model->user->username;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="utilizador-view">
-
     <p>
         <?= Html::a('Update', ['update', 'idUser' => $model->idUser, 'role' => \common\models\Utilizador::getPerfil($model->idUser)], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'idUser' => $model->idUser], [
@@ -77,7 +76,7 @@ $this->title = $model->user->username;
             'pais',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => $model->getMoradas()->count() > 1 ?'{update} {delete}': '{update}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<i class="fas fa-pencil-alt"></i>', ['morada/update', 'idMorada' => $model->idMorada]);
