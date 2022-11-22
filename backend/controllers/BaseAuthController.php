@@ -39,23 +39,9 @@ class BaseAuthController extends Controller
         );
     }
 
-    public function checkAccess($action, $idUser, $role = null): bool
-    {
-        if($idUser != null)
-            $role = Utilizador::getPerfil($idUser);
 
-        if($role != 'Cliente'){
-            if (Yii::$app->user->can($action . $role) || (Yii::$app->user->can($action . 'Own') && Yii::$app->user->id == $idUser)) {
-                return true;
-            }
-        }
-        else
-            return true;
-        return false;
-    }
-
-    public function noAccess($string){
-        Yii::$app->session->setFlash('error', $string);
+    public function showMessage($string, $type = 'error'){
+        Yii::$app->session->setFlash($type, $string);
         $this->redirect(['site/index']);
         return null;
     }

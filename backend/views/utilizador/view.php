@@ -14,10 +14,9 @@ $this->title = $model->user->username;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="utilizador-view">
-
     <p>
-        <?= Html::a('Update', ['update', 'idUser' => $model->idUser, 'role' => \common\models\Utilizador::getPerfil($model->idUser)], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'idUser' => $model->idUser], [
+        <?= Html::a('Actualizar', ['update', 'idUser' => $model->idUser, 'role' => \common\models\Utilizador::getPerfil($model->idUser)], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Apagar', ['delete', 'idUser' => $model->idUser], [
             'class' => 'btn btn-danger'.($model->idUser == Yii::$app->user->id ? ' disabled' : ''),
             'data' => [
                 'confirm' => 'Tem a certeza que pertende eliminar o utilizador?',
@@ -66,6 +65,8 @@ $this->title = $model->user->username;
         ],
         'pagination' => ['pageSize' => 10]
     ]);
+    echo Html::a('Adicionar', ['morada/create', 'idUser' => $model->idUser, 'role' => \common\models\Utilizador::getPerfil($model->idUser)], ['class' => 'btn btn-primary']);
+
     echo GridView::widget([
         'dataProvider' => $gridViewDataProvider,
         'summary' => 'A mostrar <b>{begin}-{end}</b> de <b>{totalCount}</b> morada(s)',
@@ -76,7 +77,7 @@ $this->title = $model->user->username;
             'pais',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => $model->getMoradas()->count() > 1 ?'{update} {delete}': '{update}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<i class="fas fa-pencil-alt"></i>', ['morada/update', 'idMorada' => $model->idMorada]);

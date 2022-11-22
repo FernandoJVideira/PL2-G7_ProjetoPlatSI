@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use backend\models\Empresa;
 use Yii;
 
 /**
@@ -86,5 +87,9 @@ class Morada extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Utilizador::class, ['idUser' => 'id_user']);
+    }
+
+    public function countMoradasUser($idUser){
+        return Morada::find()->where(['id_user' => $idUser])->count();
     }
 }
