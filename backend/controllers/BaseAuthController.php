@@ -39,20 +39,6 @@ class BaseAuthController extends Controller
         );
     }
 
-    public function checkAccess($action, $idUser, $option = null): bool
-    {
-        if($idUser != null)
-            $option = Utilizador::getPerfil($idUser);
-
-        if($option != 'Cliente'){
-            if (Yii::$app->user->can($action . $option) || (Yii::$app->user->can($action . 'Own') && Yii::$app->user->id == $idUser)) {
-                return true;
-            }
-        }
-        else
-            return true;
-        return false;
-    }
 
     public function showMessage($string, $type = 'error'){
         Yii::$app->session->setFlash($type, $string);

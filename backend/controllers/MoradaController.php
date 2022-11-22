@@ -18,10 +18,14 @@ class MoradaController extends BaseAuthController
 
     public function actionUpdate($idMorada)
     {
-        if(!$this->checkAccess('delete', null, 'Morada'))
-            $this->noAccess('Não tem permissões para aceder a esta página.');
-
         $model = $this->findModel($idMorada);
+
+        if(Utilizador::getPerfil($model->id_user) != 'Cliente')
+            if(Yii::$app->user->id != $model->id_user)
+                if(!Yii::$app->user->can('updateMorada'))
+                    $this->showMessage('Não tem permissões para aceder a esta página.');
+
+
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
 
@@ -47,12 +51,15 @@ class MoradaController extends BaseAuthController
      */
     public function actionDelete($idMorada)
     {
-        if(!$this->checkAccess('delete', null, 'Morada'))
-            $this->showMessage('Não tem permissões para aceder a esta página.');
-
 
         $morada = $this->findModel($idMorada);
         $idUser = $morada->id_user;
+
+        if(Utilizador::getPerfil($morada->id_user) != 'Cliente')
+            if(Yii::$app->user->id != $idUser)
+                if(!Yii::$app->user->can('updateMorada'))
+                    $this->showMessage('Não tem permissões para aceder a esta página.');
+
 
         if($morada->id_user == null || $morada->countMoradasUser($morada->id_user) == 1)
             $this->showMessage('Não tem permissões para concluir esta ação.');
@@ -65,8 +72,10 @@ class MoradaController extends BaseAuthController
 
     public function actionCreate($idUser)
     {
-        if(!$this->checkAccess('create', $idUser))
-            $this->showMessage('Não tem permissões para aceder a esta página.');
+        if(Utilizador::getPerfil($idUser) != 'Cliente')
+            if(Yii::$app->user->id != $idUser)
+                if(!Yii::$app->user->can('createMorada'))
+                    $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $model = new Morada();
 

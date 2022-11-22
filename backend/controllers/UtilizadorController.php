@@ -29,7 +29,7 @@ class UtilizadorController extends BaseAuthController
      */
     public function actionIndex($role)
     {
-        if(!$this->checkAccess('view', null, $role))
+        if(!Yii::$app->user->can('view'.$role))
         {
             $this->showMessage('Não tem permissões para aceder a esta página.');
         }
@@ -51,11 +51,13 @@ class UtilizadorController extends BaseAuthController
      */
     public function actionView($idUser)
     {
+        $role = Utilizador::getPerfil($idUser);
 
-        if(!$this->checkAccess('view', $idUser))
-        {
-            $this->showMessage('Não tem permissões para aceder a esta página.');
-        }
+        if(Yii::$app->user->id != $idUser)
+            if(!Yii::$app->user->can('view'.$role))
+            {
+                $this->showMessage('Não tem permissões para aceder a esta página.');
+            }
 
         $model = $this->findModel($idUser);
         $user = $model->user;
@@ -74,7 +76,7 @@ class UtilizadorController extends BaseAuthController
      */
     public function actionCreate($role)
     {
-        if(!$this->checkAccess('create',null ,$role))
+        if(!Yii::$app->user->can('create'.$role))
         {
             $this->showMessage('Não tem permissões para aceder a esta página.');
         }
@@ -111,13 +113,15 @@ class UtilizadorController extends BaseAuthController
      */
     public function actionUpdate($idUser)
     {
-        if(!$this->checkAccess('update',$idUser))
-        {
-            $this->showMessage('Não tem permissões para aceder a esta página.');
-        }
+        $role = Utilizador::getPerfil($idUser);
+        if(Yii::$app->user->id != $idUser)
+            if(!Yii::$app->user->can('update'.$role))
+            {
+                $this->showMessage('Não tem permissões para aceder a esta página.');
+            }
 
         $model = $this->findModel($idUser);
-        $role = Utilizador::getPerfil($idUser);
+
         if ($this->request->isPost) {
             if(!(($role == 'Gestor' || $role == 'Funcionario') && $this->request->post('Utilizador')['id_loja'] == null)){
                 if ($model->load($this->request->post()) && $model->save())
@@ -146,7 +150,9 @@ class UtilizadorController extends BaseAuthController
      */
     public function actionDelete($idUser)
     {
-        if(!$this->checkAccess('delete', $idUser) || $idUser == Yii::$app->user->id)
+        $role = Utilizador::getPerfil($idUser);
+
+        if(!Yii::$app->user->can('delete'.$role) || $idUser == Yii::$app->user->id)
         {
             $this->showMessage('Não tem permissões para concluir esta ação.');
         }
