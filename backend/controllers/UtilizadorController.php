@@ -83,7 +83,7 @@ class UtilizadorController extends BaseAuthController
 
         if ($this->request->isPost) {
             $signupForm->load($this->request->post());
-            isset($this->request->post()['Utilizador']['idLoja']) ? $loja = $this->request->post()['Utilizador']['idLoja'] : $loja = null;
+            $loja = ($this->request->post()['Utilizador']['idLoja'] ?? null); //TODO: testar se funciona
             $role = $this->request->post('SignupForm')['role'];
             if($signupForm->signup($role, $loja)){
                 Yii::$app->session->setFlash('success', 'Utilizador criado com sucesso.');

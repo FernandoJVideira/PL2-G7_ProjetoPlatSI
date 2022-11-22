@@ -48,19 +48,40 @@ class MoradaController extends BaseAuthController
     public function actionDelete($idMorada)
     {
         if(!$this->checkAccess('delete', null, 'Morada'))
-            $this->noAccess('Não tem permissões para aceder a esta página.');
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
 
         $morada = $this->findModel($idMorada);
         $idUser = $morada->id_user;
 
         if($morada->id_user == null || $morada->countMoradasUser($morada->id_user) == 1)
-            $this->noAccess('Não tem permissões para concluir esta ação.');
+            $this->showMessage('Não tem permissões para concluir esta ação.');
 
 
         $morada->delete();
 
         return $this->redirect(['utilizador/view', 'idUser' => $idUser, 'role' => Utilizador::getPerfil($idUser)]);
+    }
+
+    public function actionCreate($idUser)
+    {
+        if(!$this->checkAccess('create', $idUser))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
+        $model = new Morada();
+
+        if ($this->request->isPost) {
+            if($idUser != null){
+                $model->id_user = $idUser;
+                if($model->load($this->request->post()) && $model->save()){
+                    return $this->redirect(['utilizador/view', 'idUser' => $idUser, 'role' => Utilizador::getPerfil($idUser)]);
+                }
+            }
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
