@@ -35,14 +35,13 @@ $this->title = $model->user->username;
             [
                 'label' => 'Loja',
                 'attribute' => 'id_loja',
-                'value' => isset($model->loja->descricao)? $model->loja->descricao : 'Não definido',
+                'value' => $model->loja->descricao ?? 'Não definido',
                 'visible' => $model->id_loja != null,
             ],
-
         ],
     ]) ?>
     <?= DetailView::widget([
-        'model' => $user,
+        'model' => $user ?? $model->user,
         'buttons1' => '{update}',
         'panel' => [
             'heading' => 'Informações de Login',

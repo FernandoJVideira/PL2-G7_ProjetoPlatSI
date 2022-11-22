@@ -60,11 +60,9 @@ class UtilizadorController extends BaseAuthController
         }
 
         $model = $this->findModel($idUser);
-        $user = $model->user;
 
         return $this->render('view', [
             'model' => $model,
-            'user' => $user,
         ]);
 
     }
