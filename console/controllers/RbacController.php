@@ -73,6 +73,11 @@ class RbacController extends Controller
         $createReview->description = 'Criar uma review';
         $auth->add($createReview);
 
+        //create a permission called createMorada and add it to the authManager
+        $createMorada = $auth->createPermission('createMorada');
+        $createMorada->description = 'Criar uma morada';
+        $auth->add($createMorada);
+
         /* Creating a permission called favoritos and adding it to the authManager. */
         $favoritos = $auth->createPermission('favoritos');
         $favoritos->description = 'Adicionar/Remover um produto aos favoritos';
@@ -84,6 +89,11 @@ class RbacController extends Controller
         $auth->add($backend);
 
         //Update permissions
+
+        //create a permission called updateOwn and add it to the authManager
+        $updateOwn = $auth->createPermission('updateOwn');
+        $updateOwn->description = 'Atualizar os dados do próprio utilizador';
+        $auth->add($updateOwn);
 
         //create a permition called updateProduto and adding it to the authManager
         $updateProduto = $auth->createPermission('updateProduto');
@@ -155,6 +165,10 @@ class RbacController extends Controller
         $updateEmpresa->description = 'Atualizar os dados de uma empresa';
         $auth->add($updateEmpresa);
 
+        //create a permition called updateMorada and adding it to the authManager
+        $updateMorada = $auth->createPermission('updateMorada');
+        $updateMorada->description = 'Atualizar os dados de uma morada';
+        $auth->add($updateMorada);
 
         //View permissions
 
@@ -197,6 +211,11 @@ class RbacController extends Controller
         $viewCategorias = $auth->createPermission('viewCategorias');
         $viewCategorias->description = 'Ver a listagem de todas as categorias';
         $auth->add($viewCategorias);
+
+        //create a permition called viewOwn and adding it to the authManager
+        $viewOwn = $auth->createPermission('viewOwn');
+        $viewOwn->description = 'Ver os dados do proprio utilizador';
+        $auth->add($viewOwn);
 
         //Delete permissions
 
@@ -257,6 +276,8 @@ class RbacController extends Controller
         $auth->addChild($admin, $createCategoria);
         $auth->addChild($admin, $createMetodoPagamento);
         $auth->addChild($admin, $createIva);
+        $auth->addChild($admin, $createMorada);
+        $auth->addChild($admin, $updateOwn);
         $auth->addChild($admin, $updateAdmin);
         $auth->addChild($admin, $updateLoja);
         $auth->addChild($admin, $updateGestor);
@@ -266,6 +287,9 @@ class RbacController extends Controller
         $auth->addChild($admin, $updateCategoria);
         $auth->addChild($admin, $updateIva);
         $auth->addChild($admin, $updateEmpresa);
+        $auth->addChild($admin, $updateMorada);
+        $auth->addChild($admin, $updateMetodoPagamento);
+        $auth->addChild($admin, $viewOwn);
         $auth->addChild($admin, $viewGestores);
         $auth->addChild($admin, $viewAdmins);
         $auth->addChild($admin, $viewFuncionarios);
@@ -293,13 +317,18 @@ class RbacController extends Controller
         $auth->addChild($gestor, $createCategoria);
         $auth->addChild($gestor, $createMetodoPagamento);
         $auth->addChild($gestor, $createIva);
+        $auth->addChild($gestor, $createMorada);
+        $auth->addChild($gestor, $updateMetodoPagamento);
         $auth->addChild($gestor, $updateLoja);
         $auth->addChild($gestor, $updateGestor);
         $auth->addChild($gestor, $updateFuncionario);
         $auth->addChild($gestor, $updateCliente);
         $auth->addChild($gestor, $updateProduto);
         $auth->addChild($gestor, $updateCategoria);
+        $auth->addChild($gestor, $updateMorada);
         $auth->addChild($gestor, $updateIva);
+        $auth->addChild($gestor, $updateOwn);
+        $auth->addChild($gestor, $viewOwn);
         $auth->addChild($gestor, $viewFuncionarios);
         $auth->addChild($gestor, $viewEstatisticas);
         $auth->addChild($gestor, $viewHistoricoDeEncomendas);
@@ -317,7 +346,9 @@ class RbacController extends Controller
         $auth->add($funcionario);
         $auth->addChild($funcionario, $backend);
         $auth->addChild($funcionario, $viewLoja);
+        $auth->addChild($funcionario, $viewOwn);
         $auth->addChild($funcionario, $createCliente);
+        $auth->addChild($funcionario, $updateOwn);
         $auth->addChild($funcionario, $updateFuncionario);
         $auth->addChild($funcionario, $updateCliente);
         $auth->addChild($funcionario, $deleteCliente);
@@ -332,6 +363,8 @@ class RbacController extends Controller
         $auth->addChild($cliente, $createEncomenda);
         $auth->addChild($cliente, $createReview);
         $auth->addChild($cliente, $updateCliente);
+        $auth->addChild($cliente, $updateOwn);
+        $auth->addChild($cliente, $viewOwn);
         $auth->addChild($cliente, $viewHistoricoDeEncomendas);
         $auth->addChild($cliente, $deleteMorada);
         $auth->addChild($cliente, $favoritos);
