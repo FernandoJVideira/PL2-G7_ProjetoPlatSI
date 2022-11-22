@@ -213,12 +213,11 @@ ALTER TABLE `utilizador` ADD FOREIGN KEY (`id_loja`) REFERENCES `loja` (`idLoja`
 
 ALTER TABLE `carrinho` ADD FOREIGN KEY (`id_loja`) REFERENCES `loja` (`idLoja`);
 
-INSERT INTO `morada` ('idMorada', 'rua', 'codigoPostal', 'localidade') 
-VALUES (1, 'Rua do Padrão', '1234-567', 'Porto');
+INSERT INTO `morada` (`idMorada`, `rua`, `cidade`, `cod_postal`, `pais`) 
+VALUES (1, 'Rua do Padrão', 'Porto', '1234-567', 'Portugal');
 
-INSERT INTO `empresa` ('descricao_social', 'email', 'telefone', 'nif', 'id_morada')
-
-VALUES ("Stuff N' Go",'stuffngo.main@stuffngo.com','925923001','254342345','1');
+INSERT INTO `empresa` (`idEmpresa`, `descricao_social`,`email`, `telefone`, `nif`, `id_morada`)
+VALUES (1, "Stuff N' Go",'stuffngo.main@stuffngo.com','925923001','254342345','1');
 
 INSERT INTO `user` (`username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`, `verification_token`) VALUES
 ( 'admin', 'w9MY9udTVVlUX_xyIjoHfG7JDt2q0ji7', '$2y$13$HBJ/eHBIsWNil6LezzRM7OXIkDsoa3DBk.Xu/qrVxjbvJrzVTd8Je', NULL, 'admin@teste.pt', 10, 1668448318, 1668448318, 'QaduEvJd2UT-2p1lIhW1MaZcGMFABw79_1668448318');

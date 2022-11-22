@@ -320,7 +320,6 @@ class RbacController extends Controller
         $auth->addChild($gestor, $createMorada);
         $auth->addChild($gestor, $updateMetodoPagamento);
         $auth->addChild($gestor, $updateLoja);
-        $auth->addChild($gestor, $updateGestor);
         $auth->addChild($gestor, $updateFuncionario);
         $auth->addChild($gestor, $updateCliente);
         $auth->addChild($gestor, $updateProduto);
@@ -349,7 +348,6 @@ class RbacController extends Controller
         $auth->addChild($funcionario, $viewOwn);
         $auth->addChild($funcionario, $createCliente);
         $auth->addChild($funcionario, $updateOwn);
-        $auth->addChild($funcionario, $updateFuncionario);
         $auth->addChild($funcionario, $updateCliente);
         $auth->addChild($funcionario, $deleteCliente);
         $auth->addChild($funcionario, $deleteMorada);
@@ -362,7 +360,6 @@ class RbacController extends Controller
         $auth->add($cliente);
         $auth->addChild($cliente, $createEncomenda);
         $auth->addChild($cliente, $createReview);
-        $auth->addChild($cliente, $updateCliente);
         $auth->addChild($cliente, $updateOwn);
         $auth->addChild($cliente, $viewOwn);
         $auth->addChild($cliente, $viewHistoricoDeEncomendas);
