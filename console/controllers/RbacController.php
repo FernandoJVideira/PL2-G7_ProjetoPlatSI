@@ -198,6 +198,16 @@ class RbacController extends Controller
         $viewFuncionario->description = 'Ver a listagem de todos funcionários';
         $auth->add($viewFuncionario);
 
+        //create a permition called viewEmpresa and adding it to the authManager
+        $viewEmpresa = $auth->createPermission('viewEmpresa');
+        $viewEmpresa->description = 'Ver os dados da empresa';
+        $auth->add($viewEmpresa);
+
+        //create a permition called viewLoja and adding it to the authManager
+        $viewLoja = $auth->createPermission('viewLoja');
+        $viewLoja->description = 'Ver os dados da loja';
+        $auth->add($viewLoja);
+
         //create a permition called viewEstatisticas and adding it to the authManager
         $viewEstatisticas = $auth->createPermission('viewEstatisticas');
         $viewEstatisticas->description = 'Ver as estatisticas da loja';
@@ -301,6 +311,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $updateCliente);
         $auth->addChild($admin, $updateProduto);
         $auth->addChild($admin, $updateCategoria);
+        $auth->addChild($admin, $updateDadosEmpresa);
         $auth->addChild($admin, $updateIva);
         $auth->addChild($admin, $updateEmpresa);
         $auth->addChild($admin, $updateMorada);
@@ -350,6 +361,7 @@ class RbacController extends Controller
         $auth->addChild($gestor, $viewFuncionario);
         $auth->addChild($gestor, $viewCliente);
         $auth->addChild($gestor, $viewEstatisticas);
+        $auth->addChild($gestor, $viewLoja);
         $auth->addChild($gestor, $viewHistoricoDeEncomendas);
         $auth->addChild($gestor, $viewLoja);
         $auth->addChild($gestor, $viewCategorias);

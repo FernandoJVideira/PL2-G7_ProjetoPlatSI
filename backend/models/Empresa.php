@@ -33,7 +33,7 @@ class Empresa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['descricao_social', 'email', 'telefone', 'nif'], 'required'],
+            [['descricao_social', 'email', 'telefone', 'nif'], 'required', 'message' => 'Este campo é obrigatório'],
             [['id_morada'], 'integer'],
             [['descricao_social'], 'string', 'max' => 255],
             [['email', 'telefone'], 'string', 'max' => 50],
