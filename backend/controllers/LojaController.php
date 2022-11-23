@@ -72,8 +72,8 @@ class LojaController extends Controller
         }
 
         $model = $this->findModel($idLoja);
-        $morada = $model->Morada->one();
-        $empresa = $model->Empresa->one();
+        $morada = $model->morada;
+        $empresa = $model->empresa;
 
         return $this->render('view', [
             'model' => $model,

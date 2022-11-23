@@ -7,8 +7,8 @@ use yii\widgets\DetailView;
 /** @var backend\models\Empresa $model */
 
 $this->title = $model->descricao_social;
-$this->params['breadcrumbs'][] = ['label' => 'Empresas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = ['label' => 'Empresas', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = $this->title;
 $getMorada = $model->getMorada();
 $morada = $morada->rua . " , " . $morada->cod_postal . " , "   . $morada->cidade . " , "  . $morada->pais;
 \yii\web\YiiAsset::register($this);
@@ -16,13 +16,12 @@ $morada = $morada->rua . " , " . $morada->cod_postal . " , "   . $morada->cidade
 <div class="empresa-view">
 
     <p>
-        <?= Html::a('Update', ['update', 'idEmpresa' => $model->idEmpresa], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Atualizar', ['update', 'idEmpresa' => $model->idEmpresa], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idEmpresa',
             'descricao_social',
             'email:email',
             'telefone',

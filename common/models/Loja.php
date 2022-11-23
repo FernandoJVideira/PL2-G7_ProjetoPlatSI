@@ -44,7 +44,8 @@ class Loja extends \yii\db\ActiveRecord
     {
         return [
             [['id_empresa', 'ativo', 'id_morada'], 'integer'],
-            [['descricao', 'email', 'telefone'], 'required'],
+            [['descricao', 'email', 'telefone'], 'required', 'message' => 'Este campo é obrigatório'],
+            [['email'], 'email'],
             [['descricao'], 'string', 'max' => 255],
             [['email'], 'string', 'max' => 50],
             [['telefone'], 'string', 'max' => 12],

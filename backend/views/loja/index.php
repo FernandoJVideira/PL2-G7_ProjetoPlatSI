@@ -11,14 +11,11 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Lojas';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="loja-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Create Loja', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Criar Loja', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -26,21 +23,30 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'summary' => 'A mostrar <b>{begin}-{end}</b> de <b>{totalCount}</b> lojas',
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'idLoja',
-            'id_empresa',
             'descricao',
             'email:email',
             'telefone',
-            //'ativo',
-            //'id_morada',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Loja $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'idLoja' => $model->idLoja]);
-                 }
+                 },
+                 'buttons' => [
+                    'delete' => function($url, $model){
+                                    return Html::a('<i class="fas fa-trash"></i>', ['delete', 'idLoja' => $model->idLoja],
+                                            [
+                                                'class' => '',
+                                                'method' => 'post',
+                                                'data' => [
+                                                        'confirm' => 'Tem a certeza que pertende eliminar a loja?',
+                                                        'method' => 'post',
+                                                            ],
+                                        ]);
+                    }
+                ]
             ],
         ],
     ]); ?>

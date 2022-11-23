@@ -10,28 +10,23 @@ use yii\grid\GridView;
 /** @var backend\models\EmpresaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Empresas';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Empresa';
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="empresa-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?php //echo $this->render('_search', ['model' => $searchModel]);
     ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'summary' => 'A mostrar <b>{begin}-{end}</b> de <b>{totalCount}</b> empresas',
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'idEmpresa',
             'descricao_social',
             'email:email',
             'telefone',
             'nif',
-            //'id_morada',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update}',

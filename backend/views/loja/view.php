@@ -9,24 +9,21 @@ use yii\widgets\DetailView;
 /** @var backend\models\Empresa $empresa */
 /** @var common\models\Morada $morada */
 
-$this->title = $model->idLoja;
-$this->params['breadcrumbs'][] = ['label' => 'Lojas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = $model->descricao;
+//$this->params['breadcrumbs'][] = ['label' => 'Lojas', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = $this->title;
 
 $morada = $morada->rua . " , " . $morada->cod_postal . " , "   . $morada->cidade . " , "  . $morada->pais;
 
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="loja-view">
-
-    <h1><?= Html::encode($model->descricao) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'idLoja' => $model->idLoja], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'idLoja' => $model->idLoja], [
+        <?= Html::a('Atualizar', ['update', 'idLoja' => $model->idLoja], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Apagar', ['delete', 'idLoja' => $model->idLoja], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Tem a certeza que pretende apagar esta loja?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -35,12 +32,10 @@ $morada = $morada->rua . " , " . $morada->cod_postal . " , "   . $morada->cidade
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idLoja',
             [
                 'attribute' => "id_empresa",
                 'value' => $empresa->descricao_social
             ],
-
             'descricao',
             'email:email',
             'telefone',

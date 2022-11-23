@@ -95,7 +95,7 @@ class EmpresaController extends Controller
         }
 
         $model = $this->findModel($idEmpresa);
-        $morada = $model->Morada->one();
+        $morada = $model->morada;
 
         if ($this->request->isPost) {
 

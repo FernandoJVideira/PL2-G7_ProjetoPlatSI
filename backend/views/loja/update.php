@@ -6,10 +6,10 @@ use yii\helpers\Html;
 /** @var common\models\Loja $model */
 /** @var common\models\Morada $morada */
 
-$this->title = 'Update Loja: ' . $model->descricao;
-$this->params['breadcrumbs'][] = ['label' => 'Lojas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idLoja, 'url' => ['view', 'idLoja' => $model->idLoja]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Atualizar loja: ' . $model->descricao;
+//$this->params['breadcrumbs'][] = ['label' => 'Lojas', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = ['label' => $model->idLoja, 'url' => ['view', 'idLoja' => $model->idLoja]];
+//$this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="loja-update">
 

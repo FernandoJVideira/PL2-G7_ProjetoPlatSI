@@ -13,25 +13,42 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descricao_social')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'telefone')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'nif')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($morada, 'rua')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($morada, 'cidade')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($morada, 'cod_postal')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($morada, 'pais')->textInput(['maxlength' => true]) ?>
-
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <div class="row px-xl-5">
+        <div class="col-lg-8">
+            <div class="p-30 mb-5">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'descricao_social')->textInput(['maxlength' => true]) ?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'telefone')->textInput(['maxlength' => true]) ?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'nif')->textInput(['maxlength' => true]) ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($morada, 'rua')->textInput(['maxlength' => true]) ?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($morada, 'cidade')->textInput(['maxlength' => true]) ?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($morada, 'cod_postal')->textInput(['maxlength' => true]) ?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($morada, 'pais')->textInput(['maxlength' => true]) ?>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+            </div>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>
