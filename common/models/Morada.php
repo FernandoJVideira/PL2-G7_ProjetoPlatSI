@@ -35,7 +35,7 @@ class Morada extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['rua', 'cidade', 'cod_postal', 'pais'], 'required'],
+            [['rua', 'cidade', 'cod_postal', 'pais'], 'required', 'message' => 'Este campo é obrigatório'],
             [['id_user'], 'integer'],
             [['rua'], 'string', 'max' => 255],
             [['cidade', 'pais'], 'string', 'max' => 20],
@@ -53,7 +53,7 @@ class Morada extends \yii\db\ActiveRecord
             'idMorada' => 'Id Morada',
             'rua' => 'Rua',
             'cidade' => 'Cidade',
-            'cod_postal' => 'Cod Postal',
+            'cod_postal' => 'Codigo Postal',
             'pais' => 'Pais',
             'id_user' => 'Id User',
         ];

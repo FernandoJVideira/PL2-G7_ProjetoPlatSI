@@ -38,7 +38,7 @@ class Utilizador extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'nif', 'telemovel'], 'required'],
+            [['nome', 'nif', 'telemovel'], 'required', 'message' => 'Este campo é obrigatório'],
             [['id_loja', 'id_user'], 'integer'],
             [['nome'], 'string', 'max' => 255],
             [['nif'], 'string', 'max' => 9],

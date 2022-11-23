@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\User;
 use app\models\UserSearch;
 use common\models\Utilizador;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -33,15 +34,17 @@ class UserController extends BaseAuthController
     }
     public function actionUpdate($id)
     {
-        if(!$this->checkAccess('update', $id))
-        {
-            $this->noAccess('Não tem permissões para aceder a esta página.');
-        }
+        $role = Utilizador::getPerfil($id);
+        if(Yii::$app->user->id != $id)
+            if(!Yii::$app->user->can('update'.$role))
+            {
+                $this->showMessage('Não tem permissões para aceder a esta página.');
+            }
 
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['utilizador/view', 'idUser' => $model->id, 'role' => Utilizador::getPerfil($id)]);
+            return $this->redirect(['utilizador/view', 'idUser' => $model->id, 'role' => $role]);
         }
         $user = $model;
         $utilizador = Utilizador::findOne(['idUser' => $id]);

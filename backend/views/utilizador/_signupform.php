@@ -45,7 +45,7 @@ use yii\widgets\ActiveForm;
                         <?= $form->field($model, 'codigo_postal')->textInput(['maxlength' => true]) ?>
                     </div>
                     <div class="col-md-6 form-group">
-                        <?= $form->field($model, 'pais')->textInput(['maxlength' => true]) ?>
+                        <?php $this->beginContent('@backend/views/layouts/_paises.php', ['id' => 'signupform-pais', 'name' => 'SignupForm[pais]']) ?><?php $this->endContent();?>
                     </div>
                 </div>
                 <div class="row">
@@ -63,7 +63,7 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
             <div class="form-group">
-                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>

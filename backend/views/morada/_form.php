@@ -26,12 +26,12 @@ use yii\widgets\ActiveForm;
                         <?= $form->field($model, 'cod_postal')->textInput(['maxlength' => true]) ?>
                     </div>
                     <div class="col-md-6 form-group">
-                        <?= $form->field($model, 'pais')->textInput(['maxlength' => true]) ?>
+                        <?php $this->beginContent('@backend/views/layouts/_paises.php', ['id' => 'morada-pais', 'name' => 'Morada[pais]']) ?><?php $this->endContent();?>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
             </div>
         </div>
     </div>
