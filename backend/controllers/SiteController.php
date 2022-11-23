@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use app\models\User;
+use backend\models\AuthAssignment;
 use common\models\LoginForm;
 use common\models\Utilizador;
 use Yii;
@@ -15,37 +16,8 @@ use yii\web\Response;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends BaseAuthController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => [],
-                        'allow' => true,
-                        'roles' => ['Admin','Gestor', 'Funcionario'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -65,7 +37,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $count_clientes = AuthAssignment::find()->where(['item_name' => 'Cliente'])->innerJoin('user', 'auth_assignment.user_id = user.id')->andWhere('status ='. \common\models\User::STATUS_ACTIVE)->count();
+        return $this->render('index', ['count_clientes' => $count_clientes]);
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use backend\models\AuthAssignment;
+
 
 /**
  * This is the model class for table "utilizador".
@@ -36,7 +38,7 @@ class Utilizador extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'nif', 'telemovel'], 'required'],
+            [['nome', 'nif', 'telemovel'], 'required', 'message' => 'Este campo é obrigatório'],
             [['id_loja', 'id_user'], 'integer'],
             [['nome'], 'string', 'max' => 255],
             [['nif'], 'string', 'max' => 9],
@@ -57,7 +59,7 @@ class Utilizador extends \yii\db\ActiveRecord
             'nome' => 'Nome',
             'nif' => 'Nif',
             'telemovel' => 'Telemovel',
-            'id_loja' => 'Id Loja',
+            'id_loja' => 'Loja',
             'id_user' => 'Id User',
         ];
     }
@@ -111,4 +113,14 @@ class Utilizador extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'id_user']);
     }
+
+    public static function getPerfil($id)
+    {
+        $model = AuthAssignment::find()->where(['user_id' => $id])->one();
+        if(!empty($model)){
+            return $model->item_name;
+        }
+        return null;
+    }
+
 }
