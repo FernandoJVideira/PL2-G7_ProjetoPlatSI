@@ -5,9 +5,15 @@ namespace backend\controllers;
 use backend\models\Categoria;
 use common\models\Produto;
 use backend\models\ProdutoSearch;
+use common\models\UploadForm;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+
+
+
 
 /**
  * ProdutoController implements the CRUD actions for Produto model.
@@ -73,12 +79,14 @@ class ProdutoController extends Controller
         $model = new Produto();
         $categoria = Categoria::find()->where(['ativo' => 1])->all(); // Vai buscar Todos os que estão ativos;
         $items = ["Inativo" , "Ativo" ];
+        $strUpdate = "";
         foreach($categoria as $cat){
             if($cat->id_categoria !== null){
                 $cat->nome .= " (Sub-Categoria)";
-            }
+            }   
         }
        
+        $modelUplaod = new UploadForm();
         if ($this->request->isPost) {
             //Image Path 
                 //$this->imagem->saveAs('uploads/' . $this->imagem->baseName . '.' . $this->imagem->extension);
@@ -88,16 +96,24 @@ class ProdutoController extends Controller
                 }else{
                     $model->ativo = 1;
                 }
-                
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'idProduto' => $model->idProduto]);
-            }
-        } else {
+
+                if ($model->load($this->request->post())) {
+                        $modelUplaod->imageFile = UploadedFile::getInstance($model,'imagem');
+                        if ($modelUplaod->upload()) {
+                            $model->imagem = $modelUplaod->imageFile->name;
+                            $model->dataCriacao = date("Y-m-d H:i:s");
+                            $model->save();  
+                            return $this->redirect(['view', 'idProduto' => $model->idProduto]);
+                        }
+                        
+                    
+                }
+        } else {    
             $model->loadDefaultValues();
         }
 
         return $this->render('create', [
-            'model' => $model,'categoria' => $categoria ,"items" => $items
+            'model' => $model,'categoria' => $categoria ,"items" => $items, "strUpdate" => $strUpdate
         ]);
     }
 
@@ -115,14 +131,15 @@ class ProdutoController extends Controller
         $categoria = Categoria::find()->where(['ativo' => 1])->all(); 
 
         $items = ["Inativo" , "Ativo" ];
+        $strUpdate = "Imagem Atual";
 
         foreach($categoria as $cat){
             if($cat->id_categoria !== null){
                 $cat->nome .= " (Sub-Categoria)";
             }
         }
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        $modelUplaod = new UploadForm();
+        if ($this->request->isPost && $model->load($this->request->post())) {
 
             if($model->ativo == "Inativo"){
                 $model->ativo = 0;
@@ -130,11 +147,17 @@ class ProdutoController extends Controller
                 $model->ativo = 1;
             }
 
-            return $this->redirect(['view', 'idProduto' => $model->idProduto]);
+            $modelUplaod->imageFile = UploadedFile::getInstance($model,'imagem');
+            if ($modelUplaod->upload()) {
+                $model->imagem = $modelUplaod->imageFile->name;
+                
+                $model->save();  
+                return $this->redirect(['view', 'idProduto' => $model->idProduto]);
+            }
         }
 
         return $this->render('update', [
-            'model' => $model,'categoria' => $categoria,'items' => $items,
+            'model' => $model,'categoria' => $categoria,'items' => $items, "strUpdate" => $strUpdate
         ]);
     }
 
@@ -154,4 +177,19 @@ class ProdutoController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+/*     public function actionUpload()
+    {
+        $model = new UploadForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+                return;
+            }
+        }
+
+        return $this->render('upload', ['model' => $model]);
+    } */
 }

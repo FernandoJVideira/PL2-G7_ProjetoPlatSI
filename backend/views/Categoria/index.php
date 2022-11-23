@@ -15,14 +15,16 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
     <p>
         <?= Html::a('Create Categoria', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    
+    <br><br> 
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -32,15 +34,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'nome',
             [
                 'attribute'=>'ativo',
-                'value'=> 'Ativo',
+                'value'=> 'Ativo', //vai buscar a action 
             ],
             [
                 'attribute'=>'id_iva',
-                'value'=> 'IdIva',
+                'value'=> 'IdIva',//vai buscar a action 
             ],
             [
                 'attribute'=>'id_categoria',
-                'value'=> 'IdCategoria',
+                'value'=> 'IdCategoria',//vai buscar a action 
             ],
             [
                 'class' => ActionColumn::className(),

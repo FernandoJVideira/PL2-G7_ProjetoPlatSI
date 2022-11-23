@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-use backend\models\Categoria;
+use backend\models\Categoria;      
 
 /**
  * This is the model class for table "produto".
@@ -25,11 +25,12 @@ use backend\models\Categoria;
  */
 class Produto extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
-    {
+    {   
         return 'produto';
     }
 
@@ -43,8 +44,7 @@ class Produto extends \yii\db\ActiveRecord
             [['descricao'], 'string'],
             [['preco_unit'], 'number'],
             [['dataCriacao'], 'safe'],
-            [['ativo', 'id_categoria'], 'integer'],
-            //[['imagem'], 'file', 'extensions' => 'gif, jpg'],   // Adicionado
+            [['ativo', 'id_categoria'], 'integer'],  
             [['nome', 'imagem'], 'string', 'max' => 255],
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_categoria' => 'idCategoria']],
         ];
@@ -130,5 +130,5 @@ class Produto extends \yii\db\ActiveRecord
         $Categoria = Categoria::findOne($this->id_categoria);
         return $Categoria->nome;
     }
-    
+
 }

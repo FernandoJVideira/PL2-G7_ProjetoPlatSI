@@ -141,7 +141,7 @@ class Categoria extends \yii\db\ActiveRecord
     }
 
     public function getIdIva(){
-        $Iva = Iva::findOne($this->id_categoria);
+        $Iva = Iva::findOne($this->id_iva);
         return $Iva->descricao;
     }
 }

@@ -15,11 +15,20 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!--<h1><?= Html::encode($this->title) ?></h1>-->
 
-    <p>
+    <div style="display:flex;">
+    
+    <div style="flex:100">
         <?= Html::a('Update', ['update', 'idCategoria' => $model->idCategoria], ['class' => 'btn btn-primary']) ?>
-    </p>
+    </div>
+    <div >
+        <?= Html::a('Voltar ao Index', ['index'], ['class' => 'btn btn-primary']) ?>
+    </div>
+    
+    </div>
+
+    <br><br>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -40,6 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <?= Html::a('Voltar ao Index', ['index'], ['class' => 'btn btn-primary']) ?>
+    
 
 </div>
+

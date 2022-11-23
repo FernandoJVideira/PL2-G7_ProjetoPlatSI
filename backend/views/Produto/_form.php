@@ -1,5 +1,6 @@
 <?php
 
+use PhpParser\Node\Expr\AssignOp\Concat;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -11,7 +12,7 @@ use yii\widgets\ActiveForm;
 
 <div class="produto-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
     <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
 
@@ -19,10 +20,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'preco_unit')->textInput() ?>
 
-    <?= $form->field($model, 'imagem')->textInput()     //fileInput() ?>
+    <?= $form->field($model, 'imagem')->fileInput() ?>
+    <?php if($model->imagem){ ?><?= $strUpdate . " ( ". $model->imagem . " ). ";?><?php } ?>
 
-    <!-- <summary class="fa fa-info" title="0-> Não Ativo , 1-> Ativo"></summary> -->
-    
+    <br>
+    <br>
+
     <?= $form->field($model, 'ativo')->dropDownList($items) ?>
 
     <?= $form->field($model, 'id_categoria')->dropDownList(ArrayHelper::map($categoria,'idCategoria','nome'),['prompt'=>'--Selecionar Categoria--'])  ?>
