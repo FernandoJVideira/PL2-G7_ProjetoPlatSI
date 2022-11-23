@@ -376,7 +376,6 @@ class RbacController extends Controller
         $funcionario = $auth->createRole('Funcionario');
         $auth->add($funcionario);
         $auth->addChild($funcionario, $backend);
-        $auth->addChild($funcionario, $viewLoja);
         $auth->addChild($funcionario, $viewCliente);
         $auth->addChild($funcionario, $viewOwn);
         $auth->addChild($funcionario, $createCliente);

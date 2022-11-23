@@ -2,6 +2,8 @@
 
 namespace backend\models;
 
+use common\models\Loja;
+use common\models\Morada;
 use Yii;
 
 /**

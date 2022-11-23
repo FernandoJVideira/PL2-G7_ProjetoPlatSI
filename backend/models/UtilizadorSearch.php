@@ -44,10 +44,7 @@ class UtilizadorSearch extends Utilizador
      */
     public function search($params, $role)
     {
-        //if($role != null)
-            //$query = Utilizador::find()->innerJoinWith('user')->andwhere('status ='. \common\models\User::STATUS_ACTIVE)->innerJoin('auth_assignment','utilizador.id_user = auth_assignment.user_id')->andwhere('auth_assignment.item_name = "'.$role.'"');
-        //else
-            $query = Utilizador::find()->innerJoinWith('user')->innerJoinWith('user.role')->andwhere('status ='. \common\models\User::STATUS_ACTIVE)->andwhere('auth_assignment.item_name = "'.$role.'"');
+        $query = Utilizador::find()->innerJoinWith('user')->innerJoinWith('user.role')->andwhere('status ='. \common\models\User::STATUS_ACTIVE)->andwhere('auth_assignment.item_name = "'.$role.'"');
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

@@ -13,25 +13,8 @@ use yii\filters\VerbFilter;
 /**
  * EmpresaController implements the CRUD actions for Empresa model.
  */
-class EmpresaController extends Controller
+class EmpresaController extends BaseAuthController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
 
     /**
      * Lists all Empresa models.

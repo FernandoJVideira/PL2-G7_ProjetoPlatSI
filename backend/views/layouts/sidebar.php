@@ -36,6 +36,18 @@
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
                     [
+                        'label' => 'Gestão de Empresa',
+                        'icon' => 'fas fa-building',
+                        'url' => ['empresa/index'],
+                        'visible' => Yii::$app->user->can('viewEmpresa'),
+                    ],
+                    [
+                        'label' => 'Gestão de Lojas',
+                        'icon' => 'fas fa-store',
+                        'url' => ['loja/index'],
+                        'visible' => Yii::$app->user->can('viewLoja'),
+                    ],
+                    [
                         'label' => 'Gestão de Utilizadores',
                         'icon' => 'fa-solid fa-users',
                         //'badge' => '<span class="right badge badge-info">2</span>',
