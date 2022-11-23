@@ -172,20 +172,25 @@ class RbacController extends Controller
 
         //View permissions
 
-        //create a permition called viewGestores and adding it to the authManager
-        $viewGestores = $auth->createPermission('viewGestor');
-        $viewGestores->description = 'Ver a listagem de todos gestores';
-        $auth->add($viewGestores);
+        //create a permission called viewCliente and add it to the authManager
+        $viewCliente = $auth->createPermission('viewCliente');
+        $viewCliente->description = 'Ver os dados de um cliente';
+        $auth->add($viewCliente);
+
+        //create a permition called viewGestor and adding it to the authManager
+        $viewGestor = $auth->createPermission('viewGestor');
+        $viewGestor->description = 'Ver a listagem de todos gestores';
+        $auth->add($viewGestor);
 
         //create a permition called viewAdmins and adding it to the authManager
         $viewAdmins = $auth->createPermission('viewAdmin');
         $viewAdmins->description = 'Ver a listagem de todos administradores';
         $auth->add($viewAdmins);
 
-        //create a permition called viewFuncionarios and adding it to the authManager
-        $viewFuncionarios = $auth->createPermission('viewFuncionario');
-        $viewFuncionarios->description = 'Ver a listagem de todos funcionários';
-        $auth->add($viewFuncionarios);
+        //create a permition called viewFuncionario and adding it to the authManager
+        $viewFuncionario = $auth->createPermission('viewFuncionario');
+        $viewFuncionario->description = 'Ver a listagem de todos funcionários';
+        $auth->add($viewFuncionario);
 
         //create a permition called viewEstatisticas and adding it to the authManager
         $viewEstatisticas = $auth->createPermission('viewEstatisticas');
@@ -290,9 +295,10 @@ class RbacController extends Controller
         $auth->addChild($admin, $updateMorada);
         $auth->addChild($admin, $updateMetodoPagamento);
         $auth->addChild($admin, $viewOwn);
-        $auth->addChild($admin, $viewGestores);
+        $auth->addChild($admin, $viewGestor);
         $auth->addChild($admin, $viewAdmins);
-        $auth->addChild($admin, $viewFuncionarios);
+        $auth->addChild($admin, $viewFuncionario);
+        $auth->addChild($admin, $viewCliente);
         $auth->addChild($admin, $viewEstatisticas);
         $auth->addChild($admin, $viewHistoricoDeEncomendas);
         $auth->addChild($admin, $viewLoja);
@@ -328,7 +334,8 @@ class RbacController extends Controller
         $auth->addChild($gestor, $updateIva);
         $auth->addChild($gestor, $updateOwn);
         $auth->addChild($gestor, $viewOwn);
-        $auth->addChild($gestor, $viewFuncionarios);
+        $auth->addChild($gestor, $viewFuncionario);
+        $auth->addChild($gestor, $viewCliente);
         $auth->addChild($gestor, $viewEstatisticas);
         $auth->addChild($gestor, $viewHistoricoDeEncomendas);
         $auth->addChild($gestor, $viewLoja);
@@ -345,6 +352,7 @@ class RbacController extends Controller
         $auth->add($funcionario);
         $auth->addChild($funcionario, $backend);
         $auth->addChild($funcionario, $viewLoja);
+        $auth->addChild($funcionario, $viewCliente);
         $auth->addChild($funcionario, $viewOwn);
         $auth->addChild($funcionario, $createCliente);
         $auth->addChild($funcionario, $updateOwn);
@@ -365,5 +373,8 @@ class RbacController extends Controller
         $auth->addChild($cliente, $viewHistoricoDeEncomendas);
         $auth->addChild($cliente, $deleteMorada);
         $auth->addChild($cliente, $favoritos);
+
+        // Assign role to user
+        $auth->assign($admin, 1);
     }
 }
