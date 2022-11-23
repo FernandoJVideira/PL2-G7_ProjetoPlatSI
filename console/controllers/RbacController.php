@@ -24,7 +24,7 @@ class RbacController extends Controller
         $auth->add($createAdmin);
 
         /* Creating a permission called createStore and adding it to the authManager. */
-        $createStore = $auth->createPermission('createStore');
+        $createStore = $auth->createPermission('createLoja');
         $createStore->description = 'Criar uma Loja';
         $auth->add($createStore);
 
@@ -104,6 +104,12 @@ class RbacController extends Controller
         $updateStock = $auth->createPermission('updateStock');
         $updateStock->description = 'Atualizar o stock de um produto';
         $auth->add($updateStock);
+
+        //create a permition called updateDadosEmpresa and adding it to the authManager 
+        $updateDadosEmpresa = $auth->createPermission('updateDadosEmpresa'); 
+        $updateDadosEmpresa->description = 'Atualizar os dados de uma empresa'; 
+        $auth->add($updateDadosEmpresa); 
+ 
 
         //create a permition called updateMetodoPagamento and adding it to the authManager
         $updateMetodoPagamento = $auth->createPermission('updateMetodoPagamento');
@@ -264,6 +270,11 @@ class RbacController extends Controller
         $deleteMorada->description = 'Remover uma morada';
         $auth->add($deleteMorada);
 
+        //create a permition called deleteLoja and adding it to the authManager
+        $deleteLoja = $auth->createPermission('deleteLoja');
+        $deleteLoja->description = 'Remover uma loja';
+        $auth->add($deleteLoja);
+
 
 
         /* Creating the roles and assigning permissions to them. */
@@ -294,6 +305,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $updateEmpresa);
         $auth->addChild($admin, $updateMorada);
         $auth->addChild($admin, $updateMetodoPagamento);
+        $auth->addChild($admin, $updateDadosEmpresa); 
         $auth->addChild($admin, $viewOwn);
         $auth->addChild($admin, $viewGestor);
         $auth->addChild($admin, $viewAdmins);
@@ -312,6 +324,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $deleteIva);
         $auth->addChild($admin, $deleteCategoria);
         $auth->addChild($admin, $deleteMorada);
+        $auth->addChild($admin, $deleteLoja);
 
         /* Creating a role called gestor and adding it to the authManager. */
         $gestor = $auth->createRole('Gestor');
