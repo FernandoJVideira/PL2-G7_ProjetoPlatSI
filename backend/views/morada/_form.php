@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
                         <?= $form->field($model, 'cod_postal')->textInput(['maxlength' => true]) ?>
                     </div>
                     <div class="col-md-6 form-group">
-                        <?php $this->beginContent('@backend/views/layouts/_paises.php', ['id' => 'morada-pais', 'name' => 'Morada[pais]']) ?><?php $this->endContent();?>
+                        <?php $this->beginContent('@backend/views/layouts/_paises.php', ['id' => 'morada-pais', 'name' => 'Morada[pais]', 'selected' => $model->pais]) ?><?php $this->endContent();?>
                     </div>
                 </div>
             </div>

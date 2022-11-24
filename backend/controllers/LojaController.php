@@ -121,11 +121,11 @@ class LojaController extends BaseAuthController
         }
 
         $model = $this->findModel($idLoja);
-        $modelMorada = Morada::findOne($model->id_morada);
+        $modelMorada = $model->morada;
         $empresa = Empresa::find()->all();
 
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save() && $modelMorada->load($this->request->post()) && $modelMorada->save()) {
             return $this->redirect(['view', 'idLoja' => $model->idLoja]);
         }
 

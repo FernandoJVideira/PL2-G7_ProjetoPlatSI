@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
                         <?= $form->field($morada, 'cod_postal')->textInput(['maxlength' => true]) ?>
                     </div>
                     <div class="col-md-6 form-group">
-                        <?= $form->field($morada, 'pais')->textInput(['maxlength' => true]) ?>
+                        <?php $this->beginContent('@backend/views/layouts/_paises.php', ['id' => 'morada-pais', 'name' => 'Morada[pais]', 'selected' => $morada->pais]) ?><?php $this->endContent();?>
                     </div>
                 </div>
             </div>
