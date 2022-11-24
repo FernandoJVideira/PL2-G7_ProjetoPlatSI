@@ -46,4 +46,4 @@ phpunit.phar
 /backend/web/robots.txt
 
 
-common/config/main-local.php
+/common/config/main-local.php
