@@ -106,10 +106,10 @@ class RbacController extends Controller
         $auth->add($updateStock);
 
         //create a permition called updateDadosEmpresa and adding it to the authManager 
-        $updateDadosEmpresa = $auth->createPermission('updateDadosEmpresa'); 
-        $updateDadosEmpresa->description = 'Atualizar os dados de uma empresa'; 
-        $auth->add($updateDadosEmpresa); 
- 
+        $updateDadosEmpresa = $auth->createPermission('updateDadosEmpresa');
+        $updateDadosEmpresa->description = 'Atualizar os dados de uma empresa';
+        $auth->add($updateDadosEmpresa);
+
 
         //create a permition called updateMetodoPagamento and adding it to the authManager
         $updateMetodoPagamento = $auth->createPermission('updateMetodoPagamento');
@@ -208,6 +208,11 @@ class RbacController extends Controller
         $viewLoja->description = 'Ver os dados da loja';
         $auth->add($viewLoja);
 
+        //create a permition called viewIva and adding it to the authManager
+        $viewIva = $auth->createPermission('viewIva');
+        $viewIva->description = 'Ver a listagem de todas as taxas IVA';
+        $auth->add($viewIva);
+
         //create a permition called viewEstatisticas and adding it to the authManager
         $viewEstatisticas = $auth->createPermission('viewEstatisticas');
         $viewEstatisticas->description = 'Ver as estatisticas da loja';
@@ -217,16 +222,6 @@ class RbacController extends Controller
         $viewHistoricoDeEncomendas = $auth->createPermission('viewHistoricoDeEncomendas');
         $viewHistoricoDeEncomendas->description = 'Ver o historico de encomendas';
         $auth->add($viewHistoricoDeEncomendas);
-
-        //create a permition called viewLoja and adding it to the authManager
-        $viewLoja = $auth->createPermission('viewLoja');
-        $viewLoja->description = 'Ver os dados da loja';
-        $auth->add($viewLoja);
-
-        //create a permition called viewEmpresa and adding it to the authManager
-        $viewEmpresa = $auth->createPermission('viewEmpresa');
-        $viewEmpresa->description = 'Ver os dados da empresa';
-        $auth->add($viewEmpresa);
 
         //create a permition called viewCategorias and adding it to the authManager
         $viewCategorias = $auth->createPermission('viewCategorias');
@@ -316,7 +311,6 @@ class RbacController extends Controller
         $auth->addChild($admin, $updateEmpresa);
         $auth->addChild($admin, $updateMorada);
         $auth->addChild($admin, $updateMetodoPagamento);
-        $auth->addChild($admin, $updateDadosEmpresa); 
         $auth->addChild($admin, $viewOwn);
         $auth->addChild($admin, $viewGestor);
         $auth->addChild($admin, $viewAdmins);
@@ -325,6 +319,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $viewEstatisticas);
         $auth->addChild($admin, $viewHistoricoDeEncomendas);
         $auth->addChild($admin, $viewLoja);
+        $auth->addChild($admin, $viewIva);
         $auth->addChild($admin, $viewEmpresa);
         $auth->addChild($admin, $viewCategorias);
         $auth->addChild($admin, $deleteAdmin);
@@ -362,8 +357,8 @@ class RbacController extends Controller
         $auth->addChild($gestor, $viewCliente);
         $auth->addChild($gestor, $viewEstatisticas);
         $auth->addChild($gestor, $viewLoja);
+        $auth->addChild($gestor, $viewIva);
         $auth->addChild($gestor, $viewHistoricoDeEncomendas);
-        $auth->addChild($gestor, $viewLoja);
         $auth->addChild($gestor, $viewCategorias);
         $auth->addChild($gestor, $deleteFuncionario);
         $auth->addChild($gestor, $deleteCliente);
