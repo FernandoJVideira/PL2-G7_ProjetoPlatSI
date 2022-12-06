@@ -42,10 +42,16 @@
                         'visible' => Yii::$app->user->can('viewEmpresa'),
                     ],
                     [
-                        'label' => 'Gestão de Lojas',
+                        'label' => 'Gestão de Lojas Geral',
                         'icon' => 'fas fa-store',
-                        'url' => ['loja/index'],
-                        'visible' => Yii::$app->user->can('viewLoja'),
+                        'items' => [
+                            ['label' => 'Lojas', 'url' => ['loja/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createLoja')],
+                            ['label' => 'Ivas', 'url' => ['iva/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createIva')],
+                            ['label' => 'Categorias', 'url' => ['categoria/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createCategoria')],
+                            ['label' => 'Produtos', 'url' => ['produto/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createProduto')],
+
+                        ],
+                        'visible' => isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Admin']),
                     ],
                     [
                         'label' => 'Gestão de Utilizadores',

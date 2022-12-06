@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use common\models\Iva;
 use Yii;
+
 
 /**
  * This is the model class for table "categoria".
@@ -51,9 +53,9 @@ class Categoria extends \yii\db\ActiveRecord
         return [
             'idCategoria' => 'Id Categoria',
             'nome' => 'Nome',
-            'ativo' => 'Ativo',
-            'id_iva' => 'Id Iva',
-            'id_categoria' => 'Id Categoria',
+            'ativo' => 'Estado',
+            'id_iva' => 'Iva',
+            'id_categoria' => 'Categoria Originária',
         ];
     }
 
@@ -105,5 +107,10 @@ class Categoria extends \yii\db\ActiveRecord
     public function getProdutos()
     {
         return $this->hasMany(Produto::class, ['id_categoria' => 'idCategoria']);
+    }
+
+    public function getAtivo()
+    {
+        return $this->ativo ? 'Ativo' : 'Inativo';
     }
 }

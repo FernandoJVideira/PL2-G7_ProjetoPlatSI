@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\Categoria;
 
 /**
  * This is the model class for table "produto".
@@ -24,11 +25,12 @@ use Yii;
  */
 class Produto extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
-    {
+    {   
         return 'produto';
     }
 
@@ -38,11 +40,11 @@ class Produto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'descricao', 'preco_unit', 'imagem'], 'required'],
+            [['nome', 'descricao', 'preco_unit', 'imagem','id_categoria'], 'required'],
             [['descricao'], 'string'],
             [['preco_unit'], 'number'],
             [['dataCriacao'], 'safe'],
-            [['ativo', 'id_categoria'], 'integer'],
+            [['ativo', 'id_categoria'], 'integer'],  
             [['nome', 'imagem'], 'string', 'max' => 255],
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_categoria' => 'idCategoria']],
         ];
@@ -57,11 +59,11 @@ class Produto extends \yii\db\ActiveRecord
             'idProduto' => 'Id Produto',
             'nome' => 'Nome',
             'descricao' => 'Descricao',
-            'preco_unit' => 'Preco Unit',
+            'preco_unit' => 'Preco Unitário',
             'dataCriacao' => 'Data Criacao',
             'imagem' => 'Imagem',
-            'ativo' => 'Ativo',
-            'id_categoria' => 'Id Categoria',
+            'ativo' => 'Estado',
+            'id_categoria' => 'Categoria',
         ];
     }
 
@@ -114,4 +116,19 @@ class Produto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Stock::class, ['id_produto' => 'idProduto']);
     }
+
+    public function getAtivo()
+    {
+        return $this->ativo ? 'Ativo' : 'Inativo';
+    }
+
+    public function getPreco(){
+        return $this->preco_unit ." €";
+    }
+
+    public function getIdCategoria(){
+        $Categoria = Categoria::findOne($this->id_categoria);
+        return $Categoria->nome;
+    }
+
 }

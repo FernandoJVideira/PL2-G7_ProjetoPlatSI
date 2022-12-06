@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "iva".
  *
  * @property int $idIva
- * @property float|null $iva
- * @property string|null $descricao
+ * @property float $iva
+ * @property string $descricao
  * @property int|null $ativo
  *
  * @property Categoria[] $categorias
@@ -30,11 +30,11 @@ class Iva extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idIva'], 'required'],
-            [['idIva', 'ativo'], 'integer'],
+            [['iva', 'descricao'], 'required'],
             [['iva'], 'number'],
+            [['ativo'], 'integer'],
             [['descricao'], 'string', 'max' => 255],
-            [['idIva'], 'unique'],
+            [['iva'], 'unique'],
         ];
     }
 
@@ -45,9 +45,9 @@ class Iva extends \yii\db\ActiveRecord
     {
         return [
             'idIva' => 'Id Iva',
-            'iva' => 'Iva',
-            'descricao' => 'Descricao',
-            'ativo' => 'Ativo',
+            'iva' => 'Iva [1-100%]',
+            'descricao' => 'Descrição',
+            'ativo' => 'Estado',
         ];
     }
 
@@ -59,5 +59,10 @@ class Iva extends \yii\db\ActiveRecord
     public function getCategorias()
     {
         return $this->hasMany(Categoria::class, ['id_iva' => 'idIva']);
+    }
+
+    public function getAtivo()
+    {
+        return $this->ativo ? 'Ativo' : 'Inativo';
     }
 }
