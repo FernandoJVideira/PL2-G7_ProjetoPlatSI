@@ -14,6 +14,7 @@ class ProdutoSearch extends Produto
     /**
      * {@inheritdoc}
      */
+
     public function rules()
     {
         return [
@@ -47,9 +48,11 @@ class ProdutoSearch extends Produto
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['attributes' => ['nome', 'descricao', 'preco_unit', 'dataCriacao', 'ativo', 'id_categoria']],
         ]);
 
         $this->load($params);
+        //dd($params);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -61,14 +64,14 @@ class ProdutoSearch extends Produto
         $query->andFilterWhere([
             'idProduto' => $this->idProduto,
             'preco_unit' => $this->preco_unit,
-            'dataCriacao' => $this->dataCriacao,
-            'ativo' => $this->ativo,
+            'produto.ativo' => $this->ativo,
             'id_categoria' => $this->id_categoria,
         ]);
 
         $query->andFilterWhere(['like', 'nome', $this->nome])
             ->andFilterWhere(['like', 'descricao', $this->descricao])
-            ->andFilterWhere(['like', 'imagem', $this->imagem]);
+            ->andFilterWhere(['like', 'imagem', $this->imagem])
+            ->andFilterWhere(['like', 'dataCriacao', $this->dataCriacao]);
 
         return $dataProvider;
     }

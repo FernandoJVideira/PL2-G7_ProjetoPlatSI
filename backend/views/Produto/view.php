@@ -8,8 +8,8 @@ use backend\models\Categoria;
 /** @var common\models\Produto $model */
 
 $this->title = $model->nome;
-$this->params['breadcrumbs'][] = ['label' => 'Produtos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = ['label' => 'Produtos', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="produto-view">
@@ -19,10 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div style="display:flex;">
 
         <div style="flex:100">
-            <?= Html::a('Update', ['update', 'idProduto' => $model->idProduto], ['class' => 'btn btn-primary']) ?>
-        </div>
-        <div >
-            <?= Html::a('Voltar ao Index', ['index'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Actualizar', ['update', 'idProduto' => $model->idProduto], ['class' => 'btn btn-primary']) ?>
         </div>
         
     </div>
@@ -44,15 +41,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'nome',
             'descricao:ntext',
-            'preco_unit',
-            'dataCriacao',
+            [
+                    'attribute' => 'preco_unit',
+                    'value' => $model->preco_unit . " €"
+            ],
+            [
+                    'attribute' => 'dataCriacao',
+                    'format' => ['date', 'php: yy-m-d'],],
             [
                 'attribute' => 'ativo',
-                'value' => $model->ativo == 1 ? 'Ativo' : 'Inativo'
+                'value' => 'Ativo'
             ],
             [
                 'attribute' => 'id_categoria',
-                'value' => Categoria::get_Nome_Id_Categoria($model->id_categoria)
+                'value' => $model->categoria->nome
             ],
         ],
     ]) ?>

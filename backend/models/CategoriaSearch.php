@@ -4,7 +4,7 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Categoria;
+
 
 
 /**
@@ -15,11 +15,14 @@ class CategoriaSearch extends Categoria
     /**
      * {@inheritdoc}
      */
+
+    public $descricao;
+
     public function rules()
     {
         return [
             [['idCategoria', 'ativo', 'id_iva', 'id_categoria'], 'integer'],
-            [['nome'], 'safe'],
+            [['nome', 'descricao'], 'safe'],
         ];
     }
 
@@ -41,12 +44,13 @@ class CategoriaSearch extends Categoria
      */
     public function search($params)
     {
-        $query = Categoria::find();
+        $query = Categoria::find()->innerJoinWith('iva');
         
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['attributes' => ['nome', 'ativo', 'descricao', 'id_categoria']],
         ]);
 
         $this->load($params);
@@ -61,12 +65,13 @@ class CategoriaSearch extends Categoria
         // grid filtering conditions
         $query->andFilterWhere([
             'idCategoria' => $this->idCategoria,
-            'ativo' => $this->ativo,
+            'categoria.ativo' => $this->ativo,
             'id_iva' => $this->id_iva,
             'id_categoria' => $this->id_categoria,
         ]);
 
-        $query->andFilterWhere(['like', 'nome', $this->nome]);
+        $query->andFilterWhere(['like', 'nome', $this->nome])
+            ->andFilterWhere(['like', 'descricao', $this->descricao]);
 
         return $dataProvider;
     }

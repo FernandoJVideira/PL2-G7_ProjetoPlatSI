@@ -9,8 +9,8 @@ use yii\widgets\DetailView;
 /** @var backend\models\Categoria $model */
 
 $this->title = $model->nome;
-$this->params['breadcrumbs'][] = ['label' => 'Categorias', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = ['label' => 'Categorias', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="categoria-view">
@@ -20,12 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div style="display:flex;">
     
     <div style="flex:100">
-        <?= Html::a('Update', ['update', 'idCategoria' => $model->idCategoria], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Actualizar', ['update', 'idCategoria' => $model->idCategoria], ['class' => 'btn btn-primary']) ?>
     </div>
-    <div >
-        <?= Html::a('Voltar ao Index', ['index'], ['class' => 'btn btn-primary']) ?>
-    </div>
-    
     </div>
 
     <br><br>
@@ -36,15 +32,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'nome',
             [
                 'attribute'=>'ativo',
-                'value'=> $model->ativo == 1? 'Activo':'Inativo'
+                'value'=> $model->Ativo
             ],
             [
                 'attribute'=>'Iva',
-                'value'=> Categoria::get_Nome_Id_Iva($model->id_iva)
+                'value'=> $model->iva->descricao
             ],
             [
                 'attribute'=>'id_categoria',
-                'value'=> Categoria::get_Nome_Id_Categoria($model->id_categoria)
+                'value'=> $model->categoria->nome ?? 'Sem Categoria'
             ],
         ],
     ]) ?>

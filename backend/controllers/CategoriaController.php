@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\Categoria;
 use backend\models\CategoriaSearch;
 use backend\models\Iva;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -39,6 +40,8 @@ class CategoriaController extends Controller
      */
     public function actionIndex()
     {
+        Yii::$app->user->can('viewCategoria');
+
         $searchModel = new CategoriaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
        
@@ -56,6 +59,8 @@ class CategoriaController extends Controller
      */
     public function actionView($idCategoria)
     {
+        Yii::$app->user->can('viewCategoria');
+
         return $this->render('view', [
             'model' => $this->findModel($idCategoria),
         ]);
@@ -68,22 +73,15 @@ class CategoriaController extends Controller
      */
     public function actionCreate()
     {
+        Yii::$app->user->can('createCategoria');
+
         $model = new Categoria();
         
         $iva = Iva::find()->where(['ativo' => 1])->all();
 
-        $items = ["Inativo" , "Ativo" ];
-        
-        $id_categoria = Categoria::find()->where(['id_categoria'=>null])->all();
+        $categorias = Categoria::find()->where(['id_categoria'=>null])->all();
 
         if ($this->request->isPost) {
-
-            if($model->ativo == "Inativo"){
-                $model->ativo = 0;
-            }else{
-                $model->ativo = 1;
-            }
-
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'idCategoria' => $model->idCategoria]);
             }
@@ -92,10 +90,11 @@ class CategoriaController extends Controller
         }
         
         return $this->render('create', [
-            'model' => $model, 'ivas' => $iva ,'id_categoria' =>$id_categoria, 'items' => $items
+            'model' => $model,
+            'ivas' => $iva,
+            'categorias' => $categorias
         ]);
 
-        //sub cat -> cat where id_cat null
     }
 
     /**
@@ -107,28 +106,30 @@ class CategoriaController extends Controller
      */
     public function actionUpdate($idCategoria)
     {
+        Yii::$app->user->can('updateCategoria');
+
         $model = $this->findModel($idCategoria);
 
-        $items = ["Inativo" , "Ativo" ];
-        
         $iva = Iva::find()->where(['ativo' => 1])->all();
 
-        $id_categoria = Categoria::find()->where(['id_categoria'=>null])->all(); 
+        $categorias = Categoria::find()->where(['id_categoria'=>null])->andWhere(['not',['idCategoria'=>$idCategoria]])->andWhere(['ativo'=>1])->all();
 
-        
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        $main = Categoria::find()->where(['not',['id_categoria'=>null]])->andWhere(['ativo'=>1])->groupBy('id_categoria')->all();
 
-            if($model->ativo == "Inativo"){
-                $model->ativo = 0;
-            }else{
-                $model->ativo = 1;
+        if(isset($main)){
+            if(array_search($idCategoria, array_column($main, 'id_categoria')) !== false){
+                $categorias = null;
             }
+        }
 
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'idCategoria' => $model->idCategoria]);
         }
 
         return $this->render('update', [
-            'model' => $model, 'iva'=>$iva , 'id_categoria' => $id_categoria, 'items' => $items
+            'model' => $model,
+            'iva'=>$iva ,
+            'categorias' => $categorias
         ]);
     }
 

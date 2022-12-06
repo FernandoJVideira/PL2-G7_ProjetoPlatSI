@@ -45,8 +45,8 @@ class Iva extends \yii\db\ActiveRecord
     {
         return [
             'idIva' => 'Id Iva',
-            'iva' => 'Iva',
-            'descricao' => 'Descricao',
+            'iva' => 'Iva [1-100%]',
+            'descricao' => 'Descrição',
             'ativo' => 'Estado',
         ];
     }

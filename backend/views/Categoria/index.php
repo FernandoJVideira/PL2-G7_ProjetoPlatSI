@@ -11,14 +11,17 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Categorias';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-index">
 
     <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
     <p>
-        <?= Html::a('Create Categoria', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Criar Categoria', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <p>
+        <?= Html::a('Limpar pesquisa',['index'], ['class' => 'btn btn-primary', 'style' => 'float:right']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -28,25 +31,33 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'summary' => 'A mostrar <b>{begin}-{end}</b> de <b>{totalCount}</b> categorias',
+        'emptyText' => 'Não foram encontradas categorias',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
+            [
+                'class' => 'yii\grid\SerialColumn',
+                'header' => 'Nº',
+                'headerOptions' => ['style' => 'color:#337ab7'],
+            ],
             'nome',
             [
                 'attribute'=>'ativo',
-                'value'=> 'Ativo', //vai buscar a action 
+                'value'=> 'Ativo', //vai buscar a action
+                'filter'=>array("1"=>"Ativo","0"=>"Inativo"),
             ],
             [
-                'attribute'=>'id_iva',
-                'value'=> 'IdIva',//vai buscar a action 
+                'label' => 'Iva',
+                'attribute'=>'descricao',
+                'value'=> 'iva.descricao',//vai buscar a action
             ],
             [
                 'attribute'=>'id_categoria',
-                'value'=> 'IdCategoria',//vai buscar a action 
+                'value'=> 'categoria.nome',//vai buscar a action
+                'filter'=>Categoria::find()->select(['nome', 'idCategoria'])->indexBy('idCategoria')->where(['id_categoria'=>null])->column(),
             ],
             [
                 'class' => ActionColumn::className(),
-                'template' => '{view}{update}',
+                'template' => '{update}',
                 'urlCreator' => function ($action, Categoria $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'idCategoria' => $model->idCategoria]);
                  }

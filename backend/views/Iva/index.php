@@ -11,14 +11,17 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Ivas';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="iva-index">
 
-  <!--<h1><?= Html::encode($this->title) ?></h1> -->
+    <!--<h1><?= Html::encode($this->title) ?></h1> -->
 
     <p>
-        <?= Html::a('Create Iva', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Criar Iva', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <p>
+        <?= Html::a('Limpar pesquisa',['index'], ['class' => 'btn btn-primary', 'style' => 'float:right']) ?>
     </p>
 
     <br><br> 
@@ -26,14 +29,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'summary' => 'A mostrar <b>{begin}-{end}</b> de <b>{totalCount}</b> ivas',
+        'emptyText' => 'Não foram encontrados ivas',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            
+            ['class' => 'yii\grid\SerialColumn',
+                'header' => 'Nº',
+                'headerOptions' => ['style' => 'color:#337ab7'],
+            ],
             'iva',
             'descricao',
             [
                 'attribute'=>'ativo',
                 'value'=> 'Ativo',
+                'filter'=>array("1"=>"Ativo","0"=>"Inativo"),
             ],
             [
                 'class' => ActionColumn::className(),

@@ -15,16 +15,28 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
-    
-    <?= $form->field($model, 'ativo')->dropDownList($items) ?>
-
-    <?= $form->field($model, 'id_iva')->dropDownList(ArrayHelper::map($ivas,'idIva','descricao'),['prompt'=>'Não quero'])?> 
-    
-    <?= $form->field($model, 'id_categoria')->dropDownList(ArrayHelper::map($id_categoria,'idCategoria','nome'),['prompt'=>'Não quero'])?>
-   
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <div class="row px-xl-5">
+        <div class="col-lg-8">
+            <div class="p-30 mb-5">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'ativo')->dropDownList(['1' => 'Ativo', '0' => 'Inativo']) ?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'id_iva')->dropDownList(ArrayHelper::map($ivas,'idIva','descricao'))?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'id_categoria')->dropDownList(isset($categorias) ? ArrayHelper::map($categorias,'idCategoria','nome') :[],['prompt'=>'Não quero'])?>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+            </div>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>

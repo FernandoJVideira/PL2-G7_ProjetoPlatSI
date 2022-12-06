@@ -23,6 +23,9 @@ class ProdutoController extends Controller
     /**
      * @inheritDoc
      */
+
+    public static string $path = '../../common/Images/';
+
     public function behaviors()
     {
         return array_merge(
@@ -62,8 +65,6 @@ class ProdutoController extends Controller
      */
     public function actionView($idProduto)
     {
-        $a = Produto::find($idProduto);
-   
         return $this->render('view', [
             'model' => $this->findModel($idProduto),
         ]);
@@ -77,43 +78,31 @@ class ProdutoController extends Controller
     public function actionCreate()
     {
         $model = new Produto();
-        $categoria = Categoria::find()->where(['ativo' => 1])->all(); // Vai buscar Todos os que estão ativos;
-        $items = ["Inativo" , "Ativo" ];
-        $strUpdate = "";
-        foreach($categoria as $cat){
+        $categorias = Categoria::find()->where(['ativo' => 1])->orderBy('nome')->all();
+
+        foreach($categorias as $cat){
             if($cat->id_categoria !== null){
                 $cat->nome .= " (Sub-Categoria)";
-            }   
+            }
         }
-       
-        $modelUplaod = new UploadForm();
-        if ($this->request->isPost) {
-            //Image Path 
-                //$this->imagem->saveAs('uploads/' . $this->imagem->baseName . '.' . $this->imagem->extension);
-                //$model->imagem = 'uploads/'.$this->imagem->basename.'.'.$this->imagem->extension;
-                if($model->ativo == "Inativo"){
-                    $model->ativo = 0;
-                }else{
-                    $model->ativo = 1;
-                }
 
-                if ($model->load($this->request->post())) {
-                        $modelUplaod->imageFile = UploadedFile::getInstance($model,'imagem');
-                        if ($modelUplaod->upload()) {
-                            $model->imagem = $modelUplaod->imageFile->name;
-                            $model->dataCriacao = date("Y-m-d H:i:s");
-                            $model->save();  
-                            return $this->redirect(['view', 'idProduto' => $model->idProduto]);
-                        }
-                        
-                    
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                $imagem = UploadedFile::getInstance($model, 'imagem');
+                $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
+                if($imagem->saveAs(self::$path . $nomeImagem)){
+                    $model->imagem = $nomeImagem;
+                    $model->save();
+                    return $this->redirect(['view', 'idProduto' => $model->idProduto]);
                 }
-        } else {    
+            }
+        } else {
             $model->loadDefaultValues();
         }
 
         return $this->render('create', [
-            'model' => $model,'categoria' => $categoria ,"items" => $items, "strUpdate" => $strUpdate
+            'model' => $model,
+            'categorias' => $categorias
         ]);
     }
 
@@ -128,36 +117,33 @@ class ProdutoController extends Controller
     {
         $model = $this->findModel($idProduto);
 
-        $categoria = Categoria::find()->where(['ativo' => 1])->all(); 
+        $categorias = Categoria::find()->where(['ativo' => 1])->orderBy('nome')->all();
 
-        $items = ["Inativo" , "Ativo" ];
-        $strUpdate = "Imagem Atual";
 
-        foreach($categoria as $cat){
+        foreach($categorias as $cat){
             if($cat->id_categoria !== null){
                 $cat->nome .= " (Sub-Categoria)";
             }
         }
-        $modelUplaod = new UploadForm();
+
         if ($this->request->isPost && $model->load($this->request->post())) {
-
-            if($model->ativo == "Inativo"){
-                $model->ativo = 0;
-            }else{
-                $model->ativo = 1;
+            $imagem = UploadedFile::getInstance($model, 'imagem');
+            if($imagem == null){
+                $model->imagem = $model->getOldAttribute('imagem');
             }
-
-            $modelUplaod->imageFile = UploadedFile::getInstance($model,'imagem');
-            if ($modelUplaod->upload()) {
-                $model->imagem = $modelUplaod->imageFile->name;
-                
-                $model->save();  
-                return $this->redirect(['view', 'idProduto' => $model->idProduto]);
+            else{
+                $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
+                if($imagem->saveAs(self::$path . $nomeImagem))
+                    $model->imagem = $nomeImagem;
             }
+            $model->save();
+            return $this->redirect(['view', 'idProduto' => $model->idProduto]);
+
         }
 
         return $this->render('update', [
-            'model' => $model,'categoria' => $categoria,'items' => $items, "strUpdate" => $strUpdate
+            'model' => $model,
+            'categorias' => $categorias
         ]);
     }
 
@@ -177,19 +163,4 @@ class ProdutoController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-/*     public function actionUpload()
-    {
-        $model = new UploadForm();
-
-        if (Yii::$app->request->isPost) {
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->upload()) {
-                // file is uploaded successfully
-                return;
-            }
-        }
-
-        return $this->render('upload', ['model' => $model]);
-    } */
 }

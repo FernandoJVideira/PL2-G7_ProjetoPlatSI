@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\Iva;
 use backend\models\IvaSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,6 +39,8 @@ class IvaController extends Controller
      */
     public function actionIndex()
     {
+        Yii::$app->user->can('viewIva');
+
         $searchModel = new IvaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -55,6 +58,8 @@ class IvaController extends Controller
      */
     public function actionView($idIva)
     {
+        Yii::$app->user->can('viewIva');
+
         return $this->render('view', [
             'model' => $this->findModel($idIva),
         ]);
@@ -67,19 +72,12 @@ class IvaController extends Controller
      */
     public function actionCreate()
     {
+        Yii::$app->user->can('createIva');
+
         $model = new Iva();
 
-        $items = ["Inativo" , "Ativo" ];
-
         if ($this->request->isPost) {
-
-            if($model->ativo == "Inativo"){
-                $model->ativo = 0;
-            }else{
-                $model->ativo = 1;
-            }
             if ($model->load($this->request->post()) && $model->save()) {
-
                 return $this->redirect(['view', 'idIva' => $model->idIva]);
             }
         } else {
@@ -87,7 +85,7 @@ class IvaController extends Controller
         }
 
         return $this->render('create', [
-            'model' => $model, 'items' => $items
+            'model' => $model
         ]);
     }
 
@@ -100,23 +98,16 @@ class IvaController extends Controller
      */
     public function actionUpdate($idIva)
     {
+        Yii::$app->user->can('updateIva');
+
         $model = $this->findModel($idIva);
 
-        $items = ["Inativo" , "Ativo" ];
-
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-
-            if($model->ativo == "Inativo"){
-                $model->ativo = 0;
-            }else{
-                $model->ativo = 1;
-            }
-
             return $this->redirect(['view', 'idIva' => $model->idIva]);
         }
 
         return $this->render('update', [
-            'model' => $model, 'items' => $items
+            'model' => $model
         ]);
     }
 

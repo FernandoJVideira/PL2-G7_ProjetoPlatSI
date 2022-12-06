@@ -12,14 +12,25 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'iva')->textInput() ?>
-
-    <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'ativo')->dropDownList($items) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <div class="row px-xl-5">
+        <div class="col-lg-8">
+            <div class="p-30 mb-5">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'iva')->textInput() ?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <?= $form->field($model, 'ativo')->dropDownList(['1' => 'Ativo', '0' => 'Inativo']) ?>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+            </div>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>
