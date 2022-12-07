@@ -17,8 +17,8 @@ class CarrinhoSearch extends Carrinho
     public function rules()
     {
         return [
-            [['idCarrinho', 'estado', 'id_morada', 'id_loja', 'id_user', 'id_promocao'], 'integer'],
-            [['data_criacao'], 'safe'],
+            [['idCarrinho', 'id_morada', 'id_loja', 'id_user', 'id_promocao'], 'integer'],
+            [['estado', 'data_criacao'], 'safe'],
         ];
     }
 
@@ -38,9 +38,13 @@ class CarrinhoSearch extends Carrinho
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $additional = 0)
     {
         $query = Carrinho::find();
+
+        if ($additional == 1) {
+            $query->where(['id_user' => \Yii::$app->user->id])->andWhere(['estado' => 'aberto']);
+        }
 
         // add conditions that should always apply here
 
@@ -66,6 +70,8 @@ class CarrinhoSearch extends Carrinho
             'id_user' => $this->id_user,
             'id_promocao' => $this->id_promocao,
         ]);
+
+        $query->andFilterWhere(['like', 'estado', $this->estado]);
 
         return $dataProvider;
     }

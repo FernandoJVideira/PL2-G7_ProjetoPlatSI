@@ -72,6 +72,11 @@ class Utilizador extends \yii\db\ActiveRecord
         return $this->hasMany(Carrinho::class, ['id_user' => 'idUser']);
     }
 
+    public function getCarrinhoAtivo()
+    {
+        return $this->hasOne(Carrinho::class, ['id_user' => 'idUser'])->andOnCondition(['estado' => 'aberto']);
+    }
+
     /**
      * Gets query for [[Favoritos]].
      *

@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "carrinho".
  *
  * @property int $idCarrinho
- * @property int|null $estado
+ * @property string|null $estado
  * @property string|null $data_criacao
  * @property int|null $id_morada
  * @property int|null $id_loja
@@ -16,7 +16,7 @@ use Yii;
  * @property int|null $id_promocao
  *
  * @property Fatura[] $faturas
- * @property Linhacarrinho[] $linhacarrinhos
+ * @property LinhaCarrinho[] $linhaCarrinhos
  * @property Loja $loja
  * @property Promocao $promocao
  * @property Utilizador $user
@@ -37,8 +37,9 @@ class Carrinho extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estado', 'id_morada', 'id_loja', 'id_user', 'id_promocao'], 'integer'],
+            [['estado'], 'string'],
             [['data_criacao'], 'safe'],
+            [['id_morada', 'id_loja', 'id_user', 'id_promocao'], 'integer'],
             [['id_promocao'], 'exist', 'skipOnError' => true, 'targetClass' => Promocao::class, 'targetAttribute' => ['id_promocao' => 'idPromocao']],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_user' => 'idUser']],
             [['id_loja'], 'exist', 'skipOnError' => true, 'targetClass' => Loja::class, 'targetAttribute' => ['id_loja' => 'idLoja']],
@@ -72,13 +73,13 @@ class Carrinho extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Linhacarrinhos]].
+     * Gets query for [[LinhaCarrinhos]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getLinhacarrinhos()
+    public function getLinhaCarrinhos()
     {
-        return $this->hasMany(Linhacarrinho::class, ['id_carrinho' => 'idCarrinho']);
+        return $this->hasMany(LinhaCarrinho::class, ['id_carrinho' => 'idCarrinho']);
     }
 
     /**
@@ -109,5 +110,16 @@ class Carrinho extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Utilizador::class, ['idUser' => 'id_user']);
+    }
+
+    public function getTotal()
+    {
+        $total = 0;
+
+        foreach ($this->linhaCarrinhos as $linha) {
+            $total += $linha->total;
+        }
+
+        return $total;
     }
 }

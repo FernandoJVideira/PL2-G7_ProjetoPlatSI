@@ -7,8 +7,10 @@ use common\models\CarrinhoSearch;
 use common\models\Linhacarrinho;
 use common\models\LinhacarrinhoSearch;
 use common\models\Produto;
+use common\models\Utilizador;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
 
 /**
@@ -39,14 +41,17 @@ class CarrinhoController extends Controller
      *
      * @return string
      */
-    public function actionIndex($idCarrinho)
+
+    public function actionIndex()
     {
-        $carrinho = Carrinho::findOne($idCarrinho);
-        $dataProvider = $carrinho->getLinhacarrinhos();
+        $searchModel = new CarrinhoSearch();
+        $additional = 1;
+
+        $dataProvider = $searchModel->search($this->request->queryParams, $additional);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'carrinho' => $carrinho,
         ]);
     }
 
@@ -56,32 +61,30 @@ class CarrinhoController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($idCarrinho)
+    public function actionView()
     {
-        return $this->render('view', [
-            'model' => $this->findModel($idCarrinho),
-        ]);
-    }
+        $utilizador = Utilizador::findOne(\Yii::$app->user->id);
+        $carrinho = $utilizador->carrinhoAtivo;
 
-    /**
-     * Creates a new Carrinho model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new Carrinho();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'idCarrinho' => $model->idCarrinho]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if ($carrinho == null) {
+            \Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
+            $this->redirect(['site/index']);
+            return null;
         }
 
-        return $this->render('create', [
-            'model' => $model,
+        $linhas = $carrinho->linhaCarrinhos;
+
+        $provider = new ArrayDataProvider([
+            'allModels' => $linhas,
+            'pagination' => [
+                'pageSize' => 20,
+                'pageParam' => 'page-linhacarrinhos',
+            ],
+        ]);
+
+        return $this->render('view', [
+            'model' => $carrinho,
+            'provider' => $provider,
         ]);
     }
 
@@ -96,13 +99,15 @@ class CarrinhoController extends Controller
     {
         $model = $this->findModel($idCarrinho);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idCarrinho' => $model->idCarrinho]);
-        }
+        $model->updateAttributes(
+            [
+                'estado' => 'emProcessamento',
+                'data_criacao' => date('Y-m-d H:i:s')
+            ]
+        );
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        \Yii::$app->session->setFlash('success', 'Compra efetuada com sucesso!');
+        return $this->redirect(['site/index']);
     }
 
     /**
