@@ -74,17 +74,17 @@ class CarrinhoController extends Controller
 
         $linhas = $carrinho->linhaCarrinhos;
 
-        $provider = new ArrayDataProvider([
+        /*$provider = new ArrayDataProvider([
             'allModels' => $linhas,
             'pagination' => [
                 'pageSize' => 20,
                 'pageParam' => 'page-linhacarrinhos',
             ],
-        ]);
+        ]);*/
 
         return $this->render('view', [
             'model' => $carrinho,
-            'provider' => $provider,
+            //'provider' => $provider,
         ]);
     }
 

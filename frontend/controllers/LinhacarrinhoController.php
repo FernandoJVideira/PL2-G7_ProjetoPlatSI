@@ -134,9 +134,9 @@ class LinhacarrinhoController extends Controller
         if (count($carrinho->linhaCarrinhos) == 0) {
             $carrinho->delete();
             \Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
+            return $this->redirect(['site/index']);
         }
-
-        return $this->redirect(['site/index']);
+        return $this->redirect(['carrinho/view']);
     }
 
     /**
