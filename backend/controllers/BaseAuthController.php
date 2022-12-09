@@ -23,10 +23,17 @@ class BaseAuthController extends Controller
                             'allow' => true,
                         ],
                         [
+                            'controllers' => ['site'],
                             'actions' => [],
                             'allow' => true,
                             'roles' => ['Admin','Gestor', 'Funcionario'],
                         ],
+                        [
+                            'controllers' => ['stock'],
+                            'actions' => ['index', 'create', 'update'],
+                            'allow' => true,
+                            'roles' => ['Admin','Gestor'],
+                        ]
                     ],
                 ],
                 'verbs' => [

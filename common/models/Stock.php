@@ -32,11 +32,19 @@ class Stock extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['quant_stock'], 'required'],
+            //[['quant_stock'], 'required'], TODO: Alterar base de dados para que valor por defeito seja 0
+            [['id_produto'], 'required', 'message' => 'Este campo é obrigatório'],
             [['quant_stock', 'quant_req', 'id_produto', 'id_loja'], 'integer'],
+            ['quant_stock', 'validateTest'],
             [['id_loja'], 'exist', 'skipOnError' => true, 'targetClass' => Loja::class, 'targetAttribute' => ['id_loja' => 'idLoja']],
             [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'idProduto']],
         ];
+    }
+
+    public function validateTest() {
+        if($this->quant_stock - $this->getOldAttribute('quant_stock') > $this->getOldAttribute('quant_req')) {
+            $this->addError('quant_stock','O valor requisitado foi ' . $this->getOldAttribute('quant_req'));
+        }
     }
 
     /**
@@ -46,10 +54,10 @@ class Stock extends \yii\db\ActiveRecord
     {
         return [
             'idStock' => 'Id Stock',
-            'quant_stock' => 'Quant Stock',
-            'quant_req' => 'Quant Req',
-            'id_produto' => 'Id Produto',
-            'id_loja' => 'Id Loja',
+            'quant_stock' => 'Quantidade em stock',
+            'quant_req' => 'Quantidade Requisitada',
+            'id_produto' => 'Produto',
+            'id_loja' => 'Loja',
         ];
     }
 
