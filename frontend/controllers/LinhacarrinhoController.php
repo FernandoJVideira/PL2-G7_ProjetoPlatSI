@@ -91,30 +91,20 @@ class LinhacarrinhoController extends Controller
             $model->quantidade = 1;
 
             if ($model->save()) {
-                return $this->redirect(['carrinho/index']);
+                return $this->redirect(['carrinho/view']);
             } else {
                 \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
             }
         } else {
-            $verifyLinha->quantidade += 1;
-            if ($verifyLinha->save()) {
-                return $this->redirect(['carrinho/index']);
-            } else {
-                \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
-            }
+            $this->redirect(['linhacarrinho/add', 'idLinha' => $verifyLinha['idLinha']]);
         }
     }
 
-    /**
-     * Updates an existing Linhacarrinho model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $idLinha Id Linha
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($idLinha)
+    public function actionUpdateQuantity($idLinha, $quantity)
     {
-        //TODO: Código de update
+        $linha = $this->findModel($idLinha);
+        $linha->produto->quantidade = $quantity;
+        $linha->save();
     }
 
     /**
@@ -137,6 +127,37 @@ class LinhacarrinhoController extends Controller
             return $this->redirect(['site/index']);
         }
         return $this->redirect(['carrinho/view']);
+    }
+
+    public function actionAdd($idLinha)
+    {
+        $linha = $this->findModel($idLinha);
+        $linha->quantidade += 1;
+
+        if ($linha->save()) {
+            return $this->redirect(['carrinho/view']);
+        } else {
+            \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
+        }
+
+        return $this->redirect(['carrinho/view']);
+    }
+
+    public function actionRemove($idLinha)
+    {
+        $linha = $this->findModel($idLinha);
+        $linha->quantidade -= 1;
+
+        if ($linha->quantidade == 0) {
+            $linha->delete();
+            return $this->redirect(['carrinho/view']);
+        }
+
+        if ($linha->save()) {
+            return $this->redirect(['carrinho/view']);
+        } else {
+            \Yii::$app->session->setFlash('error', 'Placeholder');
+        }
     }
 
     /**

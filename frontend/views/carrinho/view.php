@@ -37,20 +37,17 @@ $this->params['breadcrumbs'][] = $this->title;
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
+                                        <?= Html::a('<button class="btn btn-sm btn-primary btn-minus"><i class="fa fa-minus"></i></button>', Url::to(['linhacarrinho/remove', 'idLinha' => $linhaCarrinho->idLinha])) ?>
                                     </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
+                                    <input type="text" readonly class="form-control form-control-sm bg-secondary border-0 text-center" value=<?= $linhaCarrinho->quantidade ?>>
                                     <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
+                                        <?= Html::a('<button class="btn btn-sm btn-primary btn-plus"><i class="fa fa-plus"></i></button>', Url::to(['linhacarrinho/add', 'idLinha' => $linhaCarrinho->idLinha])) ?>
                                         </button>
                                     </div>
                                 </div>
                             </td>
                             <td class="align-middle"><?= $linhaCarrinho->total . "€" ?></td>
-                            <td class="align-middle"><?= Html::a('<button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button>', Url::to(['linhacarrinho/delete', 'idLinha' => $linhaCarrinho->idLinha]), [
+                            <td class="align-middle"><?= Html::a('<button class="btn-sm btn-danger"><i class="fa fa-times"></i></button>', Url::to(['linhacarrinho/delete', 'idLinha' => $linhaCarrinho->idLinha]), [
                                                             'title' => Yii::t('app', 'delete'),
                                                             'data' => [
                                                                 'confirm' => 'Are you sure you want to delete this item?',
@@ -88,6 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <h5>Total</h5>
                         <h5><?= $model->total . "€" ?></h5>
                     </div>
+
                     <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
                 </div>
             </div>
