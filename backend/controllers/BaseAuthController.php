@@ -23,6 +23,37 @@ class BaseAuthController extends Controller
                             'allow' => true,
                         ],
                         [
+                            'controllers' => ['categoria', 'produto', 'iva', 'loja'],
+                            'actions' => [],
+                            'allow' => true,
+                            'roles' => ['Admin'],
+                        ],
+                        [
+                            'controllers' => ['empresa'],
+                            'actions' => ['index', 'view', 'update'],
+                            'allow' => true,
+                            'roles' => ['Admin'],
+                        ],
+                        [
+                            'controllers' => ['morada', 'site'],
+                            'actions' => [],
+                            'allow' => true,
+                            'roles' => ['Admin','Gestor', 'Funcionario'],
+                        ],
+                        [
+                            'controllers' => ['stock'],
+                            'actions' => ['index', 'view', 'create', 'update'],
+                            'allow' => true,
+                            'roles' => ['Admin','Gestor'],
+                        ],
+                        [
+                            'controllers' => ['user'],
+                            'actions' => ['create', 'update', 'delete'],
+                            'allow' => true,
+                            'roles' => ['Admin','Gestor', 'Funcionario'],
+                        ],
+                        [
+                            'controllers' => ['utilizador'],
                             'actions' => [],
                             'allow' => true,
                             'roles' => ['Admin','Gestor', 'Funcionario'],
