@@ -54,6 +54,17 @@
                         'visible' => isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Admin']),
                     ],
                     [
+                        'label' => 'Gestão de Loja',
+                        'icon' => 'far fa-boxes',
+                        'items' => [
+                            ['label' => 'Gestão de stock', 'url' => ['stock/index',
+                                'idLoja' => \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? \common\models\Loja::find()->where('ativo = 1')->one()->idLoja],
+                                'iconStyle' => 'far',
+                                'active' => Yii::$app->controller->id == 'stock',
+                            ],
+                        ],
+                    ],
+                    [
                         'label' => 'Gestão de Utilizadores',
                         'icon' => 'fa-solid fa-users',
                         //'badge' => '<span class="right badge badge-info">2</span>',
