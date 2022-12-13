@@ -13,7 +13,7 @@
                 <img src="<?=$assetDir?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="<?= \yii\helpers\Url::toRoute(['utilizador/view', 'idUser' => Yii::$app->user->identity->id]) ?>" class="d-block"><?= Yii::$app->user->identity->username ?></a>
+                <a href="<?= \yii\helpers\Url::toRoute(['utilizador/view', 'idUser' => \common\models\Utilizador::findOne(Yii::$app->user->identity->id)->id_user]) ?>" class="d-block"><?= Yii::$app->user->identity->username ?></a>
             </div>
         </div>
 

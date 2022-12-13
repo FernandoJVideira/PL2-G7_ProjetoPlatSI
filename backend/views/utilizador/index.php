@@ -51,7 +51,7 @@ $this->title = 'Utilizadores('.$_GET['role'].')';
                  },
                  'buttons' => [
                     'delete' => function($url, $model){
-                                    if($model->idUser == Yii::$app->user->id)
+                                    if($model->id_user == Yii::$app->user->id)
                                         return null;
                                     else
                                         return Html::a('<i class="fas fa-trash"></i>', ['delete', 'idUser' => $model->idUser],

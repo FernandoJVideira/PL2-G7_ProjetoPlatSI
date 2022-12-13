@@ -15,23 +15,6 @@ use yii\filters\VerbFilter;
  */
 class UserController extends BaseAuthController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
     public function actionUpdate($id)
     {
         $role = Utilizador::getPerfil($id);
@@ -44,7 +27,7 @@ class UserController extends BaseAuthController
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['utilizador/view', 'idUser' => $model->id, 'role' => $role]);
+            return $this->redirect(['utilizador/view', 'idUser' => \common\models\Utilizador::findOne($model->id)->id_user, 'role' => $role]);
         }
         $user = $model;
         $utilizador = Utilizador::findOne(['idUser' => $id]);

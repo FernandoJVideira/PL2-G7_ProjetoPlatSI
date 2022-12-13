@@ -42,7 +42,13 @@ class BaseAuthController extends Controller
                         ],
                         [
                             'controllers' => ['stock'],
-                            'actions' => ['index', 'view', 'create', 'update'],
+                            'actions' => ['index', 'view', 'create'],
+                            'allow' => true,
+                            'roles' => ['Admin','Gestor', 'Funcionario'],
+                        ],
+                        [
+                            'controllers' => ['stock'],
+                            'actions' => ['update'],
                             'allow' => true,
                             'roles' => ['Admin','Gestor'],
                         ],

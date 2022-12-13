@@ -46,7 +46,7 @@ $this->title = $model->user->username;
             'heading' => 'Informações de Login',
             'type' => DetailView::TYPE_INFO,
         ],
-        'formOptions' => ['action' => ['user/update', 'id' => $model->idUser], 'method' => 'post'],
+        'formOptions' => ['action' => ['user/update', 'id' => $model->id_user], 'method' => 'post'],
         'attributes' => [
             [
                 'label' => 'Username',
