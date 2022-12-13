@@ -1,31 +1,29 @@
 <?php
 
 use common\models\Stock;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var backend\models\StockSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Gestão de stock';
+$this->title = 'Gestão de stock da ' . (\common\models\Loja::findOne($_GET['idLoja'])->descricao ?? 'loja');
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="stock-index">
     <?php if(isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Admin'])){ ?>
-    <p>
-    <form method="GET" action="index">
-        <label for="store">Lojas:</label>
-        <select id="idLoja" name="idLoja" onchange="this.form.submit()">
-            <?php foreach (\common\models\Loja::find()->where('ativo = 1')->all() as $store) { ?>
-                <option value="<?= $store->idLoja ?>" <?= $store->idLoja == ($_GET['idLoja'] ?? null) ? 'selected' : '' ?>><?= $store->descricao ?></option>
-            <?php } ?>
-        </select>
-        </select>
-    </form>
-    </p>
+        <div class="w-25 p-3 border" style="background-color: #eee; margin-bottom: 1em">
+            <?php
+            $form = ActiveForm::begin(['action' => 'index', 'method' => 'GET']);
+            echo $form->field(new \common\models\Loja, 'idLoja')->dropDownList(ArrayHelper::map(\common\models\Loja::find()->where('ativo = 1')->all(),'idLoja','descricao'), ['onchange' => 'this.form.submit()', 'id' => 'idLoja', 'name' => 'idLoja', 'options' => [ ($_GET['idLoja'] ?? null) => ['Selected'=>'selected']]])->label('Lojas:');
+            ActiveForm::end();
+            ?>
+        </div>
     <?php } ?>
 
     <?= GridView::widget([
@@ -68,7 +66,7 @@ $this->title = 'Gestão de stock';
                             return Html::a('<i class="fas fa-plus"></i>', ['create', 'idProduto' => $model['idProduto']]);
                         },
                         'update' => function($url, $model){
-                            if($model['quant_req'] == 0)
+                            if($model['quant_req'] == 0 || isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Funcionario']))
                                 return null;
                             else
                                 return Html::a('<i class="fas fa-check"></i>', ['update', 'idStock' => $model['idStock']]);

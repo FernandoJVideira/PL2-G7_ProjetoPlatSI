@@ -22,7 +22,7 @@ class StockController extends BaseAuthController
     public function actionIndex($idLoja = null)
     {
         $session = Yii::$app->session;
-        $id = \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja;
+        $id = \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? $idLoja;
 
         if($idLoja == null){
             $this->showMessage('Não foi possível encontrar a loja');
