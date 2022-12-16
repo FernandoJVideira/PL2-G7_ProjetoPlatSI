@@ -79,7 +79,7 @@ class Carrinho extends \yii\db\ActiveRecord
      */
     public function getLinhaCarrinhos()
     {
-        return $this->hasMany(LinhaCarrinho::class, ['id_carrinho' => 'idCarrinho']);
+        return $this->hasMany(LinhaCarrinho::class, ['id_carrinho' => 'idCarrinho'])->where(['estado' => '0']);
     }
 
     /**
@@ -144,5 +144,10 @@ class Carrinho extends \yii\db\ActiveRecord
         }
 
         return $totalIva;
+    }
+
+    public function getNumLinhas()
+    {
+        return count($this->linhaCarrinhos);
     }
 }

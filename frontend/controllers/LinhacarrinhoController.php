@@ -5,6 +5,8 @@ namespace frontend\controllers;
 use common\models\Carrinho;
 use common\models\Linhacarrinho;
 use common\models\LinhacarrinhoSearch;
+use common\models\Produto;
+use common\models\Stock;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -31,23 +33,6 @@ class LinhacarrinhoController extends Controller
             ]
         );
     }
-
-    /**
-     * Lists all Linhacarrinho models.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        $searchModel = new LinhacarrinhoSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
     /**
      * Displays a single Linhacarrinho model.
      * @param int $idLinha Id Linha
@@ -77,26 +62,26 @@ class LinhacarrinhoController extends Controller
             $carrinho->id_user = \Yii::$app->user->identity->id;
             $carrinho->estado = 0;
             $carrinho->save();
-        } else {
-            $carrinho = $carrinho;
         }
 
         //verificar se existe linha de carrinho com o produto
         $verifyLinha = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->idCarrinho])->andWhere(['id_produto' => $idProduto])->one();
+        $produto = Produto::find()->where(['idProduto' => $idProduto])->one();
 
-        if ($verifyLinha == null) {
-            $model = new Linhacarrinho();
-            $model->id_carrinho = $carrinho->idCarrinho;
-            $model->id_produto = $idProduto;
-            $model->quantidade = 1;
+        if($produto->ativo != 0){
+            if ($verifyLinha == null) {
+                $model = new Linhacarrinho();
+                $model->id_carrinho = $carrinho->idCarrinho;
+                $model->id_produto = $idProduto;
+                $model->quantidade = 1;
 
-            if ($model->save()) {
-                return $this->redirect(['carrinho/view']);
+                $model->save() ? $this->redirect(['carrinho/view']) : \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
+
             } else {
-                \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
+                $this->redirect(['linhacarrinho/add', 'idLinha' => $verifyLinha['idLinha']]);
             }
-        } else {
-            $this->redirect(['linhacarrinho/add', 'idLinha' => $verifyLinha['idLinha']]);
+        }else{
+            \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, o produto não está disponível.');
         }
     }
 
@@ -121,11 +106,14 @@ class LinhacarrinhoController extends Controller
         $carrinho = $linha->carrinho;
 
         $linha->delete();
-        if (count($carrinho->linhaCarrinhos) == 0) {
+
+        if ($carrinho->numlinhas == 0) {
+
             $carrinho->delete();
             \Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
             return $this->redirect(['site/index']);
         }
+
         return $this->redirect(['carrinho/view']);
     }
 

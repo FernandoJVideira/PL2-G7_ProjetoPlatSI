@@ -4,14 +4,15 @@ use common\models\Linhacarrinho;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\grid\ActionColumn;
+use yii\widgets\ActiveForm;
+use kartik\dialog\Dialog;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var common\models\Carrinho $model */
 
-//$this->params['breadcrumbs'][] = ['label' => 'Carrinhos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+
 ?>
 <!-- Cart Start -->
 <div class="container-fluid">
@@ -29,7 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     </tr>
                 </thead>
                 <tbody class="align-middle">
-                    <?php foreach ($model->linhaCarrinhos as $linhaCarrinho) { ?>
+                    <?php foreach ($model->linhaCarrinhos as $linhaCarrinho) {
+
+                        //FIXME: Image do produto
+                    ?>
                         <tr>
                             <td class="align-middle"><img src="img/product-1.jpg" alt="" style="width: 50px;"> <?= $linhaCarrinho->produto->nome ?></td>
                             <td class="align-middle"><?= $linhaCarrinho->produto->preco_unit . "€" ?></td>
@@ -85,11 +89,33 @@ $this->params['breadcrumbs'][] = $this->title;
                         <h5>Total</h5>
                         <h5><?= $model->total . "€" ?></h5>
                     </div>
-
-                    <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                    <p>
+                    <form method="GET" action="checkout">
+                        <input type="hidden" name="idCarrinho" value="<?= $model->idCarrinho ?>" />
+                        <label for="store">Lojas:</label>
+                        <select id="idLoja" name="idLoja">
+                            <?php foreach (\common\models\Loja::find()->where('ativo = 1')->all() as $store) { ?>
+                                <option value="<?= $store->idLoja ?>" <?= $store->idLoja == ($_GET['idLoja'] ?? null) ? 'selected' : '' ?>><?= $store->descricao ?></option>
+                            <?php } ?>
+                        </select>
+                        <button type="submit" id="btn-alert" class="btn btn-block btn-primary font-weight-bold my-3 py-3"/>Proceed to Checkout</button>
+                    </form>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Cart End -->
+
+<?php
+$js = <<< JS
+$("#btn-alert").on("click", function() {
+    krajeeDialog.alert("This is a Krajee Dialog Alert!")
+}); 
+
+JS;
+
+$this->registerJs($js);
+
+?>
