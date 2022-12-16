@@ -114,4 +114,6 @@ class Produto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Stock::class, ['id_produto' => 'idProduto']);
     }
+
+  
 }

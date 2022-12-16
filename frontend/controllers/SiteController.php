@@ -11,11 +11,20 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\Loja;
+use common\models\Produto;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\User;
+use yii\data\ActiveDataProvider;
+
+use function PHPUnit\Framework\containsEqual;
+
+;
+
+
 
 /**
  * Site controller
@@ -75,8 +84,21 @@ class SiteController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
-        return $this->render('index');
+    {   
+        $model1 = Produto::find()->asArray()->all(); 
+
+        //para nao gerar randomicamente com posicao do array a 0
+        do{
+            $a= 0;
+            $model2 = array_rand($model1,3); // get 3 random items 
+        }while(in_array($a , $model2,false));
+        
+
+        $model = [Produto::findOne($model2[0]),Produto::findOne($model2[1]),Produto::findOne($model2[2])];
+
+    
+        
+        return $this->render('index',['model' => $model]);
     }
 
     /**
@@ -111,7 +133,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
+        
         return $this->goHome();
     }
 
@@ -145,6 +167,7 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        
         return $this->render('about');
     }
 
@@ -264,4 +287,107 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
+    public function actionProdutos(){
+        $model = Produto::find()->andwhere(['ativo'=> 1 ]);
+
+        if(isset($_GET['input']))
+            $model->andFilterWhere(['like', 'nome', $_GET['input']]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model,
+            'pagination' => [
+                'pageSize' => 9,   
+            ],
+        ]);
+       
+        // -----Paginação------
+        /*
+        $countQuery = $query->count();
+        $pages = new Pagination(['totalCount' => $countQuery]);
+
+        
+        $model = $query->offset($pages->offset)
+            ->limit($pages->pageSize = 9) // Costum pagination limit 
+            ->all();
+          */  
+        //--------------
+        
+        return $this->render('Produtos',[   
+            'model' => $model, 
+            'listDataProvider' => $dataProvider 
+        ]);
+    }
+
+    public function actionAplicacao(){
+
+        return $this->render('Aplicacao',[
+        ]);
+    }
+
+    public function actionDetalhes($id){
+        $model = Produto::findOne($id);
+        
+        return $this->render('Detalhes',[
+            'model'=>$model
+        ]);
+    }
+
+    public function actionNovidades(){
+
+        // por data 
+        
+        $Produtos_Ordem_Decrescente = Produto::find()->where(['ativo'=> 1])->orderBy(['dataCriacao'=>SORT_DESC])->limit(9)->all();
+
+        // Mandas o 9 ultimos
+
+        $ArrayModel =  $Produtos_Ordem_Decrescente;
+
+        
+        return $this->render('Novidades',[
+            'model' => $ArrayModel      
+        ]);
+
+
+    }//poggers
+
+    public function actionLojas(){
+        $model = Loja::find()->where(['ativo' => 1])->all();
+
+       
+        return $this->render('Lojas',[
+            'model'=>$model 
+        ]);
+    }
+
+    public function actionTipo($id){
+
+     
+        $model = Produto::find()->where(['ativo'=> 1, 'id_categoria' => $id])->one();
+         
+/*         //--- Pagination 
+        $countQuery = $model->count();
+        $pages = new Pagination(['totalCount' => $countQuery]);
+
+        
+        $model = $model->offset($pages->offset)
+            ->limit($pages->pageSize = 9) // Costum pagination limit 
+            ->all();
+
+        //------- */
+        $dataProvider = new ActiveDataProvider([
+            'query' =>  Produto::find()->where(['ativo'=> 1, 'id_categoria' => $id]),
+            'pagination' => [
+                'pageSize' => 9,   
+            ],
+        ]);
+
+      
+        
+        return $this->render('Produtos',[
+            'model'=>$model,
+            'listDataProvider' => $dataProvider 
+        ]);
+    }
+
 }

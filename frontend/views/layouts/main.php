@@ -3,11 +3,13 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
+use common\models\Categoria;
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 
 AppAsset::register($this);
 ?>
@@ -28,8 +30,11 @@ AppAsset::register($this);
         }
         window.onload = bootstrap();
     </script>
+    <script type="text/javascript" src="../../web/js/main.js"></script>
+    <link rel="stylesheet" href="../../web/css/site.css">
+    <link rel="stylesheet" href="../../web/css/style.css">
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" >
 <?php $this->beginBody() ?>
 <header>
     <!-- Topbar Start -->
@@ -45,28 +50,43 @@ AppAsset::register($this);
           </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
-          <form action="">
-            <div class="input-group">
-              <input
+        <!--                                Barra de Pesquisa                               -->
+          <form method="GET" action="produtos" >
+            <div class="input-group"> 
+
+
+                
+              <input                 
                 type="text"
                 class="form-control"
+                name="input"
                 placeholder="Procurar produtos"
               />
-              <div class="input-group-append">
-                <span class="input-group-text bg-transparent text-primary">
-                  <i class="fa fa-search"></i>
+              
+ 
+               
+              <div  title="Precione Enter para fazer a pesquisa !" class="input-group-append ">
+                <span  class="input-group-text bg-transparent text-primary ">
+
+                    <i class="fa fa-search"></i> <!-- Talvez colocar uma informação referente ao Enter-->
                 </span>
               </div>
             </div>
+            
+            
           </form>
+
+        <!--                                                                                 -->
         </div>
         <div class="col-lg-4 col-6 text-right">
         </div>
       </div>
+    
     </div>
+   
     <!-- Topbar End -->
     <!-- Navbar Start -->
-    <div class="container-fluid bg-dark mb-30">
+    <div class="container-fluid bg-dark"> <!-- mb-30 -> Margin Bottom que tinha --> 
         <div class="row px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a class="btn d-flex align-items-center justify-content-between bg-primary w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; padding: 0 30px;">
@@ -75,7 +95,8 @@ AppAsset::register($this);
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                     <div class="navbar-nav w-100">
-                        <?php $this->beginContent('@frontend/views/layouts/_multiplos_itens.php', ['title' => 'Dresses', 'items' => ["Mens Dresses", "Women's Dresses", "Baby's Dresses"]]) ?><?php $this->endContent();?>
+                        <?php $this->beginContent('@frontend/views/layouts/_multiplos_itens.php', ['title' => 'Produtos', 'items' => ArrayHelper::map(Categoria::find()->where(['ativo'=> 1])->all(), 'idCategoria', 'nome')]) ?><?php $this->endContent();?>
+                        
                         <?= Html::a('Shirts',[''],['class' => ['nav-item nav-link']]) ?>
                         <?= Html::a('Jeans',[''],['class' => ['nav-item nav-link']]) ?>
                     </div>
@@ -93,9 +114,9 @@ AppAsset::register($this);
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
+                            <a href="../site/index" class="nav-item nav-link">Home</a>
+                            <a href="<?= Url::toRoute(['site/novidades']) ?>" class="nav-item nav-link">Novidades</a> <!-- Talvez Tirar -->
+                            <a href="<?= Url::toRoute(['site/lojas']) ?>" class="nav-item nav-link">Lojas</a> <!-- Talvez Tirar -->
                             <div class="nav-item dropdown d-lg-none">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Area Pessoal <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
@@ -108,7 +129,7 @@ AppAsset::register($this);
                                         echo Html::a('Logout', ['site/logout'], ['data-method' => 'post', 'class' => 'dropdown-item', 'style' => 'border-top: 1px solid #6c757d;']); ?>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="<?= Url::toRoute(['site/aplicacao']) ?>" class="nav-item nav-link">Stuff'N Go App</a> 
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             <a href="" class="btn px-0">
@@ -136,25 +157,36 @@ AppAsset::register($this);
 </header>
 
 <main role="main" class="flex-shrink-0">
-    <div class="container">
+    <div > <!-- Tinha class="cotainer" -->
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
+        
+    
         <?= $content ?>
+
     </div>
 </main>
 
 <!-- Footer Start -->
-<div class="container-fluid bg-dark text-secondary mt-5 pt-5">
+<div class="container-fluid bg-dark text-secondary  pt-5">
         <div class="row px-xl-5 pt-5">
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
                 <h5 class="text-secondary text-uppercase mb-4">Acessos Rápidos</h5>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Produtos</a>
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Lojas</a>
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Aplicação</a>
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Novidades</a>
+                    <div style="padding-bottom:10px">
+                    <?php echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-angle-right mr-2']) . HTML::tag('span', 'Produtos', ['class' => 'text-secondary mb-2']), ['site/produtos'])?>
+                    </div>
+                    <div style="padding-bottom:10px">
+                    <?php echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-angle-right mr-2']) . HTML::tag('span', 'Lojas', ['class' => 'text-secondary mb-2']), ['site/lojas'])?>
+                    </div>
+                    <div style="padding-bottom:10px">
+                    <?php echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-angle-right mr-2']) . HTML::tag('span', 'Aplicação Mobile', ['class' => 'text-secondary mb-2']), ['site/aplicacao'])?>
+                    </div>
+                    <div style="padding-bottom:10px">
+                    <?php echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-angle-right mr-2']) . HTML::tag('span', 'Novidades', ['class' => 'text-secondary mb-2']), ['site/novidades'])?>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-8 col-md-12">

@@ -25,7 +25,8 @@
     "yiisoft/yii2-symfonymailer": "~2.0.3",
     "hail812/yii2-adminlte3": "~1.1",
     "kartik-v/yii2-detail-view": "dev-master",
-    "kartik-v/yii2-widgets": "dev-master"
+    "kartik-v/yii2-widgets": "dev-master",
+    "justinvoelker/yii2-separatedpager": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

@@ -99,6 +99,34 @@
         }
         button.parent().parent().find('input').val(newVal);
     });
-    
+
 })(jQuery);
+
+var slider_img = document.querySelector('.slider-img');
+var figcaption_img = document.querySelector('.figcaption');
+
+var images = ['banner1.png', 'banner2.png', 'banner3.png'];
+var figcaption=['Descubra os produto deste Natal.','Chocolate, Tão Doce !','Leva a magia para junto dos seus.'];
+var i = 0;
+
+function prev(){
+	if(i <= 0) i = images.length;	
+	i--;
+	return setImg(),setCap() ;				 
+}
+
+function next(){
+	if(i >= images.length-1) i = -1;
+	i++;
+	return setImg(),setCap() ;			 
+}
+
+function setImg(){
+	return slider_img.setAttribute('src', "../../Imgs/"+ images[i]);    	
+}
+
+function setCap(){
+	return figcaption_img.innerHTML = figcaption[i] ; 
+	
+}
 

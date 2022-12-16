@@ -67,7 +67,7 @@ class Loja extends \yii\db\ActiveRecord
             'email' => 'Email',
             'telefone' => 'Telefone',
             'ativo' => 'Ativo',
-            'id_morada' => 'Id Morada',
+            'id_morada' => 'Morada', //Id Morada
         ];
     }
 
