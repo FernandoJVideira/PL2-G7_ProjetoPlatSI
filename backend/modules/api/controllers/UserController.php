@@ -28,6 +28,7 @@ class UserController extends ActiveController
     /**
      * @throws ForbiddenHttpException
      */
+
     public function auth($username, $password)
     {
         $this->user = User::findByUsername($username);
@@ -41,7 +42,6 @@ class UserController extends ActiveController
 
     public function actionLogin()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $this->user->auth_key;
+        return $this->user;
     }
 }
