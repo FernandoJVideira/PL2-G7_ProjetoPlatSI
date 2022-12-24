@@ -113,4 +113,9 @@ class Categoria extends \yii\db\ActiveRecord
     {
         return $this->ativo ? 'Ativo' : 'Inativo';
     }
+
+    public static function getSubCategorias($idCategoria)
+    {
+        return Categoria::find()->andWhere(['ativo' => 1])->andwhere(['id_categoria' => $idCategoria])->all();
+    }
 }

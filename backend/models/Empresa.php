@@ -56,7 +56,7 @@ class Empresa extends \yii\db\ActiveRecord
             'email' => 'Email',
             'telefone' => 'Telefone',
             'nif' => 'Nif',
-            'id_morada' => 'Id Morada',
+            'id_morada' => 'Morada', // Id Morada
         ];
     }
 

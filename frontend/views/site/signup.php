@@ -12,11 +12,12 @@ $this->title = 'Signup';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br>
+    <h1 style="padding-left:10px;"><?= Html::encode($this->title) ?></h1>
     <br>
     <!-- Checkout Start -->
-        <div class="row px-xl-5">
-            <div class="col-lg-8">
+        <div class="row px-xl-5 d-flex">
+            <div class="col-lg-8 mx-auto">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Dados pessoais</span></h5>
                 <div class="p-30 mb-5">
                     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
