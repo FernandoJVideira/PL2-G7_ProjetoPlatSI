@@ -16,11 +16,9 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
-
     public $nome;
     public $telemovel;
     public $nif;
-
     public $morada;
     public $pais;
     public $cidade;

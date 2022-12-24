@@ -5,13 +5,13 @@
     $(document).ready(function () {
         function toggleNavbarMethod() {
             if ($(window).width() > 992) {
-                $('.navbar .dropdown').on('mouseover', function () {
-                    $('.dropdown-toggle', this).trigger('click');
-                }).on('mouseout', function () {
-                    $('.dropdown-toggle', this).trigger('click').blur();
+                $(".navbar .dropdown").on("mouseover", function () {
+                    $(".dropdown-toggle", this).trigger("click");
+                }).on("mouseout", function () {
+                    $(".dropdown-toggle", this).trigger("click").blur();
                 });
             } else {
-                $('.navbar .dropdown').off('mouseover').off('mouseout');
+                $(".navbar .dropdown").off("mouseover").off("mouseout");
             }
         }
         toggleNavbarMethod();
@@ -61,7 +61,7 @@
 
 
     // Related carousel
-    $('.related-carousel').owlCarousel({
+    $(".related-carousel").owlCarousel({
         loop: true,
         margin: 29,
         nav: false,
@@ -97,7 +97,7 @@
                 newVal = 0;
             }
         }
-        button.parent().parent().find('input').val(newVal);
+        button.parent().parent().find("input").val(newVal);
     });
 
 })(jQuery);
@@ -110,23 +110,23 @@ var figcaption=['Descubra os produto deste Natal.','Chocolate, Tão Doce !','Lev
 var i = 0;
 
 function prev(){
-	if(i <= 0) i = images.length;	
+	if(i <= 0) i = images.length;
 	i--;
-	return setImg(),setCap() ;				 
+	return setImg(),setCap() ;
 }
 
 function next(){
 	if(i >= images.length-1) i = -1;
 	i++;
-	return setImg(),setCap() ;			 
+	return setImg(),setCap() ;
 }
 
 function setImg(){
-	return slider_img.setAttribute('src', "../../Imgs/"+ images[i]);    	
+	return slider_img.setAttribute('src', "../../Imgs/"+ images[i]);
 }
 
 function setCap(){
-	return figcaption_img.innerHTML = figcaption[i] ; 
-	
+	return figcaption_img.innerHTML = figcaption[i] ;
+
 }
 

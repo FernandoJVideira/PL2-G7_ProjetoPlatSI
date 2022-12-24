@@ -84,21 +84,14 @@ class SiteController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {   
-        $model1 = Produto::find()->asArray()->all(); 
+    {
+        $max = Produto::find()->count();
 
-        //para nao gerar randomicamente com posicao do array a 0
-        do{
-            $a= 0;
-            $model2 = array_rand($model1,3); // get 3 random items 
-        }while(in_array($a , $model2,false));
-        
+        $offset = rand(0, $max) - 3;
 
-        $model = [Produto::findOne($model2[0]),Produto::findOne($model2[1]),Produto::findOne($model2[2])];
+        $models = Produto::find()->offset($offset)->limit(3)->all();
 
-    
-        
-        return $this->render('index',['model' => $model]);
+        return $this->render('index',['models' => $models]);
     }
 
     /**
@@ -300,35 +293,25 @@ class SiteController extends Controller
                 'pageSize' => 9,   
             ],
         ]);
-       
-        // -----Paginação------
-        /*
-        $countQuery = $query->count();
-        $pages = new Pagination(['totalCount' => $countQuery]);
-
         
-        $model = $query->offset($pages->offset)
-            ->limit($pages->pageSize = 9) // Costum pagination limit 
-            ->all();
-          */  
-        //--------------
-        
-        return $this->render('Produtos',[   
+        return $this->render('produtos',[
             'model' => $model, 
             'listDataProvider' => $dataProvider 
         ]);
     }
 
     public function actionAplicacao(){
-
-        return $this->render('Aplicacao',[
+        return $this->render('aplicacao',[
         ]);
     }
 
-    public function actionDetalhes($id){
+    public function actionDetalhes($id = null){
         $model = Produto::findOne($id);
+
+        if($id == null || $model == null)
+            return $this->redirect(['site/produtos']);
         
-        return $this->render('Detalhes',[
+        return $this->render('detalhes',[
             'model'=>$model
         ]);
     }
@@ -344,7 +327,7 @@ class SiteController extends Controller
         $ArrayModel =  $Produtos_Ordem_Decrescente;
 
         
-        return $this->render('Novidades',[
+        return $this->render('novidades',[
             'model' => $ArrayModel      
         ]);
 
@@ -354,27 +337,17 @@ class SiteController extends Controller
     public function actionLojas(){
         $model = Loja::find()->where(['ativo' => 1])->all();
 
-       
-        return $this->render('Lojas',[
-            'model'=>$model 
+        return $this->render('lojas',[
+            'model' => $model
         ]);
     }
 
-    public function actionTipo($id){
-
-     
+    public function actionTipo($id = null){
         $model = Produto::find()->where(['ativo'=> 1, 'id_categoria' => $id])->one();
-         
-/*         //--- Pagination 
-        $countQuery = $model->count();
-        $pages = new Pagination(['totalCount' => $countQuery]);
 
-        
-        $model = $model->offset($pages->offset)
-            ->limit($pages->pageSize = 9) // Costum pagination limit 
-            ->all();
+        if(!isset($model) || $id == null)
+            return $this->redirect(['site/produtos']);
 
-        //------- */
         $dataProvider = new ActiveDataProvider([
             'query' =>  Produto::find()->where(['ativo'=> 1, 'id_categoria' => $id]),
             'pagination' => [
@@ -382,12 +355,9 @@ class SiteController extends Controller
             ],
         ]);
 
-      
-        
-        return $this->render('Produtos',[
+        return $this->render('produtos',[
             'model'=>$model,
             'listDataProvider' => $dataProvider 
         ]);
     }
-
 }

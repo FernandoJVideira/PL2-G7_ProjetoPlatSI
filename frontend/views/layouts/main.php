@@ -8,6 +8,7 @@ use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
+use yii\bootstrap5\Nav;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 
@@ -52,38 +53,26 @@ AppAsset::register($this);
         <div class="col-lg-4 col-6 text-left">
         <!--                                Barra de Pesquisa                               -->
           <form method="GET" action="produtos" >
-            <div class="input-group"> 
-
-
-                
+            <div class="input-group">
               <input                 
                 type="text"
                 class="form-control"
                 name="input"
                 placeholder="Procurar produtos"
+                style="height:40px"
               />
-              
- 
-               
-              <div  title="Precione Enter para fazer a pesquisa !" class="input-group-append ">
-                <span  class="input-group-text bg-transparent text-primary ">
-
-                    <i class="fa fa-search"></i> <!-- Talvez colocar uma informação referente ao Enter-->
+              <div title="Enter para pesquisar!" class="input-group-append">
+                <span  class="input-group-text bg-transparent text-primary" style="padding: 0">
+                    <button class="btn"><i class="fa fa-search"></i></button>
                 </span>
               </div>
             </div>
-            
-            
           </form>
-
-        <!--                                                                                 -->
         </div>
         <div class="col-lg-4 col-6 text-right">
         </div>
       </div>
-    
     </div>
-   
     <!-- Topbar End -->
     <!-- Navbar Start -->
     <div class="container-fluid bg-dark"> <!-- mb-30 -> Margin Bottom que tinha --> 
@@ -95,10 +84,7 @@ AppAsset::register($this);
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                     <div class="navbar-nav w-100">
-                        <?php $this->beginContent('@frontend/views/layouts/_multiplos_itens.php', ['title' => 'Produtos', 'items' => ArrayHelper::map(Categoria::find()->where(['ativo'=> 1])->all(), 'idCategoria', 'nome')]) ?><?php $this->endContent();?>
-                        
-                        <?= Html::a('Shirts',[''],['class' => ['nav-item nav-link']]) ?>
-                        <?= Html::a('Jeans',[''],['class' => ['nav-item nav-link']]) ?>
+                        <?php $this->beginContent('@frontend/views/layouts/_multiplos_itens.php'); $this->endContent();?>
                     </div>
                 </nav>
             </div>
@@ -115,8 +101,7 @@ AppAsset::register($this);
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="../site/index" class="nav-item nav-link">Home</a>
-                            <a href="<?= Url::toRoute(['site/novidades']) ?>" class="nav-item nav-link">Novidades</a> <!-- Talvez Tirar -->
-                            <a href="<?= Url::toRoute(['site/lojas']) ?>" class="nav-item nav-link">Lojas</a> <!-- Talvez Tirar -->
+                            <a href="<?= Url::toRoute(['site/produtos']) ?>" class="nav-item nav-link">Produtos</a>
                             <div class="nav-item dropdown d-lg-none">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Area Pessoal <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
@@ -156,8 +141,8 @@ AppAsset::register($this);
     <!-- Navbar End -->
 </header>
 
-<main role="main" class="flex-shrink-0">
-    <div > <!-- Tinha class="cotainer" -->
+<main role="main" class="flex-shrink-0" style="padding-bottom:130px;">
+    <div> <!-- Tinha class="cotainer" -->
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

@@ -11,7 +11,6 @@ $this->title = "Stuff n' Go";
           padding-left:150px;
           background-size:100%;
           background-color:papayawhip">
-
      <div style="display: flex;">
           <div style="width:75%;
                          padding-left:50px">
@@ -22,11 +21,7 @@ $this->title = "Stuff n' Go";
                     Encontre o que procura <br> de forma rápida, fácil e cómoda.
                </h4>
           </div>
-          <div>
-               <!-- Talvez Colocar uma imagem na seccao -->
-          </div>
      </div>
-
 </div>
 <div style="
           padding-bottom:150px;
@@ -34,12 +29,9 @@ $this->title = "Stuff n' Go";
           padding-left:150px;
           background-size:100%;
           background-color:#FFD333">
-
-
      <div style="display: flex;
                     text-align:end">
           <div>
-               <!-- Talvez Colocar uma imagem na seccao -->
                <img style="width:20vw;
                height:40vh "src="../../Imgs/Rick_roll_meme.png" alt="">
           </div>
@@ -51,13 +43,10 @@ $this->title = "Stuff n' Go";
                font-size:x-large
                ">
                     Nunca foi tão fácil encontrar os seus produtos <br>
-                    utilize a pesquisa por código de barras disponível <br> em exclusivo na App.
+                    utilize a pesquisa por QRcode disponível <br> em exclusivo na App.
                </h4>
           </div>
-
      </div>
-
-
 </div>
 <div style="
           
@@ -65,7 +54,6 @@ $this->title = "Stuff n' Go";
           padding-top:100px;
           background-size:100%;
           background-color:darkgrey">
-
      <div style="display: flex;">
           <div style="width:60%;
                          padding-left:75px">
@@ -80,12 +68,9 @@ $this->title = "Stuff n' Go";
                </h4>
           </div>
           <div>
-               <!-- Talvez Colocar uma imagem na seccao -->
                <img style="padding-left:100px; width:500px;height:400px" src="../../Imgs/pngegg (2).png" alt="">
-
           </div>
      </div>
-
 </div>
 <div style="
           
@@ -93,17 +78,12 @@ $this->title = "Stuff n' Go";
           padding-top:100px;
           background-size:100%;
           background-color:aliceblue">
-
      <div style="display: flex;
      text-align:end">
-
           <div>
-               <!-- Talvez Colocar uma imagem na seccao -->
                <img style="padding-left:200px; width:500px;height:350px" src="../../Imgs/pngegg.png" alt="">
           </div>
-
           <div style="width:63%;">
-
                <h1 style="font-size:xxx-large;">
                TIRE A SUA SENHA DIGITAL
                </h1>
@@ -113,43 +93,30 @@ $this->title = "Stuff n' Go";
                ">
                     Reserve a sua vez mesmo não estando no local <br> de forma a economizar tempo.
                </h4>
-
           </div>
-          
      </div>
-
 </div>
 <div style="
           padding-bottom:100px;
           padding-top:100px;
           background-size:100%;
           background-color:lightblue">
-
      <div style="display: flex;">
           <div style="width:60%;
                          padding-left:75px">
                <h1 style="font-size:xxx-large;">
-               GANHE COPÕES DE DESCONTO
+               GANHE CUPÕES DE DESCONTO
                </h1>
                <br>
                <h4 style="font-size:x-large;
                padding-left:25px
                ">
-                    Utilize a aplicação e tenha a oportunidade <br> de receber copões de descotno. 
+                    Utilize a aplicação e tenha a oportunidade <br> de receber cupões de descotno.
                </h4>
           </div>
           <div>
-               <!-- Talvez Colocar uma imagem na seccao -->
                <img style="padding-left:100px; width:600px;height:400px" src="../../Imgs/produtos-com-desconto-boa-ou-ma-ideia-1000x640.png" alt="">
 
           </div>
      </div>
-
 </div>
-
-<!-- Carrinho ????-->
-<!-- Carrinho ????-->
-<!-- Carrinho ????-->
-<!-- Carrinho ????-->
-<!-- Carrinho ????-->
-<!-- Carrinho ????-->

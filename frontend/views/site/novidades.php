@@ -7,7 +7,6 @@ $this->title = "Stuff n' Go";
   // $this->params['breadcrumbs'][] = ['label' =>'Produtos'];
 ?>
 <div style="margin-bottom:100px;padding-top:50px" class="site-index">
-
     <h1 style="text-align:center"> Novidades </h1>
     <br>
     <div class="container">
@@ -20,37 +19,24 @@ $this->title = "Stuff n' Go";
         <div class="container">
             <div class="row row-cols-3">
                 <?php foreach ($model as $model) { ?>
-
                     <!-- Colocar link para Página de Detalhes-->
                     <a style="<?php //if (!($model->idProduto % 3) == 0) {
                                         //echo "border-right:1px #FFD333 groove;";
-                                    //} ?>;padding:30px;margin-bottom:30px"
-                                    href="<?= URL::toRoute(['site/detalhes', 'id'=>$model->idProduto]) ?>">
-
+                                    //} ?>;padding:30px;margin-bottom:30px" href="<?= URL::toRoute(['site/detalhes', 'id'=>$model->idProduto]) ?>">
                     <div class="card" onmouseover="style='width: 18rem; box-shadow: -4px -3px 15px 10px rgba(0,0,0,0.06);'" onmouseout="style='width: 18rem;background-color:white;'" style="width: 18rem;background-color:white;">
                         <div style="margin-top:3vh;" class="col ">
-                            
                             <div style="height:30vh; width:16vw;">
-                                                                <!-- object-fit:cover -->
+                                <!-- object-fit:cover -->
                                 <img style="height:20vh;width:200px;margin-left:25px" class="card-img-top"  src="../../Imgs/StickMan_Running.png" alt="<?= $model->imagem ?>">
                             </div>
                             <div class="card-title">
                                 <b> <span style="color:black"><?= $model->nome ?></span> <span style="float:right; margin-right:20px; color:#FFD333">€<?= $model->preco_unit ?>/unit</span> </b>
                                 <br>
                                 <p style="color:black;opacity:70%"><?= $model->categoria->nome ?></p>
-
                             </div>
-
                         </div>
                     </div>
                     </a>
-                    <!-- <?php /* if ($model->idProduto % 3 == 0) {
-                        echo "<div style='border-top:1px #FFD333 groove'></div>";
-                        echo "<div style='border-top:1px #FFD333 groove'></div>";
-                        echo "<div style='border-top:1px #FFD333 groove'></div>";
-                        echo "<br>";
-                    } */
-                    ?> -->
                 <?php } ?>
             </div>
         </div>
