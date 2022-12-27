@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\Empresa;
 use backend\models\EmpresaSearch;
 use common\models\Morada;
+use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -23,12 +24,8 @@ class EmpresaController extends BaseAuthController
      */
     public function actionIndex()
     {
-
-        if (!\Yii::$app->user->can('viewEmpresa')) {
-            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
-        }
+        if (!Yii::$app->user->can('viewEmpresa'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $searchModel = new EmpresaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -47,11 +44,8 @@ class EmpresaController extends BaseAuthController
      */
     public function actionView($idEmpresa)
     {
-        if (!\Yii::$app->user->can('viewEmpresa')) {
-            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
-        }
+        if (!Yii::$app->user->can('viewEmpresa'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $model = $this->findModel($idEmpresa);
         $modelMorada = Morada::findOne($model->id_morada);
@@ -71,11 +65,8 @@ class EmpresaController extends BaseAuthController
      */
     public function actionUpdate($idEmpresa)
     {
-        if (!\Yii::$app->user->can('updateDadosEmpresa')) {
-            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
-        }
+        if (!Yii::$app->user->can('updateDadosEmpresa'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $model = $this->findModel($idEmpresa);
         $morada = $model->morada;

@@ -23,46 +23,28 @@ class BaseAuthController extends Controller
                             'allow' => true,
                         ],
                         [
-                            'controllers' => ['categoria', 'produto', 'iva', 'loja'],
+                            'controllers' => [],
                             'actions' => [],
                             'allow' => true,
-                            'roles' => ['Admin'],
+                            'roles' => ['Admin', 'Gestor'],
                         ],
                         [
                             'controllers' => ['empresa'],
-                            'actions' => ['index', 'view', 'update'],
-                            'allow' => true,
-                            'roles' => ['Admin'],
+                            'actions' => ['update'],
+                            'allow' => false,
+                            'roles' => ['Gestor'],
                         ],
                         [
-                            'controllers' => ['morada', 'site'],
+                            'controllers' => ['morada', 'site', 'utilizador', 'seccao', 'user', 'stock'],
                             'actions' => [],
                             'allow' => true,
-                            'roles' => ['Admin','Gestor', 'Funcionario'],
-                        ],
-                        [
-                            'controllers' => ['stock'],
-                            'actions' => ['index', 'view', 'create'],
-                            'allow' => true,
-                            'roles' => ['Admin','Gestor', 'Funcionario'],
+                            'roles' => ['Funcionario'],
                         ],
                         [
                             'controllers' => ['stock'],
                             'actions' => ['update'],
-                            'allow' => true,
-                            'roles' => ['Admin','Gestor'],
-                        ],
-                        [
-                            'controllers' => ['user'],
-                            'actions' => ['create', 'update', 'delete'],
-                            'allow' => true,
-                            'roles' => ['Admin','Gestor', 'Funcionario'],
-                        ],
-                        [
-                            'controllers' => ['utilizador'],
-                            'actions' => [],
-                            'allow' => true,
-                            'roles' => ['Admin','Gestor', 'Funcionario'],
+                            'allow' => false,
+                            'roles' => ['Funcionario'],
                         ],
                     ],
                 ],
@@ -79,8 +61,7 @@ class BaseAuthController extends Controller
 
     public function showMessage($string, $type = 'error'){
         Yii::$app->session->setFlash($type, $string);
-        $this->redirect(['site/index']);
-        return null;
+        $this->redirect(['site/index'])->send();
     }
 
 }
