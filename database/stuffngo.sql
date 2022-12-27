@@ -51,7 +51,7 @@ CREATE TABLE `utilizador` (
 
 CREATE TABLE `carrinho` (
   `idCarrinho` int PRIMARY KEY AUTO_INCREMENT,
-  `estado` boolean DEFAULT 0,
+  `estado` enum('aberto','emProcessamento', 'fechado') DEFAULT 'aberto',
   `data_criacao` datetime DEFAULT CURRENT_TIMESTAMP,
   `id_morada` int,
   `id_loja` int,
