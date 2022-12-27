@@ -13,22 +13,26 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row px-xl-5">
-        <div class="col-lg-8">
-            <div class="p-30 mb-5">
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <?= $form->field($model, 'iva')->textInput() ?>
+        <div class="card mx-auto" style="width: 50rem;">
+            <div class="card-body">
+                <div class=" mx-auto">
+                    <div class="p-30 mb-5">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <?= $form->field($model, 'iva')->textInput() ?>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <?= $form->field($model, 'ativo')->dropDownList(['1' => 'Ativo', '0' => 'Inativo']) ?>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 form-group">
-                        <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <?= $form->field($model, 'ativo')->dropDownList(['1' => 'Ativo', '0' => 'Inativo']) ?>
+                    <div class="form-group">
+                        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
             </div>
         </div>
     </div>

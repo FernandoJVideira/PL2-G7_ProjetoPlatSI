@@ -16,9 +16,11 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row px-xl-5">
-        <div class="col-lg-8">
-            <div class="p-30 mb-5">
-                <div class="row">
+        <div class="card mx-auto" style="width: 50rem;">
+            <div class="card-body">
+                <div class=" mx-auto">
+                    <div class="p-30 mb-5">
+                        <div class="row">
                     <div class="col-md-6 form-group">
                         <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
                     </div>
@@ -35,6 +37,8 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="form-group">
                 <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+            </div>
+                </div>
             </div>
         </div>
     </div>

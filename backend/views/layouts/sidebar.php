@@ -42,14 +42,15 @@
                         'visible' => Yii::$app->user->can('viewEmpresa'),
                     ],
                     [
-                        'label' => 'Gestão de Lojas Geral',
+                        'label' => 'Gestão Geral de Lojas',
                         'icon' => 'fas fa-store',
                         'items' => [
-                            ['label' => 'Lojas', 'url' => ['loja/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createLoja')],
-                            ['label' => 'Ivas', 'url' => ['iva/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createIva')],
-                            ['label' => 'Categorias', 'url' => ['categoria/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createCategoria')],
-                            ['label' => 'Produtos', 'url' => ['produto/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createProduto')],
-
+                            ['label' => 'Lojas', 'url' => ['loja/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createLoja'), 'active' => Yii::$app->controller->id == 'loja'],
+                            ['label' => 'Secções', 'url' => ['seccao/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createSeccao'), 'active' => Yii::$app->controller->id == 'seccao'],
+                            ['label' => 'Métodos de pagamento', 'url' => ['metodopagamento/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createMetodoPagamento'), 'active' => Yii::$app->controller->id == 'metodopagamento'],
+                            ['label' => 'Ivas', 'url' => ['iva/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createIva'), 'active' => Yii::$app->controller->id == 'iva'],
+                            ['label' => 'Categorias', 'url' => ['categoria/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createCategoria'), 'active' => Yii::$app->controller->id == 'categoria'],
+                            ['label' => 'Produtos', 'url' => ['produto/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createProduto'), 'active' => Yii::$app->controller->id == 'produto'],
                         ],
                         'visible' => isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Admin']),
                     ],
@@ -57,6 +58,11 @@
                         'label' => 'Gestão de Loja',
                         'icon' => 'far fa-boxes',
                         'items' => [
+                            ['label' => 'Gestão geral da loja', 'url' => ['gestao/index',
+                                'idLoja' => \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? \common\models\Loja::find()->where('ativo = 1')->one()->idLoja],
+                                'iconStyle' => 'far',
+                                'active' => Yii::$app->controller->id == 'gestao',
+                            ],
                             ['label' => 'Gestão de stock', 'url' => ['stock/index',
                                 'idLoja' => \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? \common\models\Loja::find()->where('ativo = 1')->one()->idLoja],
                                 'iconStyle' => 'far',

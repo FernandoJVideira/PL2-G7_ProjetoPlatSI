@@ -13,26 +13,8 @@ use yii\filters\VerbFilter;
 /**
  * CategoriaController implements the CRUD actions for Categoria model.
  */
-class CategoriaController extends Controller
+class CategoriaController extends BaseAuthController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
-
     /**
      * Lists all Categoria models.
      *
@@ -40,7 +22,8 @@ class CategoriaController extends Controller
      */
     public function actionIndex()
     {
-        Yii::$app->user->can('viewCategoria');
+        if(!Yii::$app->user->can('viewCategorias'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $searchModel = new CategoriaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -52,38 +35,22 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Displays a single Categoria model.
-     * @param int $idCategoria Id Categoria
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($idCategoria)
-    {
-        Yii::$app->user->can('viewCategoria');
-
-        return $this->render('view', [
-            'model' => $this->findModel($idCategoria),
-        ]);
-    }
-
-    /**
      * Creates a new Categoria model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        Yii::$app->user->can('createCategoria');
+        if(!Yii::$app->user->can('createCategoria'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $model = new Categoria();
-        
         $iva = Iva::find()->where(['ativo' => 1])->all();
-
         $categorias = Categoria::find()->where(['id_categoria'=>null])->all();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'idCategoria' => $model->idCategoria]);
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -106,14 +73,12 @@ class CategoriaController extends Controller
      */
     public function actionUpdate($idCategoria)
     {
-        Yii::$app->user->can('updateCategoria');
+        if(!Yii::$app->user->can('updateCategoria'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $model = $this->findModel($idCategoria);
-
         $iva = Iva::find()->where(['ativo' => 1])->all();
-
         $categorias = Categoria::find()->where(['id_categoria'=>null])->andWhere(['not',['idCategoria'=>$idCategoria]])->andWhere(['ativo'=>1])->all();
-
         $main = Categoria::find()->where(['not',['id_categoria'=>null]])->andWhere(['ativo'=>1])->groupBy('id_categoria')->all();
 
         if(isset($main)){

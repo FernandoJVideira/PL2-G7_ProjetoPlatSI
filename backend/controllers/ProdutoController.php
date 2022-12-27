@@ -17,28 +17,13 @@ use yii\web\UploadedFile;
 /**
  * ProdutoController implements the CRUD actions for Produto model.
  */
-class ProdutoController extends Controller
+class ProdutoController extends BaseAuthController
 {
     /**
      * @inheritDoc
      */
 
     public static string $path = '../../common/Images/';
-
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
 
     /**
      * Lists all Produto models.

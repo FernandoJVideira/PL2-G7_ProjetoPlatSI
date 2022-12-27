@@ -12,26 +12,8 @@ use yii\filters\VerbFilter;
 /**
  * IvaController implements the CRUD actions for Iva model.
  */
-class IvaController extends Controller
+class IvaController extends BaseAuthController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
-
     /**
      * Lists all Iva models.
      *
@@ -39,7 +21,8 @@ class IvaController extends Controller
      */
     public function actionIndex()
     {
-        Yii::$app->user->can('viewIva');
+        if(!Yii::$app->user->can('viewIva'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $searchModel = new IvaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -51,34 +34,20 @@ class IvaController extends Controller
     }
 
     /**
-     * Displays a single Iva model.
-     * @param int $idIva Id Iva
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($idIva)
-    {
-        Yii::$app->user->can('viewIva');
-
-        return $this->render('view', [
-            'model' => $this->findModel($idIva),
-        ]);
-    }
-
-    /**
      * Creates a new Iva model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        Yii::$app->user->can('createIva');
+        if(!Yii::$app->user->can('createIva'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $model = new Iva();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'idIva' => $model->idIva]);
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -98,7 +67,8 @@ class IvaController extends Controller
      */
     public function actionUpdate($idIva)
     {
-        Yii::$app->user->can('updateIva');
+        if(!Yii::$app->user->can('updateIva'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $model = $this->findModel($idIva);
 

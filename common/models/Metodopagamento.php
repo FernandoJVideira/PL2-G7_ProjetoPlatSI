@@ -22,7 +22,7 @@ class Metodopagamento extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'metodopagamento';
+        return 'metodoPagamento';
     }
 
     /**
@@ -36,7 +36,6 @@ class Metodopagamento extends \yii\db\ActiveRecord
             [['metodoPagamento'], 'string', 'max' => 255],
         ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -44,7 +43,7 @@ class Metodopagamento extends \yii\db\ActiveRecord
     {
         return [
             'idMetodo' => 'Id Metodo',
-            'metodoPagamento' => 'Metodo Pagamento',
+            'metodoPagamento' => 'Método de Pagamento',
             'ativo' => 'Ativo',
         ];
     }
@@ -66,7 +65,7 @@ class Metodopagamento extends \yii\db\ActiveRecord
      */
     public function getLojaIdLojas()
     {
-        return $this->hasMany(Loja::class, ['idLoja' => 'loja_idLoja'])->viaTable('loja_metodopagamento', ['metodoPagamento_idMetodo' => 'idMetodo']);
+        return $this->hasMany(Loja::class, ['idLoja' => 'loja_idLoja'])->viaTable('loja_metodoPagamento', ['metodoPagamento_idMetodo' => 'idMetodo']);
     }
 
     /**

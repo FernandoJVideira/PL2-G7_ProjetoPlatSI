@@ -78,6 +78,11 @@ class RbacController extends Controller
         $createMorada->description = 'Criar uma morada';
         $auth->add($createMorada);
 
+        //create a permission called createSeccao and add it to the authManager
+        $createSeccao = $auth->createPermission('createSeccao');
+        $createSeccao->description = 'Criar uma seccao';
+        $auth->add($createSeccao);
+
         /* Creating a permission called favoritos and adding it to the authManager. */
         $favoritos = $auth->createPermission('favoritos');
         $favoritos->description = 'Adicionar/Remover um produto aos favoritos';
@@ -228,6 +233,11 @@ class RbacController extends Controller
         $viewCategorias->description = 'Ver a listagem de todas as categorias';
         $auth->add($viewCategorias);
 
+        //create a permition called viewMetodoPagamento and adding it to the authManager
+        $viewMetodoPagamento = $auth->createPermission('viewMetodoPagamento');
+        $viewMetodoPagamento->description = 'Ver a listagem de todos os metodos de pagamento';
+        $auth->add($viewMetodoPagamento);
+
         //create a permition called viewOwn and adding it to the authManager
         $viewOwn = $auth->createPermission('viewOwn');
         $viewOwn->description = 'Ver os dados do proprio utilizador';
@@ -280,6 +290,11 @@ class RbacController extends Controller
         $deleteLoja->description = 'Remover uma loja';
         $auth->add($deleteLoja);
 
+        //create a permition called deleteMetodoPagamento and adding it to the authManager
+        $deleteMetodoPagamento = $auth->createPermission('deleteMetodoPagamento');
+        $deleteMetodoPagamento->description = 'Remover um metodo de pagamento';
+        $auth->add($deleteMetodoPagamento);
+
 
 
         /* Creating the roles and assigning permissions to them. */
@@ -298,6 +313,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $createMetodoPagamento);
         $auth->addChild($admin, $createIva);
         $auth->addChild($admin, $createMorada);
+        $auth->addChild($admin, $createSeccao);
         $auth->addChild($admin, $updateOwn);
         $auth->addChild($admin, $updateAdmin);
         $auth->addChild($admin, $updateLoja);
@@ -319,6 +335,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $viewEstatisticas);
         $auth->addChild($admin, $viewHistoricoDeEncomendas);
         $auth->addChild($admin, $viewLoja);
+        $auth->addChild($admin, $viewMetodoPagamento);
         $auth->addChild($admin, $viewIva);
         $auth->addChild($admin, $viewEmpresa);
         $auth->addChild($admin, $viewCategorias);
@@ -331,6 +348,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $deleteCategoria);
         $auth->addChild($admin, $deleteMorada);
         $auth->addChild($admin, $deleteLoja);
+        $auth->addChild($admin, $deleteMetodoPagamento);
 
         /* Creating a role called gestor and adding it to the authManager. */
         $gestor = $auth->createRole('Gestor');
@@ -343,6 +361,7 @@ class RbacController extends Controller
         $auth->addChild($gestor, $createMetodoPagamento);
         $auth->addChild($gestor, $createIva);
         $auth->addChild($gestor, $createMorada);
+        $auth->addChild($gestor, $createSeccao);
         $auth->addChild($gestor, $updateMetodoPagamento);
         $auth->addChild($gestor, $updateLoja);
         $auth->addChild($gestor, $updateFuncionario);

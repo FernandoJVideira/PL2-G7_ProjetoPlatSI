@@ -5,6 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\Loja $model */
 /** @var common\models\Morada $morada */
+/** @var \backend\models\Empresa $empresa */
 
 $this->title = 'Atualizar loja: ' . $model->descricao;
 //$this->params['breadcrumbs'][] = ['label' => 'Lojas', 'url' => ['index']];
