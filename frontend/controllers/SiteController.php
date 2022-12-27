@@ -97,13 +97,6 @@ class SiteController extends Controller
 
         $model->password = '';
 
-        $cookie = new \yii\web\Cookie([
-            'name' => 'cart_id',
-            'value' => 1,
-        ]);
-
-        Yii::$app->response->cookies->add($cookie);
-
         return $this->render('login', [
             'model' => $model,
         ]);
