@@ -13,6 +13,7 @@ class LoginForm extends Model
     public $username;
     public $password;
     public $rememberMe = true;
+    public $cart_id;
 
     private $_user;
 
@@ -56,10 +57,20 @@ class LoginForm extends Model
      */
     public function login()
     {
+
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            $validation = Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+
+            /** @var int $cart_id */
+            $cart_id = Yii::$app->request->cookies->getValue('cart_id');
+
+            if($cart_id){
+                $cart = Carrinho::findOne($cart_id);
+                $cart->id_user = Yii::$app->user->id;
+                $cart->save();
+            }
+            return $validation;
         }
-        
         return false;
     }
 
