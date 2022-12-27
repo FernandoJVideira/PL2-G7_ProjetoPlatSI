@@ -23,7 +23,7 @@ class Linhacarrinho extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'linhacarrinho';
+        return 'linhaCarrinho';
     }
 
     /**
@@ -71,5 +71,15 @@ class Linhacarrinho extends \yii\db\ActiveRecord
     public function getProduto()
     {
         return $this->hasOne(Produto::class, ['idProduto' => 'id_produto']);
+    }
+
+    public function getTotalNoIva()
+    {
+        return $this->produto->preco_unit * $this->quantidade;
+    }
+
+    public function getTotal()
+    {
+        return ($this->produto->preco_unit + ($this->produto->preco_unit * ($this->produto->categoria->iva->iva / 100))) * $this->quantidade;
     }
 }

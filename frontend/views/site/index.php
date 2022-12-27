@@ -35,7 +35,7 @@ $this->title = "Stuff n' Go";
     <div class="container">
         <div class="p-5  bg-transparent rounded-3">
             <div class="container-fluid py-5 text-center">
-                <h1 class="display-5">With Stuff'n Go,you buy and you ready to Go !</h1>
+                <h1 class="display-5">With Stuff'n Go, you buy and you ready to Go!</h1>
             </div>
         </div>
         <div class="body-content">

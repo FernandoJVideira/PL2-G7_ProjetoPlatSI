@@ -80,4 +80,5 @@ class Stock extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Produto::class, ['idProduto' => 'id_produto']);
     }
+
 }

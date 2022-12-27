@@ -40,7 +40,7 @@ $this->title = "Stuff n' Go";
     </div>
     <div class="mt-auto p-2">
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-primary">Carrinho</button>
+            <button onclick="location.href='<?= \yii\helpers\Url::toRoute('linhacarrinho/create') ?>?idProduto=<?= $model->idProduto ?>'" type="button" class="btn btn-primary">Carrinho</button>
             <button type="button" class="btn btn-dark">Favoritos</button>
         </div>
     </div>

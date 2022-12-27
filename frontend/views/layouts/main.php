@@ -12,11 +12,13 @@ use yii\bootstrap5\Nav;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>" class="h-100">
+
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,9 +26,9 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <script>
-        function bootstrap(){
+        function bootstrap() {
             const links = document.getElementsByTagName("link");
-            if(links.length > 5)
+            if (links.length > 5)
                 links[5].remove();
         }
         window.onload = bootstrap();
@@ -106,13 +108,14 @@ AppAsset::register($this);
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Area Pessoal <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
                                     <?= Html::a('Favoritos',['site/favorites'],['class' => ['dropdown-item']]) ?>
-                                    <?= Html::a('Carrinho',['site/cart'],['class' => ['dropdown-item']]) ?>
+                                    <?= Html::a('Carrinho','carrinho/view',['class' => ['dropdown-item']]) ?>
                                     <?php if(Yii::$app->user->isGuest){
                                         echo Html::a('Login', ['site/login'], ['class' => 'dropdown-item', 'style' => 'border-top: 1px solid #6c757d;']);
                                         echo Html::a('Registar', ['site/signup'], ['class' => 'dropdown-item']);
                                     }else
                                         echo Html::a('Logout', ['site/logout'], ['data-method' => 'post', 'class' => 'dropdown-item', 'style' => 'border-top: 1px solid #6c757d;']); ?>
                                 </div>
+                                <a href="contact.html" class="nav-item nav-link">Contact</a>
                             </div>
                             <a href="<?= Url::toRoute(['site/aplicacao']) ?>" class="nav-item nav-link">Stuff'N Go App</a> 
                         </div>
@@ -121,7 +124,7 @@ AppAsset::register($this);
                                 <i class="fas fa-heart text-primary"></i>
                                 <span class="badge text-secondary" style="padding-bottom: 2px;">Favoritos</span>
                             </a>
-                            <a href="" class="btn px-0 ml-3">
+                            <a href="<?= Url::toRoute('carrinho/view') ?>" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
                                 <span class="badge text-secondary" style="padding-bottom: 2px;">Carrinho</span>
                             </a>
@@ -129,17 +132,17 @@ AppAsset::register($this);
                                 if(Yii::$app->user->isGuest)
                                     echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-user text-primary']) . HTML::tag('span', 'Login', ['class' => 'badge text-secondary', 'style' => 'padding-bottom: 2px;']), ['site/login'], ['class' => 'btn px-0 ml-3']);
                                 else
-                                    echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-user text-primary']) . HTML::tag('span', 'Logout( ' . Yii::$app->user->identity->username.' )', ['class' => 'badge text-secondary', 'style' => 'padding-bottom: 2px;']), ['site/logout'], ['class' => 'btn px-0 ml-3', 'data-method' => 'post'])
+                                    echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-user text-primary']) . HTML::tag('span', 'Logout( ' . Yii::$app->user->identity->username . ' )', ['class' => 'badge text-secondary', 'style' => 'padding-bottom: 2px;']), ['site/logout'], ['class' => 'btn px-0 ml-3', 'data-method' => 'post'])
 
-                            ?>
+                                ?>
+                            </div>
                         </div>
-                    </div>
-                </nav>
+                    </nav>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Navbar End -->
-</header>
+        <!-- Navbar End -->
+    </header>
 
 <main role="main" class="flex-shrink-0" style="padding-bottom:130px;">
     <div> <!-- Tinha class="cotainer" -->
@@ -179,10 +182,10 @@ AppAsset::register($this);
                     <div class="col-md-4 mb-5">
                         <h5 class="text-secondary text-uppercase mb-4">Area Pessoal</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <?php if(Yii::$app->user->isGuest){
+                            <?php if (Yii::$app->user->isGuest) {
                                 echo Html::a('<i class="fa fa-angle-right mr-2"></i>Login', ['site/login'], ['class' => 'text-secondary mb-2']);
                                 echo Html::a('<i class="fa fa-angle-right mr-2"></i>Registar', ['site/signup'], ['class' => 'text-secondary mb-2']);
-                            }else
+                            } else
                                 echo Html::a('<i class="fa fa-angle-right mr-2"></i>Logout', ['site/logout'], ['data-method' => 'post', 'class' => 'text-secondary mb-2']); ?>
 
                             <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Carrinho de compras</a>
@@ -220,22 +223,23 @@ AppAsset::register($this);
             </div>
         </div>
     </div>
-<!-- Footer End -->
+    <!-- Footer End -->
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-<?php $this->endBody() ?>
-<script>
-    window.onclick = function(event) {
-        if (!event.target.matches('.navbar-vertical')) {
-            var dropdowns = document.getElementById("navbar-vertical");
+    <?php $this->endBody() ?>
+    <script>
+        window.onclick = function(event) {
+            if (!event.target.matches('.navbar-vertical')) {
+                var dropdowns = document.getElementById("navbar-vertical");
                 if (dropdowns.classList.contains('show')) {
                     dropdowns.classList.remove('show');
                 }
             }
         }
-</script>
+    </script>
 </body>
+
 </html>
 <?php $this->endPage();

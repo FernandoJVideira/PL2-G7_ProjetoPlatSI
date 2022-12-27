@@ -131,4 +131,9 @@ class Produto extends \yii\db\ActiveRecord
         return $Categoria->nome;
     }
 
+
+    public function getStockLoja($idLoja)
+    {
+        return $this->hasMany(Stock::class, ['id_produto' => 'idProduto'])->where(['id_loja' => $idLoja])->one();
+    }
 }

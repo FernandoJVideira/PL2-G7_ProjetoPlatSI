@@ -85,7 +85,7 @@
 
 
     // Product Quantity
-    $('.quantity button').on('click', function () {
+    /*$('.quantity button').on('click', function () {
         var button = $(this);
         var oldValue = button.parent().parent().find('input').val();
         if (button.hasClass('btn-plus')) {
@@ -97,9 +97,10 @@
                 newVal = 0;
             }
         }
-        button.parent().parent().find("input").val(newVal);
-    });
-
+        button.parent().parent().find('input').val(newVal);
+    });*/
+    
+    
 })(jQuery);
 
 var slider_img = document.querySelector('.slider-img');
