@@ -32,7 +32,7 @@ use yii\helpers\Url;
                 <tbody class="align-middle">
                     <?php foreach ($model->linhaCarrinhos as $linhaCarrinho) {
 
-                        //FIXME: Image do produto
+                        //FIXME: Imagem do produto
                     ?>
                         <tr>
                             <td class="align-middle"><img src="img/product-1.jpg" alt="" style="width: 50px;"> <?= $linhaCarrinho->produto->nome ?></td>
@@ -107,15 +107,3 @@ use yii\helpers\Url;
     </div>
 </div>
 <!-- Cart End -->
-
-<?php
-$js = <<< JS
-$("#btn-alert").on("click", function() {
-    krajeeDialog.alert("This is a Krajee Dialog Alert!")
-}); 
-
-JS;
-
-$this->registerJs($js);
-
-?>

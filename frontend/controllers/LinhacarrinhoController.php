@@ -127,7 +127,7 @@ class LinhacarrinhoController extends Controller
         if ($linha->save()) {
             return $this->redirect(['carrinho/view']);
         } else {
-            \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
+            Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
         }
 
         return $this->redirect(['carrinho/view']);
