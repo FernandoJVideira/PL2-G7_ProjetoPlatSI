@@ -66,6 +66,9 @@ class LinhacarrinhoController extends Controller
         if ($carrinho == null) {
             $carrinho = new Carrinho();
             $carrinho->estado = 'aberto';
+
+            (!Yii::$app->user->isGuest) ? $carrinho->id_user = Yii::$app->user->identity->id : $carrinho->id_user = null;
+
             $carrinho->save();
             $cookies->add(new \yii\web\Cookie([
                 'name' => 'carrinho',
