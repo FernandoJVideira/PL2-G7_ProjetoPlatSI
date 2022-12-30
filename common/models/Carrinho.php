@@ -54,7 +54,7 @@ class Carrinho extends \yii\db\ActiveRecord
         return [
             'idCarrinho' => 'Id Carrinho',
             'estado' => 'Estado',
-            'data_criacao' => 'Data Criacao',
+            'data_criacao' => 'Data de Criação',
             'id_morada' => 'Id Morada',
             'id_loja' => 'Id Loja',
             'id_user' => 'Id User',
@@ -70,6 +70,11 @@ class Carrinho extends \yii\db\ActiveRecord
     public function getFaturas()
     {
         return $this->hasMany(Fatura::class, ['id_carrinho' => 'idCarrinho']);
+    }
+
+    public function getMorada()
+    {
+        return $this->hasOne(Morada::class, ['idMorada' => 'id_morada']);
     }
 
     /**
@@ -100,6 +105,17 @@ class Carrinho extends \yii\db\ActiveRecord
     public function getPromocao()
     {
         return $this->hasOne(Promocao::class, ['idPromocao' => 'id_promocao']);
+    }
+
+    public function getEstadoLinhas(){
+        foreach ($this->linhacarrinhos as $linhaCarrinho) {
+            if($linhaCarrinho->estado == 0){
+               return false;
+            }
+            else
+                return true;
+        }
+        return false;
     }
 
     /**

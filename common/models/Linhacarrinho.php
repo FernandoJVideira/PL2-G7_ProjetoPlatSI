@@ -82,4 +82,8 @@ class Linhacarrinho extends \yii\db\ActiveRecord
     {
         return ($this->produto->preco_unit + ($this->produto->preco_unit * ($this->produto->categoria->iva->iva / 100))) * $this->quantidade;
     }
+
+    public function getEstado(){
+        return $this->estado ? 'Concluído' : 'Pendente';
+    }
 }

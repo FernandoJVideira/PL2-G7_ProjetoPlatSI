@@ -123,7 +123,7 @@ class Produto extends \yii\db\ActiveRecord
     }
 
     public function getPreco(){
-        return $this->preco_unit ." €";
+        return $this->preco_unit;
     }
 
     public function getIdCategoria(){
