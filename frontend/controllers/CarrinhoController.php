@@ -106,7 +106,6 @@ class CarrinhoController extends Controller
     public function actionCheckout($idCarrinho, $idLoja)
     {
         $carrinho = Carrinho::findOne(['idCarrinho' => $idCarrinho]);
-
         if ($carrinho->numlinhas == 0) {
             Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
             $this->redirect(['site/index']);
@@ -120,6 +119,7 @@ class CarrinhoController extends Controller
         }
 
         $carrinho->id_loja = $idLoja;
+        $carrinho->id_morada = $idMorada;
         $carrinho->id_user = Yii::$app->user->identity->id;
         $carrinho->estado = 'emProcessamento';
         $carrinho->data_criacao = date('Y-m-d H:i:s');
@@ -149,13 +149,16 @@ class CarrinhoController extends Controller
     private function verificarStock($carrinho)
     {
         foreach ($carrinho->linhaCarrinhos as $linhaCarrinho) {
-        $stocks = $linhaCarrinho->produto->getStockLoja($carrinho->id_loja);
-
-            if($stocks->quant_stock > $linhaCarrinho->quantidade){
+            $stocks = $linhaCarrinho->produto->getStockLoja($carrinho->id_loja);
+            if($stocks != null && $stocks->quant_stock >= $linhaCarrinho->quantidade){
                 $linhaCarrinho->estado = 1;
                 $stocks->quant_stock -= $linhaCarrinho->quantidade;
                 $linhaCarrinho->save();
                 $stocks->save();
+            }
+            else{
+            $linhaCarrinho->estado = 0;
+            $linhaCarrinho->save();
             }
         }
     }
