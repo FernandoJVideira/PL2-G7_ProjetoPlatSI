@@ -84,7 +84,7 @@ class Carrinho extends \yii\db\ActiveRecord
      */
     public function getLinhaCarrinhos()
     {
-        return $this->hasMany(Linhacarrinho::class, ['id_carrinho' => 'idCarrinho'])->where(['estado' => 'aberto']);
+        return $this->hasMany(Linhacarrinho::class, ['id_carrinho' => 'idCarrinho']);
     }
 
     /**
@@ -108,7 +108,7 @@ class Carrinho extends \yii\db\ActiveRecord
     }
 
     public function getEstadoLinhas(){
-        foreach ($this->linhacarrinhos as $linhaCarrinho) {
+        foreach ($this->linhaCarrinhos as $linhaCarrinho) {
             if($linhaCarrinho->estado == 0){
                return false;
             }

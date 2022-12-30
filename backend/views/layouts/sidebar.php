@@ -61,6 +61,7 @@
                             ['label' => 'Gestão geral da loja', 'url' => ['gestao/index',
                                 'idLoja' => \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? \common\models\Loja::find()->where('ativo = 1')->one()->idLoja],
                                 'iconStyle' => 'far',
+                                'visible' => !isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Funcionario']),
                                 'active' => Yii::$app->controller->id == 'gestao',
                             ],
                             ['label' => 'Gestão de stock', 'url' => ['stock/index',
