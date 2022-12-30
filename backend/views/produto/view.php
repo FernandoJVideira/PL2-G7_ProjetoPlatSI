@@ -29,7 +29,7 @@ $this->title = $model->nome;
 
 
     <div style="text-align: center;">
-        <img style="height:250px;width:300px" class="img-responsive" src="../../../common/Images/<?= $model->imagem ?>" alt="<?= $model->imagem ?>">
+        <img style="height:300px;width:300px" class="img-responsive" src="../../../common/Images/<?= $model->imagem ?>" alt="<?= $model->imagem ?>">
     </div>
 
 

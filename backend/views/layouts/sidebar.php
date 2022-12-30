@@ -62,6 +62,11 @@
                                 'iconStyle' => 'far',
                                 'active' => Yii::$app->controller->id == 'stock',
                             ],
+                            ['label' => 'Gestão de encomendas', 'url' => ['encomenda/index',
+                                'idLoja' => \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? \common\models\Loja::find()->where('ativo = 1')->one()->idLoja],
+                                'iconStyle' => 'far',
+                                'active' => Yii::$app->controller->id == 'encomenda',
+                            ],
                         ],
                     ],
                     [

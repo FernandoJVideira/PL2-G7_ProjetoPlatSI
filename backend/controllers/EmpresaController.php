@@ -23,7 +23,6 @@ class EmpresaController extends BaseAuthController
      */
     public function actionIndex()
     {
-
         if (!\Yii::$app->user->can('viewEmpresa')) {
             \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
             $this->redirect(['site/index']);

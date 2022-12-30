@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 /** @var backend\models\StockSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Gestão de stock da ' . (\common\models\Loja::findOne($_GET['idLoja'])->descricao ?? 'loja');
+$this->title = 'Gestão de stock de ' . (\common\models\Loja::findOne($_GET['idLoja'] ?? null)->descricao ?? 'loja');
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="stock-index">

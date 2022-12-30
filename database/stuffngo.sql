@@ -139,6 +139,7 @@ CREATE TABLE `linhaFatura` (
 
 CREATE TABLE `promocao` (
   `idPromocao` int PRIMARY KEY AUTO_INCREMENT,
+  `codigo` varchar(5) NOT NULL,
   `percentagem` float NOT NULL,
   `data_limite` datetime NOT NULL
 ) ENGINE InnoDB;

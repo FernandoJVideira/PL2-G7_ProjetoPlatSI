@@ -46,19 +46,19 @@ $this->title = 'Produtos';
                 'value'=> 'Preco',
             ],
             [
+                'attribute' => 'dataCriacao',
+                'filter' => \yii\jui\DatePicker::widget([
+                    'model' => $searchModel,
+                    'options' => ['class' => 'form-control'],
                     'attribute' => 'dataCriacao',
-                    'filter' => \yii\jui\DatePicker::widget([
-                        'model' => $searchModel,
-                        'options' => ['class' => 'form-control'],
-                        'attribute' => 'dataCriacao',
-                        'clientOptions' => [
-                            'autoClose' => true,
-                            'yearRange' => '2000:' . date('Y'),
-                        ],
-                        'language' => 'pt',
-                        'dateFormat' => 'yyyy-MM-dd',
-                    ]),
-                    'format' => ['date', 'php: yy-m-d'],
+                    'clientOptions' => [
+                        'autoClose' => true,
+                        'yearRange' => '2000:' . date('Y'),
+                    ],
+                    'language' => 'pt',
+                    'dateFormat' => 'yyyy-MM-dd',
+                ]),
+                'format' => ['date', 'php: yy-m-d'],
             ],
             [
                 'attribute'=>'ativo',

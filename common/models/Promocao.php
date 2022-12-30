@@ -29,7 +29,7 @@ class Promocao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['percentagem', 'data_limite'], 'required'],
+            [['percentagem', 'data_limite', 'codigo'], 'required'],
             [['percentagem'], 'number'],
             [['data_limite'], 'safe'],
         ];
@@ -44,6 +44,7 @@ class Promocao extends \yii\db\ActiveRecord
             'idPromocao' => 'Id Promocao',
             'percentagem' => 'Percentagem',
             'data_limite' => 'Data Limite',
+            'codigo' => 'Código',
         ];
     }
 

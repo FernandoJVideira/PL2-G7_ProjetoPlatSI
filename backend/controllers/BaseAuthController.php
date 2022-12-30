@@ -59,7 +59,7 @@ class BaseAuthController extends Controller
                             'roles' => ['Admin','Gestor', 'Funcionario'],
                         ],
                         [
-                            'controllers' => ['utilizador'],
+                            'controllers' => ['utilizador', 'encomenda'],
                             'actions' => [],
                             'allow' => true,
                             'roles' => ['Admin','Gestor', 'Funcionario'],

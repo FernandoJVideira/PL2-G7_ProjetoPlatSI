@@ -23,7 +23,7 @@ class Linhacarrinho extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'linhacarrinho';
+        return 'linhaCarrinho';
     }
 
     /**
@@ -71,5 +71,9 @@ class Linhacarrinho extends \yii\db\ActiveRecord
     public function getProduto()
     {
         return $this->hasOne(Produto::class, ['idProduto' => 'id_produto']);
+    }
+
+    public function getEstado(){
+        return $this->estado ? 'Concluído' : 'Pendente';
     }
 }

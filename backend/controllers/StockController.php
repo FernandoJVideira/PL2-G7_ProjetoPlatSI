@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Stock;
 use backend\models\StockSearch;
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -66,8 +67,12 @@ class StockController extends BaseAuthController
                     $model->quant_stock = 0;
                     $model->save();
                 }
-
-                return $this->redirect(['index', 'idLoja' => $model->id_loja]);
+                if($_GET['idCarrinho'] != null){
+                    $this->redirect(Url::to(['encomenda/view', 'idCarrinho' => $_GET['idCarrinho']]));
+                }
+                else{
+                    $this->redirect(Url::to(['stock/index', 'idLoja' => $model->id_loja]));
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -100,8 +105,12 @@ class StockController extends BaseAuthController
                     'model' => $model,
                 ]);
             }
-
-            return $this->redirect(['index', 'idLoja' => $model->id_loja]);
+            if($_GET['idCarrinho'] != null){
+                $this->redirect(Url::to(['encomenda/view', 'idCarrinho' => $_GET['idCarrinho']]));
+            }
+            else{
+                $this->redirect(Url::to(['stock/index', 'idLoja' => $model->id_loja]));
+            }
         }
 
         return $this->render('update', [

@@ -37,7 +37,7 @@ class Carrinho extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estado', 'id_morada', 'id_loja', 'id_user', 'id_promocao'], 'integer'],
+            [['id_morada', 'id_loja', 'id_user', 'id_promocao'], 'integer'],
             [['data_criacao'], 'safe'],
             [['id_promocao'], 'exist', 'skipOnError' => true, 'targetClass' => Promocao::class, 'targetAttribute' => ['id_promocao' => 'idPromocao']],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_user' => 'idUser']],
@@ -53,7 +53,7 @@ class Carrinho extends \yii\db\ActiveRecord
         return [
             'idCarrinho' => 'Id Carrinho',
             'estado' => 'Estado',
-            'data_criacao' => 'Data Criacao',
+            'data_criacao' => 'Data de Criação',
             'id_morada' => 'Id Morada',
             'id_loja' => 'Id Loja',
             'id_user' => 'Id User',
@@ -69,6 +69,11 @@ class Carrinho extends \yii\db\ActiveRecord
     public function getFaturas()
     {
         return $this->hasMany(Fatura::class, ['id_carrinho' => 'idCarrinho']);
+    }
+
+    public function getMorada()
+    {
+        return $this->hasOne(Morada::class, ['idMorada' => 'id_morada']);
     }
 
     /**
@@ -99,6 +104,17 @@ class Carrinho extends \yii\db\ActiveRecord
     public function getPromocao()
     {
         return $this->hasOne(Promocao::class, ['idPromocao' => 'id_promocao']);
+    }
+
+    public function getEstadoLinhas(){
+        foreach ($this->linhacarrinhos as $linhaCarrinho) {
+            if($linhaCarrinho->estado == 0){
+               return false;
+            }
+            else
+                return true;
+        }
+        return false;
     }
 
     /**
