@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\Carrinho;
 use common\models\Morada;
 use common\models\Utilizador;
 use Yii;
@@ -81,7 +82,7 @@ class SignupForm extends Model
     public function signup()
     {
         if (!$this->validate()) {
-            return null;
+            return false;
         }
         
         $user = new User();
@@ -113,6 +114,14 @@ class SignupForm extends Model
         $morada->id_user = $utilizador->idUser;
 
         $morada->save();
+
+        $cart_id = Yii::$app->request->cookies->getValue('cart_id');
+
+        if($cart_id){
+            $cart = Carrinho::findOne($cart_id);
+            $cart->id_user = Yii::$app->user->id;
+            $cart->save();
+        }
 
         return true;
     }

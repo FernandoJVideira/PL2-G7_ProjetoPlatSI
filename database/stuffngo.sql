@@ -67,7 +67,7 @@ CREATE TABLE `favorito` (
 
 CREATE TABLE `linhaCarrinho` (
   `idLinha` int PRIMARY KEY AUTO_INCREMENT,
-  `estado` int DEFAULT 0,
+  `estado` boolean DEFAULT 0,
   `quantidade` int NOT NULL,
   `id_carrinho` int,
   `id_produto` int

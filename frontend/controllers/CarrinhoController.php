@@ -10,6 +10,7 @@ use common\models\Produto;
 use common\models\Utilizador;
 use common\models\Loja;
 use common\models\Stock;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
@@ -50,26 +51,21 @@ class CarrinhoController extends Controller
      */
     public function actionView()
     {
-
-        if (\Yii::$app->user->isGuest) {
-            \Yii::$app->session->setFlash('error', 'Não tem sessão iniciada! Inicie sessão para aceder ao carrinho.');
-            $this->redirect(['site/index']);
-            return null;
+        if(\Yii::$app->user->isGuest){
+            $cookies = Yii::$app->response->cookies;
+            $carrinho = Carrinho::find()->where(['idCarrinho' => $cookies['carrinho']])->andWhere(['estado' => 'aberto'])->one();
+        }else{
+            $carrinho = Carrinho::find()->where(['id_user' => Yii::$app->user->identity->id])->andWhere(['estado' => 'aberto'])->one();
         }
 
-        $utilizador = Utilizador::findOne(\Yii::$app->user->id);
-        $carrinho = $utilizador->carrinhoAtivo;
-        $unavailableItems = [];
-
-        if ($carrinho == null || $carrinho->linhaCarrinhos == null) {
-            \Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
+        if ($carrinho == null) {
+            Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
             $this->redirect(['site/index']);
             return null;
         }
 
         return $this->render('view', [
             'model' => $carrinho,
-            //'unavailableProducts' => $unavailableItems,
         ]);
     }
 
@@ -91,21 +87,27 @@ class CarrinhoController extends Controller
     public function actionCheckout($idCarrinho, $idLoja, $idMorada)
     {
         $carrinho = Carrinho::findOne(['idCarrinho' => $idCarrinho]);
-
         if ($carrinho->numlinhas == 0) {
-            \Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
+            Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
+            $this->redirect(['site/index']);
+            return null;
+        }
+
+        if ($carrinho->id_user == null) {
+            Yii::$app->session->setFlash('error', 'Não é possível efetuar a compra se login.');
             $this->redirect(['site/index']);
             return null;
         }
 
         $carrinho->id_loja = $idLoja;
         $carrinho->id_morada = $idMorada;
+        $carrinho->id_user = Yii::$app->user->identity->id;
         $carrinho->estado = 'emProcessamento';
         $carrinho->data_criacao = date('Y-m-d H:i:s');
 
         $this->verificarStock($carrinho);
 
-        ($carrinho->save()) ? (\Yii::$app->session->setFlash('success', 'Compra efetuada com sucesso!')) : (\Yii::$app->session->setFlash('error', 'Erro ao enviar carrinho para checkout!'));
+        ($carrinho->save()) ? (Yii::$app->session->setFlash('success', 'Compra efetuada com sucesso!')) : (Yii::$app->session->setFlash('error', 'Erro ao enviar carrinho para checkout!'));
         $this->redirect(['site/index']);
     }
 
@@ -129,15 +131,14 @@ class CarrinhoController extends Controller
     {
         foreach ($carrinho->linhaCarrinhos as $linhaCarrinho) {
             $stocks = $linhaCarrinho->produto->getStockLoja($carrinho->id_loja);
-                if($stocks != null && $stocks->quant_stock > $linhaCarrinho->quantidade){
-                    $linhaCarrinho->estado = 1;
-                    $stocks->quant_stock -= $linhaCarrinho->quantidade;
-                    $linhaCarrinho->save();
-                    $stocks->save();
-                }
-            {
-                $linhaCarrinho->estado = 0;
+            if($stocks != null && $stocks->quant_stock >= $linhaCarrinho->quantidade){
+                $linhaCarrinho->estado = 1;
+                $stocks->quant_stock -= $linhaCarrinho->quantidade;
                 $linhaCarrinho->save();
+            }
+            else{
+            $linhaCarrinho->estado = 0;
+            $linhaCarrinho->save();
             }
         }
     }

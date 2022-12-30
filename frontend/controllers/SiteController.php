@@ -101,7 +101,6 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -172,11 +171,12 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
             Yii::$app->session->setFlash('success', 'Registado com sucesso!');
             $user = User::find()->where(['email' => $model->email])->one();
 
-            $auth = \Yii::$app->authManager;
+            $auth = Yii::$app->authManager;
             $userRole = $auth->getRole('Cliente');
             $auth->assign($userRole, $user->id);
 

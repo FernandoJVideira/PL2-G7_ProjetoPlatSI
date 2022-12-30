@@ -7,6 +7,7 @@ use common\models\Linhacarrinho;
 use common\models\LinhacarrinhoSearch;
 use common\models\Produto;
 use common\models\Stock;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,7 +37,7 @@ class LinhacarrinhoController extends Controller
     /**
      * Displays a single Linhacarrinho model.
      * @param int $idLinha Id Linha
-     * @return string
+     * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($idLinha)
@@ -54,14 +55,27 @@ class LinhacarrinhoController extends Controller
      */
     public function actionCreate($idProduto)
     {
-        //verificar se existe carrinho aberto
-        $carrinho = Carrinho::find()->where(['id_user' => \Yii::$app->user->identity->id])->andWhere(['estado' => 'aberto'])->one();
+        $cookies = Yii::$app->response->cookies;
+
+        if(\Yii::$app->user->isGuest){
+            $carrinho = Carrinho::find()->where(['idCarrinho' => $cookies['carrinho']])->andWhere(['estado' => 'aberto'])->one();
+        }else{
+            $carrinho = Carrinho::find()->where(['id_user' => Yii::$app->user->identity->id])->andWhere(['estado' => 'aberto'])->one();
+        }
 
         if ($carrinho == null) {
             $carrinho = new Carrinho();
-            $carrinho->id_user = \Yii::$app->user->identity->id;
+            $carrinho->id_user = Yii::$app->user->identity->id ?? null;
             $carrinho->estado = 'aberto';
+
+            (!Yii::$app->user->isGuest) ? $carrinho->id_user = Yii::$app->user->identity->id : $carrinho->id_user = null;
+
             $carrinho->save();
+
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'cart_id',
+                'value' => $carrinho->idCarrinho,
+            ]));
         }
 
         //verificar se existe linha de carrinho com o produto
@@ -83,13 +97,6 @@ class LinhacarrinhoController extends Controller
         }else{
             \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, o produto não está disponível.');
         }
-    }
-
-    public function actionUpdateQuantity($idLinha, $quantity)
-    {
-        $linha = $this->findModel($idLinha);
-        $linha->produto->quantidade = $quantity;
-        $linha->save();
     }
 
     /**
@@ -125,7 +132,7 @@ class LinhacarrinhoController extends Controller
         if ($linha->save()) {
             return $this->redirect(['carrinho/view']);
         } else {
-            \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
+            Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
         }
 
         return $this->redirect(['carrinho/view']);
