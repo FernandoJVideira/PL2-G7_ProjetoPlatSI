@@ -152,7 +152,6 @@ class Carrinho extends \yii\db\ActiveRecord
 
     public function getTotalIva()
     {
-
         $totalIva = 0;
 
         foreach ($this->linhaCarrinhos as $linha) {
@@ -160,6 +159,12 @@ class Carrinho extends \yii\db\ActiveRecord
         }
 
         return $totalIva;
+    }
+
+    public function getTotalComDesconto()
+    {
+        $total = $this->getTotal();
+        return $total - ($total * ($this->promocao->percentagem / 100));
     }
 
     public function getNumLinhas()

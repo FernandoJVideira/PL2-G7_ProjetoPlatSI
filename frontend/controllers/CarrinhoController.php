@@ -7,6 +7,7 @@ use common\models\CarrinhoSearch;
 use common\models\Linhacarrinho;
 use common\models\LinhacarrinhoSearch;
 use common\models\Produto;
+use common\models\Promocao;
 use common\models\Utilizador;
 use common\models\Loja;
 use common\models\Stock;
@@ -85,7 +86,7 @@ class CarrinhoController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionCheckout($idCarrinho, $idLoja, $idMorada = null)
+    public function actionCheckout($idCarrinho, $idLoja, $idMorada)
     {
         $carrinho = Carrinho::findOne(['idCarrinho' => $idCarrinho]);
 
@@ -110,6 +111,25 @@ class CarrinhoController extends Controller
             ($carrinho->save()) ? (Yii::$app->session->setFlash('success', 'Compra efetuada com sucesso!')) : (Yii::$app->session->setFlash('error', 'Erro ao enviar carrinho para checkout!'));
             $this->redirect(['site/index']);
         }
+    }
+
+    public function actionPromo($idCarrinho)
+    {
+        $codigoPromo = Yii::$app->request->post('codigoPromo');
+
+        $carrinho = Carrinho::findOne(['idCarrinho' => $idCarrinho]);
+        $promo = Promocao::findOne(['codigo' => $codigoPromo]);
+
+        if ($promo == null) {
+            Yii::$app->session->setFlash('error', 'Código de promoção inválido!');
+            $this->redirect(['carrinho/view']);
+            return null;
+        }
+
+        $carrinho->id_promocao = $promo->idPromocao;
+        $carrinho->save();
+
+        $this->redirect(['carrinho/view']);
     }
 
     /**
