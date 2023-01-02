@@ -17,7 +17,6 @@ class Encomenda extends ActiveRecord
             ->andWhere(['id_loja' => $id_loja])
             ->all();
 
-        //$linhacarrinho = Linhacarrinho::find()->where(['id_produto' => $id_produto, 'estado' => 0])->all();
         $stock = Stock::find()->where(['id_produto' => $id_produto, 'id_loja' => $id_loja])->one();
 
         if($stock == null){

@@ -313,7 +313,7 @@ class SiteController extends Controller
             return $this->redirect(['site/produtos']);
         
         return $this->render('detalhes',[
-            'model'=>$model
+            'model' => $model
         ]);
     }
 

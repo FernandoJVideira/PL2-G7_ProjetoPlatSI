@@ -58,11 +58,11 @@ class Produto extends \yii\db\ActiveRecord
         return [
             'idProduto' => 'Id Produto',
             'nome' => 'Nome',
-            'descricao' => 'Descricao',
-            'preco_unit' => 'Preco Unitário',
+            'descricao' => 'Descrição',
+            'preco_unit' => 'Preço',
             'dataCriacao' => 'Data Criacao',
             'imagem' => 'Imagem',
-            'ativo' => 'Estado',
+            'ativo' => 'Ativo',
             'id_categoria' => 'Categoria',
         ];
     }
@@ -82,9 +82,9 @@ class Produto extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getFavoritos()
+    public function getFavoritos($id_user)
     {
-        return $this->hasMany(Favorito::class, ['id_produto' => 'idProduto']);
+        return $this->hasMany(Favorito::class, ['id_produto' => 'idProduto'])->where(['id_user' => $id_user]);
     }
 
     /**
@@ -130,7 +130,6 @@ class Produto extends \yii\db\ActiveRecord
         $Categoria = Categoria::findOne($this->id_categoria);
         return $Categoria->nome;
     }
-
 
     public function getStockLoja($idLoja)
     {

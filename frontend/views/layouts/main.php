@@ -120,7 +120,7 @@ AppAsset::register($this);
                             <a href="<?= Url::toRoute(['site/aplicacao']) ?>" class="nav-item nav-link">Stuff'N Go App</a> 
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a href="" class="btn px-0">
+                            <a href="<?= Url::toRoute('favorito/index') ?>" class="btn px-0">
                                 <i class="fas fa-heart text-primary"></i>
                                 <span class="badge text-secondary" style="padding-bottom: 2px;">Favoritos</span>
                             </a>
@@ -188,8 +188,8 @@ AppAsset::register($this);
                             } else
                                 echo Html::a('<i class="fa fa-angle-right mr-2"></i>Logout', ['site/logout'], ['data-method' => 'post', 'class' => 'text-secondary mb-2']); ?>
 
-                            <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Carrinho de compras</a>
-                            <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Favoritos</a>
+                            <a class="text-secondary mb-2" href="<?= Url::toRoute('carrinho/view') ?>"><i class="fa fa-angle-right mr-2"></i>Carrinho de compras</a>
+                            <a class="text-secondary mb-2" href="<?= Url::toRoute('favorito/index') ?>"><i class="fa fa-angle-right mr-2"></i>Favoritos</a>
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">

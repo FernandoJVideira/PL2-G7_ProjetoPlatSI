@@ -1,5 +1,7 @@
 <?php
 
+use common\widgets\Alert;
+
 /** @var yii\web\View $this */
 
 /** @var $models */

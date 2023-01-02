@@ -36,12 +36,12 @@ $this->title = "Stuff n' Go";
             text-align:justify;
             padding-top:6vh;
             padding-bottom:3vh"><b>€<?= $model->preco_unit ?>/un</b></p>
-        <!-- Colocar Botão para adicionar aos Favoritos -->
     </div>
     <div class="mt-auto p-2">
         <div class="btn-group" role="group" aria-label="Basic example">
             <button onclick="location.href='<?= \yii\helpers\Url::toRoute('linhacarrinho/create') ?>?idProduto=<?= $model->idProduto ?>'" type="button" class="btn btn-primary">Carrinho</button>
-            <button type="button" class="btn btn-dark">Favoritos</button>
+            <button onclick="location.href='<?= \yii\helpers\Url::toRoute('favorito/create') ?>?idProduto=<?= $model->idProduto ?>'" type="button" class="btn btn-dark"><i class="<?= ($model->getFavoritos(Yii::$app->user->id)->one() != null) ? 'fas' : 'far'?> fa-heart"></i></button>
+
         </div>
     </div>
 </div>
