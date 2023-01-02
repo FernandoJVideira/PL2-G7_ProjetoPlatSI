@@ -58,7 +58,7 @@ class LinhacarrinhoController extends Controller
         $cookies = Yii::$app->response->cookies;
 
         if(\Yii::$app->user->isGuest){
-            $carrinho = Carrinho::find()->where(['idCarrinho' => $cookies['carrinho']])->andWhere(['estado' => 'aberto'])->one();
+            $carrinho = Carrinho::find()->where(['idCarrinho' => $cookies['cart_id']])->andWhere(['estado' => 'aberto'])->one();
         }else{
             $carrinho = Carrinho::find()->where(['id_user' => Yii::$app->user->identity->id])->andWhere(['estado' => 'aberto'])->one();
         }
@@ -67,15 +67,14 @@ class LinhacarrinhoController extends Controller
             $carrinho = new Carrinho();
             $carrinho->id_user = Yii::$app->user->identity->id ?? null;
             $carrinho->estado = 'aberto';
-
-            (!Yii::$app->user->isGuest) ? $carrinho->id_user = Yii::$app->user->identity->id : $carrinho->id_user = null;
-
             $carrinho->save();
 
-            $cookies->add(new \yii\web\Cookie([
-                'name' => 'cart_id',
-                'value' => $carrinho->idCarrinho,
-            ]));
+            if($carrinho->id_user == null){
+                $cookies->add(new \yii\web\Cookie([
+                    'name' => 'cart_id',
+                    'value' => $carrinho->idCarrinho,
+                ]));
+            }
         }
 
         //verificar se existe linha de carrinho com o produto

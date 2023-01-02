@@ -89,12 +89,15 @@ use yii\helpers\Url;
                             <?php } ?>
                         </select>
                         <br>
-                        <label for="store">Morada:</label>
-                        <select id="idMorada" name="idMorada">
-                            <?php foreach (\common\models\Morada::find()->where('id_user =' . Yii::$app->user->id)->all() as $morada) { ?>
-                                <option value="<?= $morada->idMorada ?>"><?= $morada->rua ?></option>
-                            <?php } ?>
-                        </select>
+                        <?php if (!Yii::$app->user->isGuest) { ?>
+                            <label for="store">Morada:</label>
+                            <!--- <input type="text" id="morada" name="morada" value="<?= $_GET['morada'] ?? '' ?>" required>--->
+                            <select id="idMorada" name="idMorada">
+                                <?php foreach (\common\models\Morada::find()->where('id_user =' . Yii::$app->user->id)->all() as $morada) { ?>
+                                  <option value="<?= $morada->idMorada ?>"><?= $morada->rua ?></option>
+                                <?php } ?>
+                            </select>
+                        <?php }?>
                         <button type="submit" id="btn-alert" class="btn btn-block btn-primary font-weight-bold my-3 py-3"/>Encomendar</button>
                     </form>
                     </p>

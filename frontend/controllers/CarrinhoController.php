@@ -52,8 +52,9 @@ class CarrinhoController extends Controller
     public function actionView()
     {
         if(\Yii::$app->user->isGuest){
-            $cookies = Yii::$app->response->cookies;
-            $carrinho = Carrinho::find()->where(['idCarrinho' => $cookies['carrinho']])->andWhere(['estado' => 'aberto'])->one();
+            $cart_id = Yii::$app->request->cookies->getValue('cart_id');
+            //dd($cart_id);
+            $carrinho = Carrinho::find()->where(['idCarrinho' => $cart_id])->andWhere(['estado' => 'aberto'])->one();
         }else{
             $carrinho = Carrinho::find()->where(['id_user' => Yii::$app->user->identity->id])->andWhere(['estado' => 'aberto'])->one();
         }
@@ -84,9 +85,10 @@ class CarrinhoController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionCheckout($idCarrinho, $idLoja, $idMorada)
+    public function actionCheckout($idCarrinho, $idLoja, $idMorada = null)
     {
         $carrinho = Carrinho::findOne(['idCarrinho' => $idCarrinho]);
+
         if ($carrinho->numlinhas == 0) {
             Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
             $this->redirect(['site/index']);
@@ -94,21 +96,20 @@ class CarrinhoController extends Controller
         }
 
         if ($carrinho->id_user == null) {
-            Yii::$app->session->setFlash('error', 'Não é possível efetuar a compra se login.');
-            $this->redirect(['site/index']);
+            $this->redirect(['site/login']);
             return null;
+        }else{
+            $carrinho->id_loja = $idLoja;
+            $carrinho->id_morada = $idMorada;
+            $carrinho->id_user = Yii::$app->user->identity->id;
+            $carrinho->estado = 'emProcessamento';
+            $carrinho->data_criacao = date('Y-m-d H:i:s');
+
+            $this->verificarStock($carrinho);
+
+            ($carrinho->save()) ? (Yii::$app->session->setFlash('success', 'Compra efetuada com sucesso!')) : (Yii::$app->session->setFlash('error', 'Erro ao enviar carrinho para checkout!'));
+            $this->redirect(['site/index']);
         }
-
-        $carrinho->id_loja = $idLoja;
-        $carrinho->id_morada = $idMorada;
-        $carrinho->id_user = Yii::$app->user->identity->id;
-        $carrinho->estado = 'emProcessamento';
-        $carrinho->data_criacao = date('Y-m-d H:i:s');
-
-        $this->verificarStock($carrinho);
-
-        ($carrinho->save()) ? (Yii::$app->session->setFlash('success', 'Compra efetuada com sucesso!')) : (Yii::$app->session->setFlash('error', 'Erro ao enviar carrinho para checkout!'));
-        $this->redirect(['site/index']);
     }
 
     /**
