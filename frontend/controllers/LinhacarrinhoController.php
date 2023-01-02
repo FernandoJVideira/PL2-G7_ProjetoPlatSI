@@ -94,7 +94,7 @@ class LinhacarrinhoController extends Controller
                 $this->redirect(['linhacarrinho/add', 'idLinha' => $verifyLinha['idLinha']]);
             }
         }else{
-            \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, o produto não está disponível.');
+            Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, o produto não está disponível.');
         }
     }
 
@@ -116,7 +116,7 @@ class LinhacarrinhoController extends Controller
         if ($carrinho->numlinhas == 0) {
 
             $carrinho->delete();
-            \Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
+            Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
             return $this->redirect(['site/index']);
         }
 
@@ -143,14 +143,13 @@ class LinhacarrinhoController extends Controller
         $linha->quantidade -= 1;
 
         if ($linha->quantidade == 0) {
-            $linha->delete();
-            return $this->redirect(['carrinho/view']);
+            $linha->quantidade = 1;
         }
 
         if ($linha->save()) {
             return $this->redirect(['carrinho/view']);
         } else {
-            \Yii::$app->session->setFlash('error', 'Placeholder');
+            Yii::$app->session->setFlash('error', 'Placeholder');
         }
     }
 

@@ -144,7 +144,7 @@ class Carrinho extends \yii\db\ActiveRecord
         $totalNoIva = 0;
 
         foreach ($this->linhaCarrinhos as $linha) {
-            $totalNoIva += $linha->totalnoiva;
+            $totalNoIva += $linha->total;
         }
 
         return $totalNoIva;
@@ -153,13 +153,13 @@ class Carrinho extends \yii\db\ActiveRecord
     public function getTotalIva()
     {
 
-        $totalIva = 0;
+        $valorIva = 0;
 
         foreach ($this->linhaCarrinhos as $linha) {
-            $totalIva += $linha->totalnoiva * ($linha->produto->categoria->iva->iva / 100);
+            $valorIva += $linha->total - ($linha->total - ($linha->total / (1 + (100 / $linha->produto->categoria->iva->iva))));
         }
 
-        return $totalIva;
+        return round($valorIva, 2);
     }
 
     public function getNumLinhas()

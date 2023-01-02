@@ -53,7 +53,6 @@ class CarrinhoController extends Controller
     {
         if(\Yii::$app->user->isGuest){
             $cart_id = Yii::$app->request->cookies->getValue('cart_id');
-            //dd($cart_id);
             $carrinho = Carrinho::find()->where(['idCarrinho' => $cart_id])->andWhere(['estado' => 'aberto'])->one();
         }else{
             $carrinho = Carrinho::find()->where(['id_user' => Yii::$app->user->identity->id])->andWhere(['estado' => 'aberto'])->one();

@@ -73,14 +73,9 @@ class Linhacarrinho extends \yii\db\ActiveRecord
         return $this->hasOne(Produto::class, ['idProduto' => 'id_produto']);
     }
 
-    public function getTotalNoIva()
-    {
-        return $this->produto->preco_unit * $this->quantidade;
-    }
-
     public function getTotal()
     {
-        return ($this->produto->preco_unit + ($this->produto->preco_unit * ($this->produto->categoria->iva->iva / 100))) * $this->quantidade;
+        return $this->produto->preco_unit * $this->quantidade;
     }
 
     public function getEstado(){
