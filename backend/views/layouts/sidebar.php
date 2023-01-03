@@ -38,7 +38,7 @@
                     [
                         'label' => 'Gestão de Empresa',
                         'icon' => 'fas fa-building',
-                        'url' => ['empresa/index'],
+                        'url' => ['empresa/view', 'idEmpresa' => \backend\models\Empresa::find()->one()->idEmpresa],
                         'visible' => Yii::$app->user->can('viewEmpresa'),
                     ],
                     [
