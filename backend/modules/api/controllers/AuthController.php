@@ -10,7 +10,7 @@ use common\models\User;
 use yii\filters\auth\HttpBasicAuth;
 use yii\web\Controller;
 
-class UserController extends ActiveController
+class AuthController extends ActiveController
 {
     public $modelClass = 'common\models\User';
     private $user;
