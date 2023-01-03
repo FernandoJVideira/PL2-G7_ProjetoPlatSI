@@ -23,7 +23,7 @@ $this->registerJsFile('@web/js/script.js', ['depends' => [\yii\web\JqueryAsset::
 
     <?= $form->field($model, 'data_limite')->widget(DatePicker::className(), [
         'language' => 'pt',
-        'dateFormat' => 'dd-MM-yyyy',
+        'dateFormat' => 'yyyy-MM-dd',
         'options' => ['class' => 'form-control'],
     ]) ?>
 
