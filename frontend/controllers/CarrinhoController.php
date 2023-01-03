@@ -86,7 +86,7 @@ class CarrinhoController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionCheckout($idCarrinho, $idLoja, $idMorada)
+    public function actionCheckout($idCarrinho, $idLoja, $idMorada = null)
     {
         $carrinho = Carrinho::findOne(['idCarrinho' => $idCarrinho]);
 
