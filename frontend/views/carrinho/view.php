@@ -79,9 +79,13 @@ use yii\helpers\Url;
                         <h6>Subtotal</h6>
                         <h6><?= $model->total . "€" ?></h6>
                     </div>
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between mb-3">
                         <h6 class="font-weight-medium">Iva</h6>
                         <h6 class="font-weight-medium"><?= $model->iva . "€" ?></h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium">Descontos <?= $model->id_promocao ? "(".$model->promocao->nome_promo.")" : ""?></h6>
+                        <h6 class="font-weight-medium"><?= $model->id_promocao ? $model->desconto . "€" : "0€" ?></h6>
                     </div>
                 </div>
                 <div class="pt-2">

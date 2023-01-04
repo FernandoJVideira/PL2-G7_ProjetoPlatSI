@@ -157,6 +157,11 @@ class Carrinho extends \yii\db\ActiveRecord
         return $total - ($total * ($this->promocao->percentagem / 100));
     }
 
+    public function getDesconto(){
+        $total = $this->getTotal();
+        return $total * ($this->promocao->percentagem / 100);
+    }
+
     public function getNumLinhas()
     {
         return count($this->linhaCarrinhos);

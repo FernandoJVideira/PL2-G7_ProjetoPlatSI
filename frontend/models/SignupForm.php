@@ -115,12 +115,16 @@ class SignupForm extends Model
 
         $morada->save();
 
-        $cart_id = Yii::$app->request->cookies->getValue('cart_id');
+        /** @var int $cart_id */
+        $cookies = Yii::$app->request->cookies;
+        $cart_id = $cookies->getValue('cart_id');
 
         if($cart_id){
             $cart = Carrinho::findOne($cart_id);
-            $cart->id_user = Yii::$app->user->id;
+            $cart->id_user = Yii::$app->user->identity->id;
             $cart->save();
+
+            unset(Yii::$app->response->cookies['cart_id']);
         }
 
         return true;
