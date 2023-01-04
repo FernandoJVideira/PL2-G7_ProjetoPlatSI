@@ -98,6 +98,16 @@ class CarrinhoController extends Controller
             $this->redirect(['site/login']);
             return null;
         }else{
+
+            foreach ($carrinho->linhaCarrinhos as $linha){
+
+                if($linha->quantidade < 0 || $linha->quantidade > 10){
+                    Yii::$app->session->setFlash('error', 'A quantidade de produtos no carrinho não pode ser inferior a 0 ou superior a 10.');
+                    $this->redirect(['carrinho/view' , 'idCarrinho' => $idCarrinho]);
+                    return null;
+                }
+            }
+
             $carrinho->id_loja = $idLoja;
             $carrinho->id_morada = $idMorada;
             $carrinho->id_user = Yii::$app->user->identity->id;
@@ -134,12 +144,12 @@ class CarrinhoController extends Controller
             if($stocks != null && $stocks->quant_stock >= $linhaCarrinho->quantidade){
                 $linhaCarrinho->estado = 1;
                 $stocks->quant_stock -= $linhaCarrinho->quantidade;
-                $linhaCarrinho->save();
             }
             else{
             $linhaCarrinho->estado = 0;
-            $linhaCarrinho->save();
             }
+
+            $linhaCarrinho->save();
         }
     }
 }

@@ -79,10 +79,12 @@ class LinhacarrinhoController extends Controller
 
         //verificar se existe linha de carrinho com o produto
         $verifyLinha = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->idCarrinho])->andWhere(['id_produto' => $idProduto])->one();
+
         $produto = Produto::find()->where(['idProduto' => $idProduto])->one();
 
-        if($produto->ativo != 0){
+        if($produto != null && $produto->ativo != 0){
             if ($verifyLinha == null) {
+
                 $model = new Linhacarrinho();
                 $model->id_carrinho = $carrinho->idCarrinho;
                 $model->id_produto = $idProduto;
@@ -95,6 +97,7 @@ class LinhacarrinhoController extends Controller
             }
         }else{
             Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, o produto não está disponível.');
+            return $this->redirect(['site/index']);
         }
     }
 
@@ -126,7 +129,8 @@ class LinhacarrinhoController extends Controller
     public function actionAdd($idLinha)
     {
         $linha = $this->findModel($idLinha);
-        $linha->quantidade += 1;
+
+        $linha->quantidade < 10 ? $linha->quantidade += 1 : Yii::$app->session->setFlash('error', 'Não é possível adicionar mais unidades do produto ao carrinho.');
 
         if ($linha->save()) {
             return $this->redirect(['carrinho/view']);
@@ -143,7 +147,16 @@ class LinhacarrinhoController extends Controller
         $linha->quantidade -= 1;
 
         if ($linha->quantidade == 0) {
-            $linha->quantidade = 1;
+
+            $linha->delete();
+
+            if($linha->carrinho->numlinhas == 0)
+            {
+                $linha->carrinho->delete();
+                Yii::$app->session->setFlash('error', 'Não existem itens no carrinho! Adicione produtos ao carrinho.');
+                return $this->redirect(['site/index']);
+            }
+            return $this->redirect(['carrinho/view', 'idCarrinho' => $linha->carrinho->idCarrinho]);
         }
 
         if ($linha->save()) {

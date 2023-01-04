@@ -132,7 +132,7 @@ AppAsset::register($this);
                                 if(Yii::$app->user->isGuest)
                                     echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-user text-primary']) . HTML::tag('span', 'Login', ['class' => 'badge text-secondary', 'style' => 'padding-bottom: 2px;']), ['site/login'], ['class' => 'btn px-0 ml-3']);
                                 else
-                                    echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-user text-primary']) . HTML::tag('span', 'Logout( ' . Yii::$app->user->identity->username . ' )', ['class' => 'badge text-secondary', 'style' => 'padding-bottom: 2px;']), ['site/logout'], ['class' => 'btn px-0 ml-3', 'data-method' => 'post'])
+                                    echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-user text-primary']) . HTML::tag('span', 'Logout (' . Yii::$app->user->identity->username . ')', ['class' => 'badge text-secondary', 'style' => 'padding-bottom: 2px;']), ['site/logout'], ['class' => 'btn px-0 ml-3', 'data-method' => 'post'])
 
                                 ?>
                             </div>
