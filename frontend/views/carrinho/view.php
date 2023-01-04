@@ -67,11 +67,11 @@ use yii\helpers\Url;
                 <div class="border-bottom pb-2">
                     <div class="d-flex justify-content-between mb-3">
                         <h6>Subtotal</h6>
-                        <h6><?= $model->totalnoiva . "€" ?></h6>
+                        <h6><?= $model->total . "€" ?></h6>
                     </div>
                     <div class="d-flex justify-content-between">
                         <h6 class="font-weight-medium">Iva</h6>
-                        <h6 class="font-weight-medium"><?= $model->totaliva . "€" ?></h6>
+                        <h6 class="font-weight-medium"><?= $model->iva . "€" ?></h6>
                     </div>
                 </div>
                 <div class="pt-2">

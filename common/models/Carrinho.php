@@ -139,18 +139,7 @@ class Carrinho extends \yii\db\ActiveRecord
         return $total;
     }
 
-    public function getTotalNoIva()
-    {
-        $totalNoIva = 0;
-
-        foreach ($this->linhaCarrinhos as $linha) {
-            $totalNoIva += $linha->total;
-        }
-
-        return $totalNoIva;
-    }
-
-    public function getTotalIva()
+    public function getIva()
     {
 
         $valorIva = 0;
