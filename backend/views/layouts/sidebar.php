@@ -42,6 +42,12 @@
                         'visible' => Yii::$app->user->can('viewEmpresa'),
                     ],
                     [
+                        'label' => 'Gestão de Promoções',
+                        'icon' => 'fas fa-tags',
+                        'url' => ['promocao/index'],
+                        'visible' => Yii::$app->user->can('viewPromocao'),
+                    ],
+                    [
                         'label' => 'Gestão Geral de Lojas',
                         'icon' => 'fas fa-store',
                         'items' => [
@@ -57,6 +63,7 @@
                     [
                         'label' => 'Gestão de Loja',
                         'icon' => 'far fa-boxes',
+
                         'items' => [
                             ['label' => 'Gestão geral da loja', 'url' => ['gestao/index',
                                 'idLoja' => \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? \common\models\Loja::find()->where('ativo = 1')->one()->idLoja],

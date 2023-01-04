@@ -62,6 +62,16 @@ use yii\helpers\Url;
             </table>
         </div>
         <div class="col-lg-4" style="padding-top: 10px">
+            <br>
+            <form action="<?= Url::to(['carrinho/promo', 'idCarrinho' => $model->idCarrinho]) ?>" method="post">
+                <div class="input-group">
+                    <input type="text" id="codigoPromo" name="codigoPromo" class="form-control border-0 p-4" placeholder="Coupon Code">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Apply Coupon</button>
+                    </div>
+                </div>
+            </form>
+            <br>
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Carrinho</span></h5>
             <div class="bg-light p-30 mb-5">
                 <div class="border-bottom pb-2">
@@ -77,7 +87,7 @@ use yii\helpers\Url;
                 <div class="pt-2">
                     <div class="d-flex justify-content-between mt-2">
                         <h5>Total</h5>
-                        <h5><?= $model->total . "€" ?></h5>
+                        <h5><?= $model->id_promocao ? $model->totalcomdesconto . "€" : $model->total . "€" ?></h5>
                     </div>
                     <p>
                     <form method="GET" action="checkout">
