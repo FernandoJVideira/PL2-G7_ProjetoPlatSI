@@ -139,9 +139,10 @@ CREATE TABLE `linhaFatura` (
 
 CREATE TABLE `promocao` (
   `idPromocao` int PRIMARY KEY AUTO_INCREMENT,
-  `codigo` varchar(5) NOT NULL,
+  `nome_promo` varchar(50) NOT NULL UNIQUE,
+  `codigo` varchar(5) NOT NULL UNIQUE,
   `percentagem` float NOT NULL,
-  `data_limite` datetime NOT NULL
+  `data_limite` date NOT NULL
 ) ENGINE InnoDB;
 
 ALTER TABLE `empresa` ADD FOREIGN KEY (`id_morada`) REFERENCES `morada` (`idMorada`);
