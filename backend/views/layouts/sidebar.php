@@ -42,6 +42,12 @@
                         'visible' => Yii::$app->user->can('viewEmpresa'),
                     ],
                     [
+                        'label' => 'Gestão de Promoções',
+                        'icon' => 'fas fa-tags',
+                        'url' => ['promocao/index'],
+                        'visible' => Yii::$app->user->can('viewPromocao'),
+                    ],
+                    [
                         'label' => 'Gestão Geral de Lojas',
                         'icon' => 'fas fa-store',
                         'items' => [

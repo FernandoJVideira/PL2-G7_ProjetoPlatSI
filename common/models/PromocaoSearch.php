@@ -18,8 +18,9 @@ class PromocaoSearch extends Promocao
     {
         return [
             [['idPromocao'], 'integer'],
-            [['codigo', 'data_limite'], 'safe'],
             [['percentagem'], 'number'],
+            [['codigo', 'nome_promo'], 'safe'],
+            [['data_limite'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
 
@@ -64,7 +65,8 @@ class PromocaoSearch extends Promocao
             'data_limite' => $this->data_limite,
         ]);
 
-        $query->andFilterWhere(['like', 'codigo', $this->codigo]);
+        $query->andFilterWhere(['like', 'codigo', $this->codigo])
+            ->andFilterWhere(['like', 'nome_promo', $this->nome_promo]);
 
         return $dataProvider;
     }

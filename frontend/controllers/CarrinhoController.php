@@ -120,8 +120,15 @@ class CarrinhoController extends Controller
         $carrinho = Carrinho::findOne(['idCarrinho' => $idCarrinho]);
         $promo = Promocao::findOne(['codigo' => $codigoPromo]);
 
-        if ($promo == null) {
+        if ($promo == null || strtotime($promo->data_limite) < strtotime('now')) {
             Yii::$app->session->setFlash('error', 'Código de promoção inválido!');
+            $this->redirect(['carrinho/view']);
+            return null;
+        }
+
+        if($carrinho->promocao)
+        {
+            Yii::$app->session->setFlash('error', 'Já existe uma promoção aplicada ao carrinho!');
             $this->redirect(['carrinho/view']);
             return null;
         }

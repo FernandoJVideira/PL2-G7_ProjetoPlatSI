@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Promocao;
 use common\models\PromocaoSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -11,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * PromocaoController implements the CRUD actions for Promocao model.
  */
-class PromocaoController extends Controller
+class PromocaoController extends BaseAuthController
 {
     /**
      * @inheritDoc
@@ -38,6 +39,9 @@ class PromocaoController extends Controller
      */
     public function actionIndex()
     {
+        if(!Yii::$app->user->can('viewPromocao')){
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+        }
         $searchModel = new PromocaoSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -67,6 +71,10 @@ class PromocaoController extends Controller
      */
     public function actionCreate()
     {
+        if(!Yii::$app->user->can('createPromocao')){
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+        }
+
         $model = new Promocao();
 
         if ($this->request->isPost) {
@@ -91,6 +99,10 @@ class PromocaoController extends Controller
      */
     public function actionUpdate($idPromocao)
     {
+        if(!Yii::$app->user->can('updatePromocao')){
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+        }
+
         $model = $this->findModel($idPromocao);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -111,6 +123,10 @@ class PromocaoController extends Controller
      */
     public function actionDelete($idPromocao)
     {
+        if(!Yii::$app->user->can('deletePromocao')){
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+        }
+        
         $this->findModel($idPromocao)->delete();
 
         return $this->redirect(['index']);

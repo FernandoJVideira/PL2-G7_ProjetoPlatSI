@@ -10,15 +10,17 @@ use yii\grid\GridView;
 /** @var common\models\PromocaoSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Promocaos';
+$this->title = 'Promoções';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="promocao-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="card w-75 mx-auto">
+        <div class="card-body">
 
     <p>
-        <?= Html::a('Create Promocao', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Registar Promoção', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Limpar pesquisa',['index'], ['class' => 'btn btn-primary', 'style' => 'float:right']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -30,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'idPromocao',
+            'nome_promo',
             'codigo',
             'percentagem',
             'data_limite',
@@ -41,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
+        </div>
+    </div>
 
 </div>

@@ -6,14 +6,12 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\Promocao $model */
 
-$this->title = $model->idPromocao;
+$this->title = $model->nome_promo;
 $this->params['breadcrumbs'][] = ['label' => 'Promocaos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="promocao-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'idPromocao' => $model->idPromocao], ['class' => 'btn btn-primary']) ?>
@@ -30,9 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'idPromocao',
-            'codigo',
+            'nome_promo',
             'percentagem',
             'data_limite',
+            'codigo',
         ],
     ]) ?>
 
