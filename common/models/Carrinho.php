@@ -108,14 +108,13 @@ class Carrinho extends \yii\db\ActiveRecord
     }
 
     public function getEstadoLinhas(){
+        $estado = true;
         foreach ($this->linhaCarrinhos as $linhaCarrinho) {
             if($linhaCarrinho->estado == 0){
-               return false;
+               $estado = false;
             }
-            else
-                return true;
         }
-        return false;
+        return $estado;
     }
 
     /**
@@ -154,12 +153,12 @@ class Carrinho extends \yii\db\ActiveRecord
     public function getTotalComDesconto()
     {
         $total = $this->getTotal();
-        return $total - ($total * ($this->promocao->percentagem / 100));
+        return $total - ($total * (($this->promocao->percentagem ?? 0)/ 100));
     }
 
     public function getDesconto(){
         $total = $this->getTotal();
-        return $total * ($this->promocao->percentagem / 100);
+        return $total * (($this->promocao->percentagem ?? 0) / 100) ;
     }
 
     public function getNumLinhas()

@@ -117,7 +117,7 @@ class Loja extends \yii\db\ActiveRecord
      */
     public function getMetodoPagamentoIdMetodos()
     {
-        return $this->hasMany(MetodoPagamento::class, ['idMetodo' => 'metodoPagamento_idMetodo'])->viaTable('loja_metodoPagamento', ['loja_idLoja' => 'idLoja']);
+        return $this->hasMany(Metodopagamento::class, ['idMetodo' => 'metodoPagamento_idMetodo'])->viaTable('loja_metodoPagamento', ['loja_idLoja' => 'idLoja']);
     }
 
     /**

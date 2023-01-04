@@ -40,9 +40,7 @@ class Fatura extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idFatura'], 'required'],
             [['idFatura', 'id_metodo', 'id_utilizador', 'id_loja', 'id_carrinho'], 'integer'],
-            [['desconto'], 'number'],
             [['dataCriacao'], 'safe'],
             [['nomeUtilizador', 'nifUtilizador', 'nomeEmpresa', 'nifEmpresa', 'descricaoLoja'], 'string', 'max' => 255],
             [['idFatura'], 'unique'],
@@ -63,7 +61,6 @@ class Fatura extends \yii\db\ActiveRecord
             'nomeEmpresa' => 'Nome Empresa',
             'nifEmpresa' => 'Nif Empresa',
             'descricaoLoja' => 'Descricao Loja',
-            'desconto' => 'Desconto',
             'dataCriacao' => 'Data Criacao',
             'id_metodo' => 'Id Metodo',
             'id_utilizador' => 'Id Utilizador',
@@ -100,5 +97,25 @@ class Fatura extends \yii\db\ActiveRecord
     public function getMetodo()
     {
         return $this->hasOne(Metodopagamento::class, ['idMetodo' => 'id_metodo']);
+    }
+
+    /**
+     * Gets query for [[Metodo]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLoja()
+    {
+        return $this->hasOne(Loja::class, ['idLoja' => 'id_loja']);
+    }
+
+    /**
+     * Gets query for [[Metodo]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUtilizador()
+    {
+        return $this->hasOne(Utilizador::class, ['idUser' => 'id_utilizador']);
     }
 }

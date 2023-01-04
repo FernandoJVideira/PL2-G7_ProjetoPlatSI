@@ -67,7 +67,7 @@ class StockController extends BaseAuthController
                     $model->quant_stock = 0;
                     $model->save();
                 }
-                if($_GET['idCarrinho'] != null){
+                if(isset($_GET['idCarrinho'])){
                     $this->redirect(Url::to(['encomenda/view', 'idCarrinho' => $_GET['idCarrinho']]));
                 }
                 else{
@@ -105,7 +105,7 @@ class StockController extends BaseAuthController
                     'model' => $model,
                 ]);
             }
-            if($_GET['idCarrinho'] != null){
+            if(isset($_GET['idCarrinho'])){
                 $this->redirect(Url::to(['encomenda/view', 'idCarrinho' => $_GET['idCarrinho']]));
             }
             else{

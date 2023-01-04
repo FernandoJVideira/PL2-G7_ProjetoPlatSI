@@ -38,7 +38,11 @@ if(!isset($_GET['EncomendaSearch']['estado']))
         'summary' => 'A mostrar <b>{begin}-{end}</b> de <b>{totalCount}</b> encomendas',
         'emptyText' => 'Não foram encontradas encomendas',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+                'header' => 'Nº',
+                'headerOptions' => ['style' => 'color:#007bff; width: 4em; text-align: center;'],
+                'contentOptions' => ['style' => 'text-align: center;'],
+            ],
             [
                     'attribute' => 'estado',
                     'filter'=>array("emProcessamento" => "Em Processamento", "fechado" => "Fechado"),
@@ -75,10 +79,22 @@ if(!isset($_GET['EncomendaSearch']['estado']))
             ],
             [
                 'class' => ActionColumn::className(),
-                'template' => '{view}',
-                'urlCreator' => function ($action, Carrinho $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'idCarrinho' => $model->idCarrinho]);
-                 }
+                'headerOptions' => [
+                    'style' => 'width: 5em',
+                ],
+                'contentOptions' => ['style'=>'vertical-align: middle; text-align: center;'],
+                'template' => '{view}&nbsp;&nbsp;{fatura}',
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('<i class="fa fa-eye" aria-hidden="true"></i>', ['view', 'idCarrinho' => $model->idCarrinho], ['title' => 'Ver encomenda']);
+                    },
+                    'fatura' => function ($url, $model, $key) {
+                        if($model->estado == 'fechado')
+                            return Html::a('<i class="fa fa-file" aria-hidden="true"></i>', ['fatura/view', 'idCarrinho' => $model->idCarrinho], ['title' => 'Ver fatura']);
+                        else
+                            return '';
+                    },
+                ],
             ],
         ],
     ]); ?>

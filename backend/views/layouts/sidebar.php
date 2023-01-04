@@ -57,6 +57,7 @@
                             ['label' => 'Ivas', 'url' => ['iva/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createIva'), 'active' => Yii::$app->controller->id == 'iva'],
                             ['label' => 'Categorias', 'url' => ['categoria/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createCategoria'), 'active' => Yii::$app->controller->id == 'categoria'],
                             ['label' => 'Produtos', 'url' => ['produto/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createProduto'), 'active' => Yii::$app->controller->id == 'produto'],
+                            //['label' => 'Promoções', 'url' => ['promocao/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createProduto'), 'active' => Yii::$app->controller->id == 'promocao'],
                         ],
                         'visible' => isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Admin']),
                     ],

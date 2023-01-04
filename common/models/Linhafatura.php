@@ -26,7 +26,7 @@ class Linhafatura extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'linhafatura';
+        return 'linhaFatura';
     }
 
     /**

@@ -27,7 +27,8 @@
     "kartik-v/yii2-detail-view": "dev-master",
     "kartik-v/yii2-widgets": "dev-master",
     "yiisoft/yii2-jui": "~2.0.0",
-    "justinvoelker/yii2-separatedpager": "*"
+    "justinvoelker/yii2-separatedpager": "*",
+    "dompdf/dompdf": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
