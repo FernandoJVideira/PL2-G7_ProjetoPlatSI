@@ -55,7 +55,7 @@ $this->title = "Stuff n' Go";
                         <figure onmouseover="style=' box-shadow: -4px -3px 15px 10px rgba(0,0,0,0.06);'"
                                 onmouseout="style='box-shadow:none;'" class="img-box">
                             <figcaption
-                                    style="position:absolute;padding-top:15vh;padding-left:20%;color:aliceblue;font-size:xxx-large"
+                                    style="position:absolute;padding-top:15vh;padding-left:20%;color:aliceblue;font-size:xx-large"
                                     class="figcaption"><b><i style="color:black;opacity:60%"> Descubra a nossa App <br>e
                                         as suas vantagens</i></b></figcaption>
                             <img style="width:100%;object-position:var(--focal-point-x) var(--focal-point-y);height:50vh;object-fit:cover;"

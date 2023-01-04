@@ -16,7 +16,10 @@ $this->title = 'Favoritos';
 ?>
 <div class="favorito-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="row d-flex justify-content-center mt-4 mb-3"><h1><?= Html::encode($this->title) ?></h1></div>
+
+    <div class="card w-75 mx-auto">
+        <div class="card-body">
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -31,6 +34,15 @@ $this->title = 'Favoritos';
                     return Html::a($model->produto->nome, Url::to(['site/detalhes', 'id' => $model->produto->idProduto]), ['class' => 'text-dark']);
                 },
                 'format' => 'html',
+                'headerOptions' => ['style' => 'width: 50em;'],
+            ],
+            [
+                    'attribute'=>'Preço',
+                    'value' => function (Favorito $model) {
+                        return $model->produto->preco_unit . '€';
+                    },
+                    'format' => 'html',
+                    'headerOptions' => ['style' => 'width: 10em;'],
             ],
             [
                 'class' => ActionColumn::class,
@@ -44,7 +56,10 @@ $this->title = 'Favoritos';
                         ]);
                     },
                 ],
+                'headerOptions' => ['style' => 'width: 5em;'],
             ],
         ],
     ]); ?>
+        </div>
+    </div>
 </div>
