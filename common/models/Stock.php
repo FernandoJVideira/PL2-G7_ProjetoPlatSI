@@ -32,9 +32,9 @@ class Stock extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            //[['quant_stock'], 'required'], TODO: Alterar base de dados para que valor por defeito seja 0
             [['id_produto'], 'required', 'message' => 'Este campo é obrigatório'],
             [['quant_stock', 'quant_req', 'id_produto', 'id_loja'], 'integer'],
+            [['quant_stock', 'quant_req'], 'integer', 'min' => 0, 'tooSmall' => 'Insira um valor superior a 0'],
             ['quant_stock', 'validateTest'],
             [['id_loja'], 'exist', 'skipOnError' => true, 'targetClass' => Loja::class, 'targetAttribute' => ['id_loja' => 'idLoja']],
             [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'idProduto']],

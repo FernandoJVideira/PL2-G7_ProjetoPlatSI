@@ -64,27 +64,6 @@ class EncomendaController extends BaseAuthController
         ]);
     }
 
-    /**
-     * Creates a new Carrinho model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new Carrinho();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'idCarrinho' => $model->idCarrinho]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Updates an existing Carrinho model.
@@ -98,7 +77,7 @@ class EncomendaController extends BaseAuthController
         $model = $this->findModel($idCarrinho);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idCarrinho' => $model->idCarrinho]);
+            return $this->redirect(['encomenda/view', 'idCarrinho' => $model->idCarrinho]);
         }
 
         return $this->render('update', [

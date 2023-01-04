@@ -3,8 +3,10 @@
 use backend\models\Encomenda;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
@@ -18,9 +20,15 @@ $this->title = 'Encomenda de ' . $model->user->nome;
 ?>
 <div class="carrinho-view">
     <p>
-        <?= Html::a('Fechar encomenda', ['encomenda/concluir', 'idCarrinho' => $model->idCarrinho], ['class' => 'btn btn-primary' . (!$model->getEstadoLinhas() || $model->estado == 'fechado' ? ' disabled': '')]) ?>
-    </p>
+        <?php
+        $form = ActiveForm::begin([
+            'action' => Url::to(['fatura/create', 'idCarrinho' => $model->idCarrinho]),
+            'method' => 'post',
+        ]);
 
+        echo '<button type="submit" class="btn btn-primary" ' .(!$model->getEstadoLinhas() || $model->estado == 'fechado' ? 'disabled': ''). '>Fechar encomenda</button>';
+        ?>
+    </p>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -51,6 +59,11 @@ $this->title = 'Encomenda de ' . $model->user->nome;
             ],
         ],
     ]);
+        if($model->getEstadoLinhas() && $model->estado != 'fechado')
+            echo $form->field(new \common\models\Fatura(), 'id_metodo')->dropDownList(ArrayHelper::map($model->loja->getMetodoPagamentoIdMetodos()->all(),'idMetodo','metodoPagamento'), ['id' => 'idMetodo', 'name' => 'idMetodo'])->label('Metodo de pagamento');
+
+        ActiveForm::end();
+
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => false,
