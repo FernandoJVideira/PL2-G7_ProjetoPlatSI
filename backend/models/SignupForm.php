@@ -74,6 +74,8 @@ class SignupForm extends ActiveRecord
             ['cidade', 'required', 'message' => 'A cidade tem de ser preenchida!'],
             ['cidade', 'string', 'min' => 2, 'max' => 255],
 
+            ['id_loja', 'safe'],
+
             ['codigo_postal', 'required', 'message' => 'O código postal tem de ser preenchido!'],
             ['codigo_postal', 'string', 'min' => 4, 'max' => 12],
         ];
@@ -133,4 +135,15 @@ class SignupForm extends ActiveRecord
 
         return true;
     }
+
+    public static function getPerfil($id)
+    {
+        $model = AuthAssignment::find()->where(['user_id' => $id])->one();
+
+        if(!empty($model)){
+            return $model->item_name;
+        }
+        return null;
+    }
+
 }

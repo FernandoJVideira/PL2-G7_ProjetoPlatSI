@@ -23,7 +23,7 @@ if(!isset($_GET['EncomendaSearch']['estado']))
 <div class="carrinho-index">
     <div class="card w-75 mx-auto">
         <div class="card-body">
-            <?php if(isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Admin'])){ ?>
+            <?php if(isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Admin'])){ ?><?= Html::a('Limpar pesquisa',['index','idLoja' => $_GET['idLoja']], ['class' => 'btn btn-primary', 'style' => 'float:right']) ?>
                 <div class="w-25" style="margin-bottom: 1em">
                     <?php
                     $form = ActiveForm::begin(['action' => 'index', 'method' => 'GET']);

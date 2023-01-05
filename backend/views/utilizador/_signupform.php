@@ -55,24 +55,22 @@ use yii\widgets\ActiveForm;
                                 <?= $form->field($model, 'role')->hiddenInput(['value' => $_GET['role']]) ?>
                             </div>
                             <?php if ($_GET['role'] != 'Admin' && $_GET['role'] != 'Cliente'){ ?>
-                            <div class="col-md-6 form-group 1">
-                                <?= $form->field($model, 'id_loja')->dropDownList( [null => ''] +\yii\helpers\ArrayHelper::map( $lojas, 'idLoja', 'descricao'), ['options' => [ $model->id_loja => ['Selected'=>'selected']]])->label('Loja') ?>
-                                <?php if(isset($erro)){
-                                    echo '<div class="help-block">Tem de ser selecionada uma loja!</div>';
-                                } ?>
-                            </div>
-                            <?php } ?>
+                                    <div class="col-md-6 form-group 1">
+                                        <?= $form->field($model, 'id_loja')->dropDownList( [null => ''] +\yii\helpers\ArrayHelper::map( $lojas, 'idLoja', 'descricao'), ['options' => [ $model->id_loja ?? \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? null => ['Selected'=>'selected']]])->label('Loja') ?>
+                                        <?php if(isset($erro)){
+                                            echo '<div class="help-block">Tem de ser selecionada uma loja!</div>';
+                                        } ?>
+                                    </div>
+                                <?php } ?>
                         </div>
                     </div>
                     <div class="form-group">
                         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
                     </div>
-
-            <?php ActiveForm::end(); ?>
-
                 </div>
             </div>
         </div>
     </div>
+    <?php ActiveForm::end(); ?>
 </div>
 

@@ -86,7 +86,7 @@ CREATE TABLE `produto` (
 
 CREATE TABLE `stock` (
   `idStock` int PRIMARY KEY AUTO_INCREMENT,
-  `quant_stock` int NOT NULL,
+  `quant_stock` int DEFAULT 0,
   `quant_req` int DEFAULT 0,
   `id_produto` int,
   `id_loja` int

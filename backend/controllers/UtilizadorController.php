@@ -83,7 +83,6 @@ class UtilizadorController extends BaseAuthController
 
         if ($this->request->isPost) {
             $signupForm->load($this->request->post());
-            //isset($this->request->post()['SignupForm']['idLoja']) ? $loja = $this->request->post()['SignupForm']['idLoja'] : $loja = null;
             $loja = ($this->request->post()['SignupForm']['id_loja'] ?? null);
             $role = $this->request->post('SignupForm')['role'];
             if($signupForm->signup($role, $loja)){

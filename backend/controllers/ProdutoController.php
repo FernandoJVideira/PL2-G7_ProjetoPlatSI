@@ -72,11 +72,13 @@ class ProdutoController extends BaseAuthController
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
+                if(!file_exists(self::$path))
+                    mkdir(self::$path);
                 $imagem = UploadedFile::getInstance($model, 'imagem');
                 $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
                 if($imagem->saveAs(self::$path . $nomeImagem)){
                     $model->imagem = $nomeImagem;
-                    $model->save();
+                    $model->save(false);
                     return $this->redirect(['view', 'idProduto' => $model->idProduto]);
                 }
             }

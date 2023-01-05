@@ -46,6 +46,7 @@ class Produto extends \yii\db\ActiveRecord
             [['dataCriacao'], 'safe'],
             [['ativo', 'id_categoria'], 'integer'],  
             [['nome', 'imagem'], 'string', 'max' => 255],
+            [['imagem'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_categoria' => 'idCategoria']],
         ];
     }

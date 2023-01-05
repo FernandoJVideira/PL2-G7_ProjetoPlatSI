@@ -16,7 +16,7 @@ use yii\filters\VerbFilter;
 /**
  * FaturaController implements the CRUD actions for Fatura model.
  */
-class FaturaController extends Controller
+class FaturaController extends BaseAuthController
 {
     /**
      * @inheritDoc
@@ -86,13 +86,21 @@ class FaturaController extends Controller
         $carrinho = Carrinho::findOne($idCarrinho);
 
         if ($carrinho == null) {
-            //TODO: set flash
-            //TODO: caso esteja emProcessamento, redirecionar para o carrinho
+            $this->showMessage('Não foi possivel concluir esta ação');
+            return $this->redirect(['index']);
+        }
+        else if(!isset($this->request->post()['idMetodo'])){
+            $this->showMessage('Active um metodo de pagamento para poder fechar a encomenda', 'warning');
             return $this->redirect(['index']);
         }
         else if($carrinho->estado == 'fechado') {
             return $this->redirect(['fatura', 'idFatura' => Fatura::findOne(['id_carrinho' => $idCarrinho])->idFatura]);
         }
+        else if($carrinho->estado == 'aberto') {
+            $this->showMessage('Não foi possivel concluir esta ação');
+            return $this->redirect(['index']);
+        }
+
 
         $model->nomeUtilizador = $carrinho->user->nome;
         $model->nifUtilizador = $carrinho->user->nif;

@@ -4,7 +4,9 @@ namespace backend\controllers;
 
 use app\models\User;
 use backend\models\AuthAssignment;
+use common\models\Carrinho;
 use common\models\LoginForm;
+use common\models\Produto;
 use common\models\Utilizador;
 use Yii;
 use yii\filters\VerbFilter;
@@ -37,8 +39,39 @@ class SiteController extends BaseAuthController
      */
     public function actionIndex()
     {
+        $idLoja = \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? null;
+        //$idLoja = \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? \common\models\Loja::find()->where('ativo = 1')->one()->idLoja;
+
         $count_clientes = AuthAssignment::find()->where(['item_name' => 'Cliente'])->innerJoin('user', 'auth_assignment.user_id = user.id')->andWhere('status ='. \common\models\User::STATUS_ACTIVE)->count();
-        return $this->render('index', ['count_clientes' => $count_clientes]);
+
+        $countCarrinhos = Carrinho::find()->where(['estado' => 'fechado'])->count();
+
+        $query = "SELECT `linhaCarrinho`.`id_produto` FROM `carrinho` LEFT JOIN `linhaCarrinho` ON `carrinho`.`idCarrinho` = `linhaCarrinho`.`id_carrinho` WHERE (`carrinho`.`estado`='fechado') AND (`data_criacao` >= '2022-12-29') GROUP BY `id_produto` ORDER BY SUM(quantidade) DESC LIMIT 1";
+        $post = Yii::$app->db->createCommand($query)->queryOne();
+        $produto = Produto::findOne(['idProduto' => $post['id_produto']]);
+
+        if($idLoja != null){
+            $encomendas_pendentes = Carrinho::find()->where(['estado' => 'emProcessamento'])->andWhere(['id_loja' => $idLoja])->count();
+            $carrinhos = Carrinho::find()->where(['estado' => 'emProcessamento'])->andWhere(['id_loja' => $idLoja])->all();
+        }
+        else{
+            $encomendas_pendentes = Carrinho::find()->where(['estado' => 'emProcessamento'])->count();
+            $carrinhos = Carrinho::find()->where(['estado' => 'emProcessamento'])->all();
+        }
+
+        $carrinhos = array_filter($carrinhos, function ($carrinho) {
+            return $carrinho->getLinhacarrinhos()->where(['estado' => 0])->count() > 0;
+        });
+        $emFalta = array_values($carrinhos);
+
+        return $this->render('index', [
+            'idLoja' => $idLoja ?? \common\models\Loja::find()->where('ativo = 1')->one()->idLoja,
+            'count_clientes' => $count_clientes,
+            'count_carrinhos' => $countCarrinhos,
+            'most_sold_product' => $produto->nome,
+            'encomendas_pendentes' => $encomendas_pendentes,
+            'emFalta' => $emFalta
+            ]);
     }
 
     /**
