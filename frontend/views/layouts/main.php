@@ -46,7 +46,7 @@ AppAsset::register($this);
         </div>
         <div class="col-lg-4 col-6 text-left">
         <!--                                Barra de Pesquisa                               -->
-          <form method="GET" action="produtos" >
+          <form method="GET" action="<?= Url::toRoute(['site/produtos'])?>" >
             <div class="input-group">
               <input                 
                 type="text"
