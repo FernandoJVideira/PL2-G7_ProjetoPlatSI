@@ -25,14 +25,6 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <script>
-        function bootstrap() {
-            const links = document.getElementsByTagName("link");
-            if (links.length > 5)
-                links[5].remove();
-        }
-        window.onload = bootstrap();
-    </script>
     <script type="text/javascript" src="../../web/js/main.js"></script>
     <link rel="stylesheet" href="../../web/css/site.css">
     <link rel="stylesheet" href="../../web/css/style.css">
@@ -131,11 +123,22 @@ AppAsset::register($this);
                             <?php
                                 if(Yii::$app->user->isGuest)
                                     echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-user text-primary']) . HTML::tag('span', 'Login', ['class' => 'badge text-secondary', 'style' => 'padding-bottom: 2px;']), ['site/login'], ['class' => 'btn px-0 ml-3']);
-                                else
-                                    echo Html::a(HTML::tag('i', '', ['class' => 'fa fa-user text-primary']) . HTML::tag('span', 'Logout (' . Yii::$app->user->identity->username . ')', ['class' => 'badge text-secondary', 'style' => 'padding-bottom: 2px;']), ['site/logout'], ['class' => 'btn px-0 ml-3', 'data-method' => 'post'])
+                                else{ ?>
 
-                                ?>
+                            <div class="btn px-0 ml-3 dropdown">
+                            <a class="btn dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user text-primary"></i>
+                                <span class="badge text-secondary" style="padding-bottom: 2px;"><?= Yii::$app->user->identity->username ?></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <?= Html::a(Html::tag('span', 'Perfil', ['style'=>'padding-bottom: 2px']), ['utilizador/view', 'idUser'=>Yii::$app->user->identity->id], ['class' => 'dropdown-item'])?>
+                                <div class="dropdown-divider"></div>
+                                <?= Html::a(HTML::tag('span', 'Logout', ['style' => 'padding-bottom: 2px;']), ['site/logout'], ['class' => 'dropdown-item', 'data-method' => 'post'])?>
                             </div>
+                        </div>
+                        <?php } ?>
+
+                    </div>
                         </div>
                     </nav>
                 </div>
