@@ -26,14 +26,6 @@ use yii\widgets\ActiveForm;
                             <div class="col-md-6 form-group">
                                 <?= $form->field($model, 'nif')->textInput(['maxlength' => true]) ?>
                             </div>
-                            <div class="col-md-6 form-group">
-                            <?php if($model->GetPerfil($model->idUser) != 'Cliente' && $model->GetPerfil($model->idUser) != 'Admin' ) {?>
-                            <?= $form->field($model, 'id_loja')->dropDownList( [null => ''] +\yii\helpers\ArrayHelper::map( $lojas, 'idLoja', 'descricao'), ['options' => [ $model->id_loja => ['Selected'=>'selected']]])->label('Loja') ?>
-                                <?php if(isset($erro)){
-                                    echo '<div class="help-block">Tem de ser selecionada uma loja!</div>';
-                                } ?>
-                            <?php } ?>
-                            </div>
                         </div>
                     </div>
                     <div class="form-group">

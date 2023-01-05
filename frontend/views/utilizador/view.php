@@ -36,12 +36,6 @@ $this->title = $model->user->username;
                     <dd class="col-sm-9 lead">
                         <?= $model->telemovel ?>
                     </dd>
-                    <?php if($model->id_loja != null){ ?>
-                        <dt class="col-sm-3 lead"><strong>Loja:</strong></dt>
-                        <dd class="col-sm-9 lead"><?= $model->loja->descricao ?></dd>
-                    <?php } ?>
-
-
                 </dl>
                 <hr>
                 <div class="">
