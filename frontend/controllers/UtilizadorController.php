@@ -25,13 +25,10 @@ class UtilizadorController extends Controller
      */
     public function actionView($idUser)
     {
-        $role = Utilizador::getPerfil($idUser);
-
-        if(Yii::$app->user->id != $idUser)
-            if(!Yii::$app->user->can('view'.$role))
-            {
-                $this->showMessage('Não tem permissões para aceder a esta página.');
-            }
+        if(Yii::$app->user->id != $idUser){
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            return $this->redirect(['site/index']);
+        }
 
         $model = $this->findModel($idUser);
 
