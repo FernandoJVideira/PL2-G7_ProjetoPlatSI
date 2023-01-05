@@ -2,11 +2,7 @@
 
 namespace frontend\controllers;
 
-use common\models\AuthItem;
-use common\models\Loja;
-use common\models\User;
 use common\models\Utilizador;
-use common\models\UtilizadorSearch;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

@@ -65,9 +65,9 @@ use yii\helpers\Url;
             <br>
             <form action="<?= Url::to(['carrinho/promo', 'idCarrinho' => $model->idCarrinho]) ?>" method="post">
                 <div class="input-group">
-                    <input type="text" id="codigoPromo" name="codigoPromo" class="form-control border-0 p-4" placeholder="Coupon Code">
+                    <input type="text" id="codigoPromo" name="codigoPromo" class="form-control border-0 p-4" placeholder="Código">
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary">Apply Coupon</button>
+                        <button type="submit" class="btn btn-primary">Aplicar</button>
                     </div>
                 </div>
             </form>
