@@ -155,7 +155,7 @@ class CarrinhoTest extends \Codeception\Test\Unit
         //Test Save
         $carrinho = new Carrinho();
 
-        $carrinho->idCarrinho = 1; //para facilitar a visualização do teste
+        $carrinho->idCarrinho = 1; //para facilitar a visualização do teste dado que nehum outro dado é único
         $carrinho->estado = 'aberto';
         $carrinho->data_criacao = '2021-01-01 12:00:00';
         $carrinho->id_user = $utilizador->idUser;
