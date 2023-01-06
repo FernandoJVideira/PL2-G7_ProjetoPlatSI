@@ -5,3 +5,9 @@ modules:
         - Yii2:
             part: [orm, email, fixtures]
         - Asserts
+        - Db
+    config:
+        Db:
+            dsn: 'mysql:host=localhost;dbname=stuffngo_test'
+            user: 'root'
+            password: ''
