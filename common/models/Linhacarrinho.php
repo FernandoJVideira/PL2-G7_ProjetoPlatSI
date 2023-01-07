@@ -32,7 +32,11 @@ class Linhacarrinho extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estado', 'quantidade', 'id_carrinho', 'id_produto'], 'integer'],
+            //[['id_carrinho', 'id_produto'], 'integer'],
+            [['id_carrinho', 'id_produto'], 'required'],
+            [['estado'], 'in', 'range' => [0, 1]],
+            [['estado'], 'required'],
+            [['quantidade'], 'in', 'range' => range(1,10)],
             [['quantidade'], 'required'],
             [['id_carrinho'], 'exist', 'skipOnError' => true, 'targetClass' => Carrinho::class, 'targetAttribute' => ['id_carrinho' => 'idCarrinho']],
             [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'idProduto']],

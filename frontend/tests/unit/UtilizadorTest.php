@@ -28,7 +28,8 @@ class UtilizadorTest extends \Codeception\Test\Unit
 
         //Testing
         $utilizador = new Utilizador();
-        $user = User::find()->where(['username' => 'fernando'])->one();
+
+        $user = $this->tester->grabRecord('common\models\User', ['username' => 'fernando']);
 
         $utilizador->setAttribute('nome', 'Loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooogggggg');
         $this->assertFalse($utilizador->validate(['nome']));
@@ -69,7 +70,7 @@ class UtilizadorTest extends \Codeception\Test\Unit
         $utilizador->setAttribute('id_loja', 1);
         $this->assertTrue($utilizador->validate(['id_loja']));
 
-        //Se o user for cliente não estará associado a uma loja
+        //Se o user for cliente ou Admin não estará associado a uma loja, logo este valor pode ser null
         $utilizador->setAttribute('id_loja', null);
         $this->assertTrue($utilizador->validate(['id_loja']));
 
