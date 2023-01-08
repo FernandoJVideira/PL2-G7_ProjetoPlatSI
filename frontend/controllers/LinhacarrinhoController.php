@@ -88,9 +88,11 @@ class LinhacarrinhoController extends Controller
                 $model = new Linhacarrinho();
                 $model->id_carrinho = $carrinho->idCarrinho;
                 $model->id_produto = $idProduto;
+                $model->estado = 0;
                 $model->quantidade = 1;
 
-                $model->save() ? $this->redirect(['carrinho/view']) : \Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
+
+                $model->save() ? $this->redirect(['carrinho/view']) : Yii::$app->session->setFlash('error', 'Não foi possível adicionar o produto ao carrinho, tente mais tarde.');
 
             } else {
                 $this->redirect(['linhacarrinho/add', 'idLinha' => $verifyLinha['idLinha']]);

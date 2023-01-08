@@ -32,10 +32,11 @@ class Promocao extends \yii\db\ActiveRecord
     {
         return [
             [['percentagem', 'data_limite', 'codigo', 'nome_promo'], 'required'],
-            [['percentagem'], 'number'],
-            [['data_limite'], 'safe'],
-            [['codigo'], 'string', 'max' => 5],
-            [['nome_promo'], 'string', 'max' => 50],
+            ['percentagem', 'in', 'range' => range(1,100)],
+            [['data_limite'], 'date', 'format' => 'yyyy-MM-dd'],
+            [['codigo'], 'string','min' => 5, 'max' => 5 , 'tooShort' => 'O código tem de ter 5 caracteres', 'tooLong' => 'O código tem de ter 5 caracteres'],
+            [['codigo'], 'unique'],
+            [['nome_promo'], 'string','min' => 3, 'max' => 50],
         ];
     }
 

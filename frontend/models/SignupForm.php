@@ -53,7 +53,7 @@ class SignupForm extends Model
 
             ['telemovel', 'required', 'message' => 'O telemóvel tem de ser preenchido!'],
             ['telemovel', 'integer', 'message' => 'O telemóvel deve ser um número!'],
-            ['telemovel', 'string', 'min' => 9, 'max' => 9, 'tooShort' => 'O telemóvel deve ser um número com 9 digitos!', 'tooLong' => 'O telemóvel deve ser um número com 9 digitos!'],
+            ['telemovel', 'string', 'min' => 9, 'max' => 13, 'tooShort' => 'O telemóvel deve ser um número com 9 digitos!', 'tooLong' => 'O telemóvel deve ser um número com 9 digitos!'],
 
             ['nif', 'required', 'message' => 'O nif tem de ser preenchido!'],
             ['nif', 'integer', 'message' => 'O nif deve ser um número!'],
