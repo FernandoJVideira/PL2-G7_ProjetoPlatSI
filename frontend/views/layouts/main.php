@@ -132,6 +132,7 @@ AppAsset::register($this);
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <?= Html::a(Html::tag('span', 'Perfil', ['style'=>'padding-bottom: 2px']), ['utilizador/view', 'idUser'=>Yii::$app->user->identity->id], ['class' => 'dropdown-item'])?>
+                                <?= Html::a(Html::tag('span', 'Histórico de Encomendas', ['style'=>'padding-bottom: 2px']), ['encomenda/index'], ['class' => 'dropdown-item'])?>
                                 <div class="dropdown-divider"></div>
                                 <?= Html::a(HTML::tag('span', 'Logout', ['style' => 'padding-bottom: 2px;']), ['site/logout'], ['class' => 'dropdown-item', 'data-method' => 'post'])?>
                             </div>

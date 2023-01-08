@@ -46,9 +46,9 @@ class SiteController extends BaseAuthController
 
         $countCarrinhos = Carrinho::find()->where(['estado' => 'fechado'])->count();
 
-        $query = "SELECT `linhaCarrinho`.`id_produto` FROM `carrinho` LEFT JOIN `linhaCarrinho` ON `carrinho`.`idCarrinho` = `linhaCarrinho`.`id_carrinho` WHERE (`carrinho`.`estado`='fechado') AND (`data_criacao` >= '2022-12-29') GROUP BY `id_produto` ORDER BY SUM(quantidade) DESC LIMIT 1";
+        /*$query = "SELECT `linhaCarrinho`.`id_produto` FROM `carrinho` LEFT JOIN `linhaCarrinho` ON `carrinho`.`idCarrinho` = `linhaCarrinho`.`id_carrinho` WHERE (`carrinho`.`estado`='fechado') AND (`data_criacao` >= '2022-12-29') GROUP BY `id_produto` ORDER BY SUM(quantidade) DESC LIMIT 1";
         $post = Yii::$app->db->createCommand($query)->queryOne();
-        $produto = Produto::findOne(['idProduto' => $post['id_produto']]);
+        $produto = Produto::findOne(['idProduto' => $query['id_produto']]);*/
 
         if($idLoja != null){
             $encomendas_pendentes = Carrinho::find()->where(['estado' => 'emProcessamento'])->andWhere(['id_loja' => $idLoja])->count();
@@ -68,7 +68,7 @@ class SiteController extends BaseAuthController
             'idLoja' => $idLoja ?? \common\models\Loja::find()->where('ativo = 1')->one()->idLoja,
             'count_clientes' => $count_clientes,
             'count_carrinhos' => $countCarrinhos,
-            'most_sold_product' => $produto->nome,
+            //'most_sold_product' => $produto->nome,
             'encomendas_pendentes' => $encomendas_pendentes,
             'emFalta' => $emFalta
             ]);

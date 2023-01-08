@@ -59,10 +59,10 @@ $this->title = 'Encomenda de ' . $model->user->nome;
             ],
         ],
     ]);
-        if($model->getEstadoLinhas() && $model->estado != 'fechado')
-            echo $form->field(new \common\models\Fatura(), 'id_metodo')->dropDownList(ArrayHelper::map($model->loja->getMetodoPagamentoIdMetodos()->all(),'idMetodo','metodoPagamento'), ['id' => 'idMetodo', 'name' => 'idMetodo'])->label('Metodo de pagamento');
+    if($model->getEstadoLinhas() && $model->estado != 'fechado')
+        echo $form->field(new \common\models\Fatura(), 'id_metodo')->dropDownList(ArrayHelper::map($model->loja->getMetodoPagamentoIdMetodos()->all(),'idMetodo','metodoPagamento'), ['id' => 'idMetodo', 'name' => 'idMetodo'])->label('Metodo de pagamento');
 
-        ActiveForm::end();
+    ActiveForm::end();
 
     echo GridView::widget([
         'dataProvider' => $dataProvider,
@@ -111,8 +111,8 @@ $this->title = 'Encomenda de ' . $model->user->nome;
                                     }
                                     else
                                         return '';
-                                    default:
-                                        return '';
+                                default:
+                                    return '';
                             endswitch;
                         }
                         return '';

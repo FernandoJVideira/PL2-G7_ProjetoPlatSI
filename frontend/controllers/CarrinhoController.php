@@ -44,6 +44,7 @@ class CarrinhoController extends Controller
         );
     }
 
+
     /**
      * Displays a single Carrinho model.
      * @param int $idCarrinho Id Carrinho

@@ -7,11 +7,11 @@ use kartik\detail\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\Utilizador $model */
 
-$this->title = $model->user->username;
+$this->title = 'Perfil';
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="utilizador-view">
-    <div class="">
+    <div class="mt-3" style="text-align: center"><h1><?= Html::encode($this->title) ?></h1></div>
         <div class="card w-75 mx-auto">
             <div class="card-header">
                 <?= Html::a('Actualizar', ['update', 'idUser' => $model->idUser], ['class' => 'btn btn-primary']) ?>
@@ -61,7 +61,7 @@ $this->title = $model->user->username;
                 </div>
             </div>
         </div>
-    </div>
+    <br>
     <div class="card w-75 mx-auto">
         <div class="card-header">
             <?= Html::a('Adicionar', ['morada/create', 'idUser' => $model->idUser], ['class' => 'btn btn-primary']); ?>
