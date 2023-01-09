@@ -4,6 +4,8 @@ namespace frontend\controllers;
 
 use common\models\Utilizador;
 use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -13,12 +15,29 @@ use yii\web\NotFoundHttpException;
  */
 class UtilizadorController extends Controller
 {
-    /**
-     * Displays a single Utilizador model.
-     * @param int $idUser Id User
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
+
+
     public function actionView($idUser)
     {
         if(Yii::$app->user->id != $idUser){

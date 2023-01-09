@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Promocao;
 use common\models\PromocaoSearch;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,22 +15,27 @@ use yii\filters\VerbFilter;
  */
 class PromocaoController extends BaseAuthController
 {
-    /**
-     * @inheritDoc
-     */
+
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor', 'Funcionario'],
                     ],
                 ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
             ]
-        );
+        ]);
     }
 
     /**

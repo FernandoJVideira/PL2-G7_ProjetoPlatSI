@@ -10,7 +10,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="<?=$assetDir?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                <img src="<?= Yii::getAlias('@web') ?>../../web/img/thumb.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="<?= \yii\helpers\Url::toRoute(['utilizador/view', 'idUser' => \common\models\Utilizador::findOne(Yii::$app->user->identity->id)->id_user]) ?>" class="d-block"><?= Yii::$app->user->identity->username ?></a>
@@ -51,14 +51,14 @@
                         'label' => 'Gestão Geral de Lojas',
                         'icon' => 'fas fa-store',
                         'items' => [
-                            ['label' => 'Lojas', 'url' => ['loja/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createLoja'), 'active' => Yii::$app->controller->id == 'loja'],
+                            ['label' => 'Lojas', 'url' => ['loja/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('viewLoja'), 'active' => Yii::$app->controller->id == 'loja'],
                             ['label' => 'Secções', 'url' => ['seccao/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createSeccao'), 'active' => Yii::$app->controller->id == 'seccao'],
                             ['label' => 'Métodos de pagamento', 'url' => ['metodopagamento/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createMetodoPagamento'), 'active' => Yii::$app->controller->id == 'metodopagamento'],
                             ['label' => 'Ivas', 'url' => ['iva/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createIva'), 'active' => Yii::$app->controller->id == 'iva'],
                             ['label' => 'Categorias', 'url' => ['categoria/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createCategoria'), 'active' => Yii::$app->controller->id == 'categoria'],
                             ['label' => 'Produtos', 'url' => ['produto/index'], 'iconStyle' => 'far', 'visible' => Yii::$app->user->can('createProduto'), 'active' => Yii::$app->controller->id == 'produto'],
                         ],
-                        'visible' => isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Admin']),
+                        'visible' => isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Admin']) || isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Gestor']),
                     ],
                     [
                         'label' => 'Gestão de Loja',

@@ -4,26 +4,15 @@
 namespace backend\tests\Functional;
 
 use backend\tests\FunctionalTester;
-use Codeception\Util\Locator;
-use common\fixtures\UserFixture;
 
 class StockCest
 {
-    public function _fixtures()
-    {
-        return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . 'login_data.php'
-            ]
-        ];
-    }
 
     public function _before(FunctionalTester $I)
     {
         $I->amOnRoute('/site/login');
-        $I->fillField('LoginForm[username]', 'erau');
-        $I->fillField('LoginForm[password]', 'password_0');
+        $I->fillField('LoginForm[username]', 'admin');
+        $I->fillField('LoginForm[password]', '84518451');
         $I->click('submit');
         $I->see('Gestão de Loja');
     }
@@ -48,6 +37,4 @@ class StockCest
         $afterAdd = $I->grabTextFrom('tbody tr:nth-child(1) td:nth-child(2)');
         $I->see(($beforeAdd + 10) == $afterAdd);
     }
-
-
 }

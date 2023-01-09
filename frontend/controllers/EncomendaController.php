@@ -6,6 +6,7 @@ use common\models\Carrinho;
 use app\models\EncomendaSearch;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,17 +21,24 @@ class EncomendaController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
-            ]
-        );
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -40,6 +48,10 @@ class EncomendaController extends Controller
      */
     public function actionIndex()
     {
+
+        if(!Yii::$app->user->isGuest)
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $searchModel = new EncomendaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams, Yii::$app->user->identity->id);
 
@@ -57,6 +69,9 @@ class EncomendaController extends Controller
      */
     public function actionView($idCarrinho)
     {
+        if(!Yii::$app->user->isGuest)
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $carrinho = $this->findModel(Carrinho::findOne(['idCarrinho' => $idCarrinho]));
 
         if($carrinho->id_user != Yii::$app->user->id)

@@ -7,6 +7,9 @@ use common\models\Carrinho;
 use backend\models\EncomendaSearch;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -14,6 +17,28 @@ use yii\web\NotFoundHttpException;
  */
 class EncomendaController extends BaseAuthController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor', 'Funcionario'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
+            ]
+        ]);
+    }
+
     /**
      * Lists all Carrinho models.
      *
@@ -21,6 +46,9 @@ class EncomendaController extends BaseAuthController
      */
     public function actionIndex($idLoja = null)
     {
+        if (!Yii::$app->user->can('viewHistoricoDeEncomendas'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $session = Yii::$app->session;
         $id = \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? $idLoja;
 
@@ -51,6 +79,9 @@ class EncomendaController extends BaseAuthController
      */
     public function actionView($idCarrinho)
     {
+        if (!Yii::$app->user->can('updateStatusEncomenda'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $dataProvider = new ActiveDataProvider([
             'query' => \common\models\Linhacarrinho::find()->where(['id_carrinho' => $idCarrinho]),
             'pagination' => [
@@ -64,27 +95,6 @@ class EncomendaController extends BaseAuthController
         ]);
     }
 
-
-    /**
-     * Updates an existing Carrinho model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $idCarrinho Id Carrinho
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($idCarrinho)
-    {
-        $model = $this->findModel($idCarrinho);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['encomenda/view', 'idCarrinho' => $model->idCarrinho]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
     /**
      * Deletes an existing Carrinho model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -94,6 +104,9 @@ class EncomendaController extends BaseAuthController
      */
     public function actionConcluir($idCarrinho)
     {
+        if (!Yii::$app->user->can('updateStatusEncomenda'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $carrinho = $this->findModel($idCarrinho);
 
         if(!$carrinho->getEstadoLinhas()){

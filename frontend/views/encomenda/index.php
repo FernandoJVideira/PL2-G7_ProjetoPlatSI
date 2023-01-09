@@ -16,7 +16,7 @@ $this->title = 'Histórico de Encomendas';
 Yii::$app->formatter->nullDisplay = 'N\A';
 ?>
 <div class="carrinho-index">
-    <div class="row d-flex justify-content-center mt-4 mb-3"><h1><?= Html::encode($this->title) ?></h1></div>
+    <div class="d-flex justify-content-center mt-4 mb-3"><h1><?= Html::encode($this->title) ?></h1></div>
     <div class="card w-75 mx-auto">
         <div class="card-body">
             <?= GridView::widget([

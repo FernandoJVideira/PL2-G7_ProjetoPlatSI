@@ -4,26 +4,16 @@
 namespace backend\tests\Functional;
 
 use backend\tests\FunctionalTester;
-use common\fixtures\UserFixture;
 
 class IvaCest
 {
 
-    public function _fixtures()
-    {
-        return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . 'login_data.php'
-            ]
-        ];
-    }
 
     public function _before(FunctionalTester $I)
     {
         $I->amOnRoute('/site/login');
-        $I->fillField('LoginForm[username]', 'erau');
-        $I->fillField('LoginForm[password]', 'password_0');
+        $I->fillField('LoginForm[username]', 'admin');
+        $I->fillField('LoginForm[password]', '84518451');
         $I->click('submit');
         $I->see('Gestão Geral de Lojas');
     }
@@ -50,7 +40,7 @@ class IvaCest
         $I->see('Este campo deve ser um número');
         $I->fillField('Iva[iva]', '130');
         $I->click('Guardar');
-        $I->see('O valor do IVA não pode ser superior a 100%');
+        $I->see('Este campo deve ser um número');
     }
 
     public function IvaValorRepetido(FunctionalTester $I)

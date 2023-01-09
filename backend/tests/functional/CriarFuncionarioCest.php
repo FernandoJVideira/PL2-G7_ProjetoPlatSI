@@ -4,25 +4,14 @@
 namespace backend\tests\Functional;
 
 use backend\tests\FunctionalTester;
-use common\fixtures\UserFixture;
 
 class CriarFuncionarioCest
 {
-    public function _fixtures()
-    {
-        return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . 'login_data.php'
-            ]
-        ];
-    }
-
     public function _before(FunctionalTester $I)
     {
         $I->amOnRoute('/site/login');
-        $I->fillField('LoginForm[username]', 'erau');
-        $I->fillField('LoginForm[password]', 'password_0');
+        $I->fillField('LoginForm[username]', 'admin');
+        $I->fillField('LoginForm[password]', '84518451');
         $I->click('submit');
         $I->amOnRoute('/utilizador/create?role=Funcionario');
     }
@@ -89,7 +78,7 @@ class CriarFuncionarioCest
     {
         $I->see('Criar Funcionario', 'h1');
         $I->fillField('SignupForm[nome]', 'Funcionario Teste');
-        $I->fillField('SignupForm[username]', 'erau');
+        $I->fillField('SignupForm[username]', 'funcionario1');
         $I->fillField('SignupForm[email]', 'ttttt@as.ad');
         $I->fillField('SignupForm[password]', '123456299');
         $I->fillField('SignupForm[telemovel]', '912342679');
@@ -110,7 +99,7 @@ class CriarFuncionarioCest
         $I->fillField('SignupForm[email]', 'ttttt@as.ad');
         $I->fillField('SignupForm[password]', '123456299');
         $I->fillField('SignupForm[telemovel]', '912342679');
-        $I->fillField('SignupForm[nif]', '987987987');
+        $I->fillField('SignupForm[nif]', '123321123');
         $I->fillField('SignupForm[morada]', 'Rua Teste');
         $I->fillField('SignupForm[cidade]', 'porto');
         $I->fillField('SignupForm[codigo_postal]', '4000-000');

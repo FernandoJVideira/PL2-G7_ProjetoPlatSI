@@ -6,6 +6,7 @@ use common\models\Categoria;
 use backend\models\CategoriaSearch;
 use common\models\Iva;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -15,6 +16,34 @@ use yii\filters\VerbFilter;
  */
 class CategoriaController extends BaseAuthController
 {
+
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor'],
+                    ],
+                    [
+                        'actions' => [],
+                        'allow' => false,
+                        'roles' => ['Funcionario'],
+                    ],
+                ],
+            ],
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ]
+                ]
+        ]);
+    }
+
     /**
      * Lists all Categoria models.
      *

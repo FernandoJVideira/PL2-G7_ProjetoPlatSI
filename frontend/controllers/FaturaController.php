@@ -10,6 +10,7 @@ use frontend\models\FaturaSearch;
 use Dompdf\Dompdf;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,27 +25,32 @@ class FaturaController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
-            ]
-        );
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
     }
 
-    /**
-     * Displays a single Fatura model.
-     * @param int $idCarrinho Id Carrinho
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionView($idCarrinho)
     {
+        if(!Yii::$app->user->isGuest)
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $fatura = Fatura::findOne(['id_carrinho' => $idCarrinho]);
 
         if($fatura->id_utilizador != Yii::$app->user->id)

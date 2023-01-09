@@ -8,7 +8,6 @@ use yii\db\ActiveRecord;
 
 class Encomenda extends ActiveRecord
 {
-
     public static function getLinhaCarrinho($id_produto, $id_loja)
     {
         $linhaCarrinho = Linhacarrinho::find()

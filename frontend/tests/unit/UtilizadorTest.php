@@ -58,13 +58,13 @@ class UtilizadorTest extends \Codeception\Test\Unit
         $utilizador->setAttribute('telemovel', 'gsvcassss');
         $this->assertFalse($utilizador->validate(['telemovel']));
 
-        $utilizador->setAttribute('id_user', 2);
+        $utilizador->setAttribute('id_user', 999);
         $this->assertFalse($utilizador->validate(['id_user']));
 
         $utilizador->setAttribute('id_user', $user->id);
         $this->assertTrue($utilizador->validate(['id_user']));
 
-        $utilizador->setAttribute('id_loja', 2);
+        $utilizador->setAttribute('id_loja', 999);
         $this->assertFalse($utilizador->validate(['id_loja']));
 
         $utilizador->setAttribute('id_loja', 1);
@@ -80,37 +80,38 @@ class UtilizadorTest extends \Codeception\Test\Unit
     {
         //Create user entry on database
         $user = new User();
-        $user->username = 'diogo';
+        $user->username = 'diogo unit';
         $user->email = 'diogo@gmail.com';
         $user->password = 'okmokmokm';
         $user->generateAuthKey();
         $user->save();
 
+        $user = $this->tester->grabRecord('common\models\User', ['username' => 'diogo unit']);
 
         //Test Save
         $utilizador = new Utilizador();
 
-        $utilizador->setAttribute('nome', 'Diogo');
+        $utilizador->setAttribute('nome', 'Diogo unit');
         $utilizador->setAttribute('nif', '123456789');
         $utilizador->setAttribute('telemovel', '123456789');
         $utilizador->setAttribute('id_user', $user->id);
         $utilizador->setAttribute('id_loja', null);
         $utilizador->save();
 
-        $this->tester->seeRecord('common\models\Utilizador', ['nome' => 'Diogo']);
+        $this->tester->seeRecord('common\models\Utilizador', ['nome' => 'Diogo unit']);
 
         //Test Update
         $utilizador = $this->tester->grabRecord('common\models\Utilizador', ['id_user' => $user->id]);
 
-        $utilizador->setAttribute('nome', 'Jorge');
+        $utilizador->setAttribute('nome', 'Jorge unit');
         $utilizador->save();
 
-        $this->tester->dontseeRecord('common\models\Utilizador', ['nome' => 'Diogo']);
-        $this->tester->seeRecord('common\models\Utilizador', ['nome' => 'Jorge']);
+        $this->tester->dontseeRecord('common\models\Utilizador', ['nome' => 'Diogo unit']);
+        $this->tester->seeRecord('common\models\Utilizador', ['nome' => 'Jorge unit']);
 
         //Test Delete
         $utilizador->delete();
-        $this->tester->dontseeRecord('common\models\Utilizador', ['nome' => 'Jorge']);
+        $this->tester->dontseeRecord('common\models\Utilizador', ['nome' => 'Jorge unit']);
 
     }
 }

@@ -7,6 +7,7 @@ use common\models\Morada;
 use common\models\Utilizador;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -16,9 +17,33 @@ use yii\filters\VerbFilter;
  */
 class MoradaController extends BaseAuthController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
 
     public function actionUpdate($idMorada)
     {
+        if(!Yii::$app->user->isGuest)
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $model = $this->findModel($idMorada);
 
         if(Utilizador::getPerfil($model->id_user) != 'Cliente')
@@ -52,6 +77,8 @@ class MoradaController extends BaseAuthController
      */
     public function actionDelete($idMorada)
     {
+        if(!Yii::$app->user->isGuest)
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $morada = $this->findModel($idMorada);
         $idUser = $morada->id_user;
@@ -73,6 +100,9 @@ class MoradaController extends BaseAuthController
 
     public function actionCreate($idUser)
     {
+        if(!Yii::$app->user->isGuest)
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         if(Utilizador::getPerfil($idUser) != 'Cliente')
             if(Yii::$app->user->id != $idUser)
                 if(!Yii::$app->user->can('createMorada'))

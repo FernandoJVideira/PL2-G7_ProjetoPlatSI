@@ -6,19 +6,40 @@ use common\models\Categoria;
 use common\models\Produto;
 use backend\models\ProdutoSearch;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-
-
-
 
 /**
  * ProdutoController implements the CRUD actions for Produto model.
  */
 class ProdutoController extends BaseAuthController
 {
+
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
+            ]
+        ]);
+    }
+
     /**
      * @inheritDoc
      */
@@ -32,6 +53,9 @@ class ProdutoController extends BaseAuthController
      */
     public function actionIndex()
     {
+        if(!Yii::$app->user->can('viewProduto'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $searchModel = new ProdutoSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -49,6 +73,9 @@ class ProdutoController extends BaseAuthController
      */
     public function actionView($idProduto)
     {
+        if(!Yii::$app->user->can('viewProduto'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         return $this->render('view', [
             'model' => $this->findModel($idProduto),
         ]);
@@ -61,6 +88,9 @@ class ProdutoController extends BaseAuthController
      */
     public function actionCreate()
     {
+        if(!Yii::$app->user->can('createProduto'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $model = new Produto();
         $categorias = Categoria::find()->where(['ativo' => 1])->orderBy('nome')->all();
 
@@ -101,6 +131,9 @@ class ProdutoController extends BaseAuthController
      */
     public function actionUpdate($idProduto)
     {
+        if(!Yii::$app->user->can('updateProduto'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $model = $this->findModel($idProduto);
 
         $categorias = Categoria::find()->where(['ativo' => 1])->orderBy('nome')->all();

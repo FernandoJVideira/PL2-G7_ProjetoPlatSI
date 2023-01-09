@@ -4,26 +4,15 @@ namespace frontend\tests\Functional;
 
 use backend\tests\Functional\CriarFuncionarioCest;
 use Codeception\Util\Locator;
-use common\fixtures\UserFixture;
 use frontend\tests\FunctionalTester;
 
 class CarrinhoCest
 {
-    public function _fixtures()
-    {
-        return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . 'login_data.php'
-            ]
-        ];
-    }
-
     public function _before(FunctionalTester $I)
     {
         $I->amOnRoute('/site/login');
-        $I->fillField('LoginForm[username]', 'erau');
-        $I->fillField('LoginForm[password]', 'password_0');
+        $I->fillField('LoginForm[username]', 'cliente1');
+        $I->fillField('LoginForm[password]', '84518451');
         $I->click('login-button');
     }
 

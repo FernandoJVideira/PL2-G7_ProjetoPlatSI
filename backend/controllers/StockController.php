@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Stock;
 use backend\models\StockSearch;
 use Yii;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -15,6 +16,33 @@ use yii\filters\VerbFilter;
  */
 class StockController extends BaseAuthController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor', 'Funcionario'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => false,
+                        'roles' => ['Funcionario'],
+                    ],
+
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
+            ]
+        ]);
+    }
     /**
      * Lists all Stock models.
      *

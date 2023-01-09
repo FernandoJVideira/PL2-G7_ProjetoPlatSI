@@ -34,6 +34,7 @@ class LinhacarrinhoController extends Controller
             ]
         );
     }
+
     /**
      * Displays a single Linhacarrinho model.
      * @param int $idLinha Id Linha
@@ -112,7 +113,6 @@ class LinhacarrinhoController extends Controller
      */
     public function actionDelete($idLinha)
     {
-
         $linha = $this->findModel($idLinha);
         $carrinho = $linha->carrinho;
 

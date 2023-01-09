@@ -90,7 +90,7 @@ class LinhaCarrinhoTest extends \Codeception\Test\Unit
         $linha->id_carrinho = 'q';
         $this->assertFalse($linha->validate(['id_carrinho']));
 
-        $linha->id_carrinho = 4;
+        $linha->id_carrinho = 999;
         $this->assertFalse($linha->validate(['id_carrinho']));
 
         $linha->id_carrinho = $carrinho->idCarrinho;
@@ -102,7 +102,7 @@ class LinhaCarrinhoTest extends \Codeception\Test\Unit
         $linha->id_produto = 'q';
         $this->assertFalse($linha->validate(['id_produto']));
 
-        $linha->id_produto = 4;
+        $linha->id_produto = 999;
         $this->assertFalse($linha->validate(['id_produto']));
 
         $linha->id_produto = $produto->idProduto;
@@ -114,17 +114,21 @@ class LinhaCarrinhoTest extends \Codeception\Test\Unit
     {
         //Create Iva entry on database
         $iva = new Iva();
-        $iva->iva = 13;
-        $iva->descricao = 'IVA';
+        $iva->iva = 22;
+        $iva->descricao = 'IVA unit';
         $iva->ativo = 1;
         $iva->save();
 
+        $iva = $this->tester->grabRecord('common\models\Iva', ['descricao' => 'IVA unit']);
+
         //Create Categoria entry on database
         $categoria = new Categoria();
-        $categoria->nome = 'Teste';
+        $categoria->nome = 'Teste unit';
         $categoria->ativo = 1;
         $categoria->id_iva = $iva->idIva;
         $categoria->save();
+
+        $categoria = $this->tester->grabRecord('common\models\Categoria', ['nome' => 'Teste unit']);
 
         //Create Carrinho entry on database
         $carrinho = new Carrinho();
@@ -134,8 +138,8 @@ class LinhaCarrinhoTest extends \Codeception\Test\Unit
 
         //Create Produto entry on database
         $produto = new Produto();
-        $produto->nome = 'Teste';
-        $produto->descricao = 'Teste';
+        $produto->nome = 'Teste unit';
+        $produto->descricao = 'Teste unit';
         $produto->preco_unit = 10;
         $produto->dataCriacao = '2021-01-01 12:00:00';
         $produto->imagem = 'path_to_img';
@@ -143,29 +147,32 @@ class LinhaCarrinhoTest extends \Codeception\Test\Unit
         $produto->id_categoria = $categoria->idCategoria;
         $produto->save();
 
+        $carrinho = $this->tester->grabRecord('common\models\Carrinho', ['data_criacao' => '2021-01-01 12:00:00']);
+        $produto = $this->tester->grabRecord('common\models\Produto', ['nome' => 'Teste unit']);
 
         //Test Save
         $linha = new LinhaCarrinho();
-        $linha->idLinha = 1; //Pois não há mais valores únicos
         $linha->quantidade = 3;
         $linha->estado = 0;
         $linha->id_carrinho = $carrinho->idCarrinho;
         $linha->id_produto = $produto->idProduto;
         $linha->save();
 
-        $this->tester->seeRecord('common\models\Linhacarrinho', ['idLinha' => 1]);
+        $linha = $this->tester->grabRecord('common\models\Linhacarrinho', ['id_produto' => $produto->idProduto]);
+
+        $this->tester->seeRecord('common\models\Linhacarrinho', ['idLinha' => $linha->idLinha]);
 
         //Test Update
 
-        $linha = $this->tester->grabRecord('common\models\Linhacarrinho', ['idLinha' => 1]);
+        $linha = $this->tester->grabRecord('common\models\Linhacarrinho', ['idLinha' => $linha->idLinha]);
         $linha->quantidade = 7;
         $linha->save();
 
-        $this->tester->seeRecord('common\models\Linhacarrinho', ['idLinha' => 1, 'quantidade' => 7]);
-        $this->tester->dontseeRecord('common\models\Linhacarrinho', ['idLinha' => 1, 'quantidade' => 3]);
+        $this->tester->seeRecord('common\models\Linhacarrinho', ['idLinha' => $linha->idLinha, 'quantidade' => 7]);
+        $this->tester->dontseeRecord('common\models\Linhacarrinho', ['idLinha' => $linha->idLinha, 'quantidade' => 3]);
 
         //Test Delete
         $linha->delete();
-        $this->tester->dontseeRecord('common\models\Linhacarrinho', ['idLinha' => 1]);
+        $this->tester->dontseeRecord('common\models\Linhacarrinho', ['idLinha' => $linha->idLinha]);
     }
 }

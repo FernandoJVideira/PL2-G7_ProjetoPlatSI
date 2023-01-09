@@ -5,12 +5,42 @@ namespace backend\controllers;
 use common\models\Loja;
 use common\models\Metodopagamento;
 use common\models\Seccao;
+use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\Controller;
 
 class GestaoController extends BaseAuthController
 {
+
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
+            ]
+        ]);
+    }
+
     public function actionIndex()
     {
+        if (!Yii::$app->user->can('gestaoLoja'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $loja = Loja::findOne($_GET['idLoja']);
 
         $metpagamento = Metodopagamento::find();
@@ -42,6 +72,9 @@ class GestaoController extends BaseAuthController
 
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('gestaoLoja'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         try {
             $loja = Loja::findOne($_GET['idLoja']);
             if (isset($_GET['idSeccao'])){
@@ -61,6 +94,9 @@ class GestaoController extends BaseAuthController
 
     public function actionDelete()
     {
+        if (!Yii::$app->user->can('gestaoLoja'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         try {
             $loja = Loja::findOne($_GET['idLoja']);
             if (isset($_GET['idSeccao'])) {

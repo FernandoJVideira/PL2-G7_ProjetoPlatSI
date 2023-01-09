@@ -6,6 +6,7 @@ use backend\models\Empresa;
 use backend\models\EmpresaSearch;
 use common\models\Morada;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\ForbiddenHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -16,23 +17,30 @@ use yii\filters\VerbFilter;
  */
 class EmpresaController extends BaseAuthController
 {
-
-    /**
-     * Lists all Empresa models.
-     *
-     * @return string
-     */
-    public function actionIndex()
+    public function behaviors()
     {
-        if (!Yii::$app->user->can('viewEmpresa'))
-            $this->showMessage('Não tem permissões para aceder a esta página.');
-
-        $searchModel = new EmpresaSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => false,
+                        'roles' => ['Gestor'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
+            ]
         ]);
     }
 

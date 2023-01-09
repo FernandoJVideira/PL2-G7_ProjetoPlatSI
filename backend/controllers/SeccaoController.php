@@ -4,7 +4,9 @@ namespace backend\controllers;
 
 use common\models\Seccao;
 use backend\models\SeccaoSearch;
+use Yii;
 use yii\db\StaleObjectException;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,6 +16,28 @@ use yii\filters\VerbFilter;
  */
 class SeccaoController extends BaseAuthController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
+            ]
+        ]);
+    }
+
     /**
      * Lists all Seccao models.
      *
@@ -21,6 +45,10 @@ class SeccaoController extends BaseAuthController
      */
     public function actionIndex()
     {
+        if(!Yii::$app->user->can('viewSeccao'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
+
         $searchModel = new SeccaoSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -37,6 +65,9 @@ class SeccaoController extends BaseAuthController
      */
     public function actionCreate()
     {
+        if(!Yii::$app->user->can('createSeccao'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $model = new Seccao();
 
         if ($this->request->isPost) {
@@ -61,6 +92,9 @@ class SeccaoController extends BaseAuthController
      */
     public function actionDelete($idSeccao)
     {
+        if(!Yii::$app->user->can('deleteSeccao'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         try {
             $this->findModel($idSeccao)->delete();
         } catch (\Throwable $e) {

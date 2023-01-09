@@ -24,6 +24,9 @@ class MoradaTest extends \Codeception\Test\Unit
         $user->generateAuthKey();
         $user->save();
 
+        $user = $this->tester->grabRecord('app\models\User', ['username' => 'fernando']);
+
+
         //Create Utilizador entry on database
         $utilizador = new Utilizador();
         $utilizador->setAttribute('nome', 'Fernando');
@@ -32,9 +35,10 @@ class MoradaTest extends \Codeception\Test\Unit
         $utilizador->setAttribute('id_user', $user->id);
         $utilizador->save();
 
+        $utilizador = $this->tester->grabRecord('common\models\Utilizador', ['id_user' => $user->id]);
+
         //Morada
         $morada = new Morada();
-        $usr = $this->tester->grabRecord('common\models\Utilizador', ['nome' => 'Fernando']);
 
         $morada->setAttribute('rua', 'R');
         $this->assertFalse($morada->validate(['rua']));
@@ -81,13 +85,13 @@ class MoradaTest extends \Codeception\Test\Unit
         $morada->setAttribute('pais', 'Portugal');
         $this->assertTrue($morada->validate(['pais']));
 
-        $morada->setAttribute('id_user', 5);
+        $morada->setAttribute('id_user', 999);
         $this->assertFalse($morada->validate(['id_user']));
 
         $morada->setAttribute('id_user', 'P');
         $this->assertFalse($morada->validate(['id_user']));
 
-        $morada->setAttribute('id_user', $usr->idUser);
+        $morada->setAttribute('id_user', $utilizador->idUser);
         $this->assertTrue($morada->validate(['id_user']));
 
         //O valor da morada pode ser null se pertencer à empresa ou a uma Loja, nesse caso não haverá um utilizador associado
@@ -105,6 +109,8 @@ class MoradaTest extends \Codeception\Test\Unit
         $user->generateAuthKey();
         $user->save();
 
+        $user = $this->tester->grabRecord('app\models\User', ['username' => 'fernando']);
+
         //Create Utilizador entry on database
         $utilizador = new Utilizador();
         $utilizador->setAttribute('nome', 'Fernando');
@@ -113,32 +119,31 @@ class MoradaTest extends \Codeception\Test\Unit
         $utilizador->setAttribute('id_user', $user->id);
         $utilizador->save();
 
+        $utilizador = $this->tester->grabRecord('common\models\Utilizador', ['id_user' => $user->id]);
+
         //Test Save
         $morada = new Morada();
-        $usr = $this->tester->grabRecord('common\models\Utilizador', ['nome' => 'Fernando']);
-
-        $morada->idMorada = 2; //para mais fácil visualização
-        $morada->rua = 'Rua';
+        $morada->rua = 'Rua do unit';
         $morada->cidade = 'Cidade';
         $morada->cod_postal = '1234-343';
         $morada->pais = 'Portugal';
-        $morada->id_user = $usr->idUser;
+        $morada->id_user = $utilizador->idUser;
         $morada->save();
 
-        $this->tester->seeRecord('common\models\Morada', ['idMorada' => 2]);
+        $this->tester->seeRecord('common\models\Morada', ['rua' => 'Rua do unit']);
 
         //Test Update
-        $morada = $this->tester->grabRecord('common\models\Morada', ['idMorada' => 2]);
+        $morada = $this->tester->grabRecord('common\models\Morada', ['rua' => 'Rua do unit']);
 
-        $morada->rua = 'Rua2';
+        $morada->rua = 'Rua unit2';
         $morada->save();
 
-        $this->tester->seeRecord('common\models\Morada', ['idMorada' => 2, 'rua' => 'Rua2']);
-        $this->tester->dontSeeRecord('common\models\Morada', ['idMorada' => 2, 'rua' => 'Rua']);
+        $this->tester->seeRecord('common\models\Morada', ['idMorada' => $morada->idMorada, 'rua' => 'Rua unit2']);
+        $this->tester->dontSeeRecord('common\models\Morada', ['idMorada' => $morada->idMorada, 'rua' => 'Rua do unit']);
 
         //Test Delete
         $morada->delete();
-        $this->tester->dontSeeRecord('common\models\Morada', ['idMorada' => 2]);
+        $this->tester->dontSeeRecord('common\models\Morada', ['idMorada' => $morada->idMorada]);
 
     }
 

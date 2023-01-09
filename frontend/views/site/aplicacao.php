@@ -14,7 +14,7 @@ $this->title = "Stuff n' Go";
      <div style="display: flex;">
           <div style="width:75%;
                          padding-left:50px">
-               <h1 style="font-size:xxx-large ">O STUFF'N GO ONLINE <br> ONDE E QUANDO QUISER</h1>
+               <h1 style="font-size:xxx-large ">O STUFF n' GO ONLINE <br> ONDE E QUANDO QUISER</h1>
                <br>
                <h4 style="padding-left:50px;
                               font-size:x-large">

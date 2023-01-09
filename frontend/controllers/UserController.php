@@ -5,6 +5,8 @@ namespace frontend\controllers;
 use common\models\User;
 use common\models\Utilizador;
 use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -13,8 +15,33 @@ use yii\web\NotFoundHttpException;
  */
 class UserController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
+
     public function actionUpdate($id)
     {
+        if(!Yii::$app->user->isGuest)
+            $this->showMessage('Não tem permissões para aceder a esta página.');
+
         $role = Utilizador::getPerfil($id);
         if(Yii::$app->user->id != $id)
         {

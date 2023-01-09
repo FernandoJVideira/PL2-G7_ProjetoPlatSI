@@ -45,7 +45,7 @@ class IvaTest extends \Codeception\Test\Unit
         $this->assertFalse($iva->validate(['iva']));
 
         //Valid Value in range [1,100]
-        $iva->iva = 13;
+        $iva->iva = 98;
         $this->assertTrue($iva->validate(['iva']));
 
         //Too short description
@@ -82,23 +82,23 @@ class IvaTest extends \Codeception\Test\Unit
         //Test Save
         $iva = new Iva();
 
-        $iva->iva = 13;
-        $iva->descricao = 'Teste';
+        $iva->iva = 22;
+        $iva->descricao = 'Teste unit';
         $iva->ativo = 1;
         $iva->save();
 
-        $this->tester->seeRecord('common\models\Iva', ['iva' => 13]);
+        $this->tester->seeRecord('common\models\Iva', ['iva' => 22]);
 
         //Test Update
-        $iva = $this->tester->grabRecord('common\models\Iva', ['iva' => 13]);
+        $iva = $this->tester->grabRecord('common\models\Iva', ['iva' => 22]);
         $iva->ativo = 0;
         $iva->save();
 
-        $this->tester->seeRecord('common\models\Iva', ['iva' => 13, 'ativo' => 0]);
-        $this->tester->dontseeRecord('common\models\Iva', ['iva' => 13, 'ativo' => 1]);
+        $this->tester->seeRecord('common\models\Iva', ['iva' => 22, 'ativo' => 0]);
+        $this->tester->dontseeRecord('common\models\Iva', ['iva' => 22, 'ativo' => 1]);
 
         //Test Delete
         $iva->delete();
-        $this->tester->dontseeRecord('common\models\Iva', ['iva' => 13]);
+        $this->tester->dontseeRecord('common\models\Iva', ['iva' => 22]);
     }
 }
