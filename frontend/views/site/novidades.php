@@ -27,7 +27,7 @@ $this->title = "Stuff n' Go";
                         <div style="margin-top:3vh;" class="col ">
                             <div style="height:30vh; width:16vw;">
                                 <!-- object-fit:cover -->
-                                <img style="height:20vh;width:200px;margin-left:25px" class="card-img-top"  src="../../Imgs/StickMan_Running.png" alt="<?= $model->imagem ?>">
+                                <img style="height:20vh;width:200px;margin-left:25px" class="card-img-top"  src="<?= Yii::getAlias('@web') ?>/../../common/Images/<?= $model->imagem ?? $model->produtos->imagem ?>" alt="Imagem do produto">
                             </div>
                             <div class="card-title">
                                 <b> <span style="color:black"><?= $model->nome ?></span> <span style="float:right; margin-right:20px; color:#FFD333">€<?= $model->preco_unit ?>/unit</span> </b>

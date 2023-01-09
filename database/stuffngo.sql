@@ -202,6 +202,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Admin', 'viewProduto'),
 ('Admin', 'viewPromocao'),
 ('Admin', 'viewSeccao'),
+('Admin', 'favoritos'),
 ('Cliente', 'createEncomenda'),
 ('Cliente', 'createReview'),
 ('Cliente', 'deleteMorada'),
@@ -220,6 +221,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Funcionario', 'viewCliente'),
 ('Funcionario', 'viewHistoricoDeEncomendas'),
 ('Funcionario', 'viewOwn'),
+('Funcionario', 'favoritos'),
 ('Gestor', 'backend'),
 ('Gestor', 'createCategoria'),
 ('Gestor', 'createCliente'),
@@ -263,6 +265,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Gestor', 'viewOwn'),
 ('Gestor', 'viewProduto'),
 ('Gestor', 'viewPromocao'),
+('Gestor', 'favoritos'),
 ('Gestor', 'viewSeccao');
 
 -- --------------------------------------------------------
@@ -1417,6 +1420,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Admin', 'viewProduto'),
 ('Admin', 'viewPromocao'),
 ('Admin', 'viewSeccao'),
+('Admin', 'favoritos'),
 ('Cliente', 'createEncomenda'),
 ('Cliente', 'createReview'),
 ('Cliente', 'deleteMorada'),
@@ -1435,6 +1439,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Funcionario', 'viewCliente'),
 ('Funcionario', 'viewHistoricoDeEncomendas'),
 ('Funcionario', 'viewOwn'),
+('Funcionario', 'favoritos'),
 ('Gestor', 'backend'),
 ('Gestor', 'createCategoria'),
 ('Gestor', 'createCliente'),
@@ -1478,7 +1483,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Gestor', 'viewOwn'),
 ('Gestor', 'viewProduto'),
 ('Gestor', 'viewPromocao'),
-('Gestor', 'viewSeccao');
+('Gestor', 'viewSeccao'),
+('Gestor', 'favoritos');
 
 -- --------------------------------------------------------
 
