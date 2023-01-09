@@ -63,13 +63,13 @@ $this->title = 'Gestão de stock de ' . (\common\models\Loja::findOne($_GET['idL
                         'contentOptions' => ['style'=>'vertical-align: middle; text-align: center;'],
                         'buttons' => [
                                 'create' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fas fa-plus"></i>', ['create', 'idProduto' => $model['idProduto']]);
+                                    return Html::a('<i class="fas fa-plus"></i>', ['create', 'idProduto' => $model['idProduto']], ['title' => 'Requisitar stock']);
                                 },
                                 'update' => function($url, $model){
                                     if($model['quant_req'] == 0 || isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Funcionario']))
                                         return null;
                                     else
-                                        return Html::a('<i class="fas fa-check"></i>', ['update', 'idStock' => $model['idStock']]);
+                                        return Html::a('<i id="stockadd" class="fas fa-check"></i>', ['update', 'idStock' => $model['idStock']], ['title' => 'Adicionar stock']);
                                     }
                         ],
 

@@ -73,7 +73,7 @@ class IvaController extends BaseAuthController
         $model = $this->findModel($idIva);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idIva' => $model->idIva]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [

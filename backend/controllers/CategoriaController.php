@@ -88,7 +88,7 @@ class CategoriaController extends BaseAuthController
         }
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idCategoria' => $model->idCategoria]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [

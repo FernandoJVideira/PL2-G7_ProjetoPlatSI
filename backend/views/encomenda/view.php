@@ -40,7 +40,7 @@ $this->title = 'Encomenda de ' . $model->user->nome;
             [
                 'label' => 'Morada',
                 'attribute' => 'id_morada',
-                'value' => $model->morada->rua . ', ' . $model->morada->cod_postal,
+                'value' => $model->morada->rua ?? $model->user->moradas[0]->rua . ', ' . $model->morada->cod_postal ?? $model->user->moradas[0]->cod_postal,
             ],
             [
                 'label' => 'Loja',

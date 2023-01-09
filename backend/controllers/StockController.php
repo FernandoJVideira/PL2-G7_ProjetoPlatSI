@@ -59,6 +59,14 @@ class StockController extends BaseAuthController
                 $model->id_loja = Yii::$app->session->get('idLoja');
                 if(Stock::find()->where(['id_produto' => $model->id_produto, 'id_loja' => $model->id_loja])->exists()){
                     $updateModel = Stock::find()->where(['id_produto' => $model->id_produto, 'id_loja' => $model->id_loja])->one();
+                    if(empty($model->quant_stock) && empty($model->quant_req)){
+                        $model->addError('quant_req', 'Este campo é obrigatório');
+                        $model->addError('quant_req', 'Este campo é obrigatório');
+                        return $this->render('create', [
+                            'model' => $model,
+                        ]);
+                    }
+
                     $updateModel->quant_stock += $model->quant_stock;
                     $updateModel->quant_req += $model->quant_req;
                     $updateModel->save();

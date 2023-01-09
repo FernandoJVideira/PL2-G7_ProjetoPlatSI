@@ -181,7 +181,7 @@ class SiteController extends Controller
             $userRole = $auth->getRole('Cliente');
             $auth->assign($userRole, $user->id);
 
-            return $this->render('index');
+            $this->redirect(['index']);
         }
 
         return $this->render('signup', [

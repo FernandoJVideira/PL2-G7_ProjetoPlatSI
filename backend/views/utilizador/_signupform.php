@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="utilizador-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form']); ?>
     <div class="row px-xl-5">
         <div class="card mx-auto" style="width: 50rem;">
             <div class="card-body">
@@ -65,7 +65,7 @@ use yii\widgets\ActiveForm;
                         </div>
                     </div>
                     <div class="form-group">
-                        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success', 'name' => 'submit']) ?>
                     </div>
                 </div>
             </div>

@@ -89,7 +89,10 @@ class UtilizadorController extends BaseAuthController
                 Yii::$app->session->setFlash('success', 'Utilizador criado com sucesso.');
                 return $this->redirect(['index', 'role' => $role]);
             }
-            $erro = 'loja';
+            if(!isset($this->request->post('Utilizador')['id_loja']) && $loja == null)
+                $erro = 'loja';
+            else
+                $erro = null;
         }
         $lojas = Loja::find()->all();
         $roles = AuthItem::find()->where('type = 1')->all();
@@ -125,9 +128,11 @@ class UtilizadorController extends BaseAuthController
                 if ($model->load($this->request->post()) && $model->save())
                     return $this->redirect(['view', 'idUser' => $model->idUser, 'role' => Utilizador::getPerfil($idUser)]);
             }
-            $erro = 'loja';
+            if(!isset($this->request->post('Utilizador')['id_loja']))
+                $erro = 'loja';
+            else
+                $erro = null;
         }
-
         $lojas = Loja::find()->all();
         $roles = AuthItem::find()->where('type = 1')->all();
 

@@ -30,11 +30,11 @@ class Iva extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['iva', 'descricao', 'ativo'], 'required'],
-            [['iva'], 'in', 'range' => range(1, 100)],
+            [['iva', 'descricao', 'ativo'], 'required', 'message' => 'Este campo é obrigatório'],
+            [['iva'], 'unique', 'message' => 'Este valor já existe'],
+            [['iva'], 'in', 'range' => range(1, 100), 'message' => 'Este campo deve ser um número'],
             [['ativo'], 'in', 'range' => [0, 1]],
-            [['descricao'], 'string', 'min' => 3, 'max' => 255],
-            [['iva'], 'unique'],
+            [['descricao'], 'string', 'min' => 3, 'max' => 50],
         ];
     }
 

@@ -85,7 +85,7 @@ use yii\helpers\Url;
                     </div>
                     <div class="d-flex justify-content-between">
                         <h6 class="font-weight-medium">Descontos <?= $model->id_promocao ? "(".$model->promocao->nome_promo.")" : ""?></h6>
-                        <h6 class="font-weight-medium"><?= $model->id_promocao ? $model->desconto . "€" : "0€" ?></h6>
+                        <h6 id="valorpromo" class="font-weight-medium"><?= $model->id_promocao ? $model->desconto . "€" : "0€" ?></h6>
                     </div>
                 </div>
                 <div class="pt-2">
@@ -112,7 +112,7 @@ use yii\helpers\Url;
                                 <?php } ?>
                             </select>
                         <?php }?>
-                        <button type="submit" id="btn-alert" class="btn btn-block btn-primary font-weight-bold my-3 py-3"/>Encomendar</button>
+                        <button type="submit" id="btn-alert" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Encomendar</button>
                     </form>
                     </p>
                 </div>

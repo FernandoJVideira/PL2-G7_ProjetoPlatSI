@@ -101,7 +101,7 @@ $this->title = 'Gestão Geral da Loja: ' . (\common\models\Loja::findOne($_GET['
                                 'buttons' => [
                                     'switch' => function ($url, $model, $key) use ($metpagamentoLoja) {
                                         if(array_search($key, $metpagamentoLoja) !== false)
-                                            return Html::a('<button style="width: 6em;" type="button" class="btn btn-danger">Remover</button>', ['delete', 'idLoja' => $_GET['idLoja'], 'idMetodo' => $model->idMetodo], [
+                                            return Html::a('<button id="metodoremover" style="width: 6em;" type="button" class="btn btn-danger">Remover</button>', ['delete', 'idLoja' => $_GET['idLoja'], 'idMetodo' => $model->idMetodo], [
                                                 'title' => 'Remover',
                                                 'data' => [
                                                     'confirm' => 'Tem a certeza que pretende remover este método de pagamento?',
@@ -109,7 +109,7 @@ $this->title = 'Gestão Geral da Loja: ' . (\common\models\Loja::findOne($_GET['
                                                 ],
                                             ]);
                                         else
-                                            return Html::a('<button style="width: 6em;" type="button" class="btn btn-success">Adicionar</button>', ['create', 'idLoja' => $_GET['idLoja'], 'idMetodo' => $model->idMetodo]);
+                                            return Html::a('<button id="metodoadicionar" style="width: 6em;" type="button" class="btn btn-success">Adicionar</button>', ['create', 'idLoja' => $_GET['idLoja'], 'idMetodo' => $model->idMetodo]);
                                     },
                                 ],
                             ],

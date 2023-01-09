@@ -1,0 +1,12 @@
+suite_namespace: frontend\tests\acceptance
+actor: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+            url: http://localhost/PL2-G7_ProjetoPlatSI/frontend/web/
+            browser: firefox
+        - Yii2:
+            configFile: 'config/test.php'
+            part: [orm, fixtures]
+            entryScript: index.php
+            cleanup: false

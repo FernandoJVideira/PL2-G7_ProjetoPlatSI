@@ -39,7 +39,7 @@ $this->title = "Stuff n' Go";
     </div>
     <div class="mt-auto p-2">
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button onclick="location.href='<?= \yii\helpers\Url::toRoute('linhacarrinho/create') ?>?idProduto=<?= $model->idProduto ?>'" type="button" class="btn btn-primary">Carrinho</button>
+            <a href="<?= \yii\helpers\Url::toRoute('linhacarrinho/create') ?>?idProduto=<?= $model->idProduto ?>" ><button name="btCarrinho" type="button" class="btn btn-primary">Carrinho</button></a>
             <button onclick="location.href='<?= \yii\helpers\Url::toRoute('favorito/create') ?>?idProduto=<?= $model->idProduto ?>'" type="button" class="btn btn-dark"><i class="<?= ($model->getFavoritos(Yii::$app->user->id)->one() != null) ? 'fas' : 'far'?> fa-heart"></i></button>
 
         </div>

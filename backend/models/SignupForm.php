@@ -43,7 +43,7 @@ class SignupForm extends ActiveRecord
 
             ['email', 'trim'],
             ['email', 'required', 'message' => 'O e-mail tem de ser preenchido!'],
-            ['email', 'email'],
+            ['email', 'email', 'message' => 'O e-mail não é válido!'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Existe uma conta registada com este e-mail!'],
 

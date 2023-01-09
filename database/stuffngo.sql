@@ -209,8 +209,6 @@ ALTER TABLE `fatura` ADD FOREIGN KEY (`id_metodo`) REFERENCES `metodoPagamento` 
 
 ALTER TABLE `morada` ADD FOREIGN KEY (`id_user`) REFERENCES `utilizador` (`idUser`);
 
-ALTER TABLE `utilizador` ADD FOREIGN KEY (`id_user`) REFERENCES `User` (`id`);
-
 ALTER TABLE `utilizador` ADD FOREIGN KEY (`id_loja`) REFERENCES `loja` (`idLoja`);
 
 ALTER TABLE `carrinho` ADD FOREIGN KEY (`id_loja`) REFERENCES `loja` (`idLoja`);

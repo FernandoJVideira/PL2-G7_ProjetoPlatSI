@@ -26,19 +26,44 @@ class LoginCest
             ]
         ];
     }
+
+    public function _before(FunctionalTester $I)
+    {
+        $I->amOnRoute('/site/login');
+    }
     
     /**
      * @param FunctionalTester $I
      */
     public function loginUser(FunctionalTester $I)
     {
-        $I->amOnRoute('/site/login');
-        $I->fillField('Username', 'erau');
-        $I->fillField('Password', 'password_0');
-        $I->click('login-button');
+        $I->fillField('LoginForm[username]', 'erau');
+        $I->fillField('LoginForm[password]', 'password_0');
+        $I->click('submit');
 
-        $I->see('Logout (erau)', 'form button[type=submit]');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
+        $I->see('Gestão de Utilizadores');
+    }
+
+    public function loginUserCamposVazios(FunctionalTester $I)
+    {
+        $I->click('submit');
+        $I->see('Este campo é obrigatório');
+    }
+    public function loginUserDadosErrados(FunctionalTester $I)
+    {
+        $I->fillField('LoginForm[username]', 'asdasd');
+        $I->fillField('LoginForm[password]', 'passasdasdword_0');
+        $I->click('submit');
+
+        $I->see('Username ou password incorretos');
+    }
+
+    public function loginUserSemPermissoes(FunctionalTester $I)
+    {
+        $I->fillField('LoginForm[username]', 'cliente');
+        $I->fillField('LoginForm[password]', 'password_0');
+        $I->click('submit');
+
+        $I->see('Não tem permissão para aceder a esta área.');
     }
 }

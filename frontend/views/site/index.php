@@ -43,7 +43,7 @@ $this->title = "Stuff n' Go";
         <div class="body-content">
             <div class="container mx-auto">
                 <div class="d-flex justify-content-around">
-                    <?php if(count($models) >= 3)
+                    <?php if(isset($models) && count($models) >= 3)
                             foreach ($models as $model) { ?>
                             <?php $this->beginContent('@frontend/views/site/_items.php', ['model' => $model]);
                             $this->endContent(); ?>

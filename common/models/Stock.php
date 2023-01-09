@@ -33,7 +33,7 @@ class Stock extends \yii\db\ActiveRecord
     {
         return [
             [['id_produto'], 'required', 'message' => 'Este campo é obrigatório'],
-            [['quant_stock', 'quant_req', 'id_produto', 'id_loja'], 'integer'],
+            [['quant_stock', 'quant_req', 'id_produto', 'id_loja'], 'integer', 'message' => 'Este campo deve ser um número'],
             [['quant_stock', 'quant_req'], 'integer', 'min' => 0, 'tooSmall' => 'Insira um valor superior a 0'],
             ['quant_stock', 'validateTest'],
             [['id_loja'], 'exist', 'skipOnError' => true, 'targetClass' => Loja::class, 'targetAttribute' => ['id_loja' => 'idLoja']],

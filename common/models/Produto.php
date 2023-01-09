@@ -45,8 +45,8 @@ class Produto extends \yii\db\ActiveRecord
             [['preco_unit'], 'number'],
             [['dataCriacao'], 'safe'],
             [['ativo', 'id_categoria'], 'integer'],  
-            [['nome', 'imagem'], 'string', 'max' => 255],
-            [['imagem'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['nome'], 'string', 'max' => 255],
+            //[['imagem'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],//TODO: validar extenção
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_categoria' => 'idCategoria']],
         ];
     }

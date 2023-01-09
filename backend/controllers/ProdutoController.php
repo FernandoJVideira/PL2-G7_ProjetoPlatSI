@@ -105,7 +105,6 @@ class ProdutoController extends BaseAuthController
 
         $categorias = Categoria::find()->where(['ativo' => 1])->orderBy('nome')->all();
 
-
         foreach($categorias as $cat){
             if($cat->id_categoria !== null){
                 $cat->nome .= " (Sub-Categoria)";
@@ -113,6 +112,7 @@ class ProdutoController extends BaseAuthController
         }
 
         if ($this->request->isPost && $model->load($this->request->post())) {
+
             $imagem = UploadedFile::getInstance($model, 'imagem');
             if($imagem == null){
                 $model->imagem = $model->getOldAttribute('imagem');
