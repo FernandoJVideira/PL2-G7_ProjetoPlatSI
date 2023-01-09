@@ -66,7 +66,7 @@ class EncomendaController extends Controller
             return $this->redirect(['site/index']);
         }
 
-        $carrinho = $this->findModel(Carrinho::findOne(['idCarrinho' => $idCarrinho]));
+        $carrinho = $this->findModel($idCarrinho);
 
         if($carrinho->id_user != Yii::$app->user->id)
         {
