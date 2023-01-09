@@ -233,16 +233,6 @@ AppAsset::register($this);
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
     <?php $this->endBody() ?>
-    <script>
-        window.onclick = function(event) {
-            if (!event.target.matches('.navbar-vertical')) {
-                var dropdowns = document.getElementById("navbar-vertical");
-                if (dropdowns.classList.contains('show')) {
-                    dropdowns.classList.remove('show');
-                }
-            }
-        }
-    </script>
 </body>
 
 </html>

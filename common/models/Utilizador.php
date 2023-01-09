@@ -130,4 +130,8 @@ class Utilizador extends \yii\db\ActiveRecord
         return null;
     }
 
+    public static function getCount(){
+        return AuthAssignment::find()->where(['item_name' => 'Cliente'])->innerJoin('user', 'auth_assignment.user_id = user.id')->andWhere('status ='. \common\models\User::STATUS_ACTIVE)->count();
+    }
+
 }

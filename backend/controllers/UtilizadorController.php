@@ -137,25 +137,35 @@ class UtilizadorController extends BaseAuthController
      */
     public function actionUpdate($idUser)
     {
+
         $role = Utilizador::getPerfil($idUser);
         if(Yii::$app->user->id != $idUser)
             if(!Yii::$app->user->can('update'.$role))
             {
                 $this->showMessage('Não tem permissões para aceder a esta página.');
             }
-
+        $erro = null;
         $model = $this->findModel($idUser);
-
         if ($this->request->isPost) {
-            if(!(($role == 'Gestor' || $role == 'Funcionario') && $this->request->post('Utilizador')['id_loja'] == null)){
-                if ($model->load($this->request->post()) && $model->save())
+            if($role == 'Gestor' || $role == 'Funcionario'){
+                if(isset($this->request->post('Utilizador')['id_loja']) && $this->request->post('Utilizador')['id_loja'] != null){
+                    $model->id_loja = $this->request->post('Utilizador')['id_loja'];
+                }
+                else
+                    $erro = 'loja';
+                if ($model->load($this->request->post()) && $model->save()){
+
                     return $this->redirect(['view', 'idUser' => $model->idUser, 'role' => Utilizador::getPerfil($idUser)]);
+                }
             }
-            if(!isset($this->request->post('Utilizador')['id_loja']))
-                $erro = 'loja';
             else
-                $erro = null;
+                if ($model->load($this->request->post()) && $model->save()){
+
+                    return $this->redirect(['view', 'idUser' => $model->idUser, 'role' => Utilizador::getPerfil($idUser)]);
+                }
+
         }
+
         $lojas = Loja::find()->all();
         $roles = AuthItem::find()->where('type = 1')->all();
 

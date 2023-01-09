@@ -108,7 +108,7 @@ class ProdutoController extends BaseAuthController
                 $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
                 if($imagem->saveAs(self::$path . $nomeImagem)){
                     $model->imagem = $nomeImagem;
-                    $model->save(false);
+                    $model->save();
                     return $this->redirect(['view', 'idProduto' => $model->idProduto]);
                 }
             }

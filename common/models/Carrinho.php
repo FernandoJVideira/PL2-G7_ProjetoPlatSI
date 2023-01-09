@@ -167,4 +167,8 @@ class Carrinho extends \yii\db\ActiveRecord
     {
         return count($this->linhaCarrinhos);
     }
+
+    public static function getCount(){
+        return Carrinho::find()->where(['estado' => 'fechado'])->count();
+    }
 }

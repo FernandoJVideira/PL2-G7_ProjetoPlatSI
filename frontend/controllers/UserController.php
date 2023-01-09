@@ -39,8 +39,10 @@ class UserController extends Controller
 
     public function actionUpdate($id)
     {
-        if(!Yii::$app->user->isGuest)
-            $this->showMessage('Não tem permissões para aceder a esta página.');
+        if(Yii::$app->user->isGuest){
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            return $this->redirect(['site/index']);
+        }
 
         $role = Utilizador::getPerfil($id);
         if(Yii::$app->user->id != $id)

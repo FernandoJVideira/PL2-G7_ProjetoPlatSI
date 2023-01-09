@@ -67,13 +67,11 @@ class SiteController extends BaseAuthController
     {
         $idLoja = \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? null;
 
-        $count_clientes = AuthAssignment::find()->where(['item_name' => 'Cliente'])->innerJoin('user', 'auth_assignment.user_id = user.id')->andWhere('status ='. \common\models\User::STATUS_ACTIVE)->count();
+        $count_clientes = Utilizador::getCount();
 
-        $countCarrinhos = Carrinho::find()->where(['estado' => 'fechado'])->count();
+        $countCarrinhos = Carrinho::getCount();
 
-        $query = "SELECT `linhaCarrinho`.`id_produto` FROM `carrinho` LEFT JOIN `linhaCarrinho` ON `carrinho`.`idCarrinho` = `linhaCarrinho`.`id_carrinho` WHERE (`carrinho`.`estado`='fechado') AND (`data_criacao` >= '2022-12-29') GROUP BY `id_produto` ORDER BY SUM(quantidade) DESC LIMIT 1";
-        $post = Yii::$app->db->createCommand($query)->queryOne();
-        $produto = Produto::findOne(['idProduto' => $post['id_produto'] ?? null]);
+        $produto = Produto::getTop();
 
         if($idLoja != null){
             $encomendas_pendentes = Carrinho::find()->where(['estado' => 'emProcessamento'])->andWhere(['id_loja' => $idLoja])->count();

@@ -41,16 +41,13 @@ class EncomendaController extends Controller
         ];
     }
 
-    /**
-     * Lists all Carrinho models.
-     *
-     * @return string
-     */
+
     public function actionIndex()
     {
-
-        if(!Yii::$app->user->isGuest)
-            $this->showMessage('Não tem permissões para aceder a esta página.');
+        if(Yii::$app->user->isGuest){
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            return $this->redirect(['site/index']);
+        }
 
         $searchModel = new EncomendaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams, Yii::$app->user->identity->id);
@@ -61,16 +58,13 @@ class EncomendaController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Carrinho model.
-     * @param int $idCarrinho Id Carrinho
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionView($idCarrinho)
     {
-        if(!Yii::$app->user->isGuest)
-            $this->showMessage('Não tem permissões para aceder a esta página.');
+        if(Yii::$app->user->isGuest){
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            return $this->redirect(['site/index']);
+        }
 
         $carrinho = $this->findModel(Carrinho::findOne(['idCarrinho' => $idCarrinho]));
 

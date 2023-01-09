@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Jan 09, 2023 at 02:36 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.1.12
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -21,16 +12,16 @@ SET time_zone = "+00:00";
 -- Database: `stuffngo`
 --
 
+CREATE DATABASE IF NOT EXISTS stuffngo;
+
+use stuffngo;
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `auth_assignment`
 --
 
-CREATE DATABASE IF NOT EXISTS stuffngo;
-
-use stuffngo;
-
 CREATE TABLE `auth_assignment` (
   `item_name` varchar(64) NOT NULL,
   `user_id` varchar(64) NOT NULL,
@@ -71,68 +62,72 @@ CREATE TABLE `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
-('Admin', 1, NULL, NULL, NULL, 1673223418, 1673223418),
-('backend', 2, 'Aceder ao backend', NULL, NULL, 1673223418, 1673223418),
-('Cliente', 1, NULL, NULL, NULL, 1673223418, 1673223418),
-('createAdmin', 2, 'Criar um Admin', NULL, NULL, 1673223418, 1673223418),
-('createCategoria', 2, 'Criar uma categoria', NULL, NULL, 1673223418, 1673223418),
-('createCliente', 2, 'Criar um cliente', NULL, NULL, 1673223418, 1673223418),
-('createEncomenda', 2, 'Criar uma encomenda', NULL, NULL, 1673223418, 1673223418),
-('createFuncionario', 2, 'Criar um funcionário', NULL, NULL, 1673223418, 1673223418),
-('createGestor', 2, 'Criar um Gestor', NULL, NULL, 1673223418, 1673223418),
-('createIva', 2, 'Criar uma taxa IVA', NULL, NULL, 1673223418, 1673223418),
-('createLoja', 2, 'Criar uma Loja', NULL, NULL, 1673223418, 1673223418),
-('createMetodoPagamento', 2, 'Criar um tipo de pagamento', NULL, NULL, 1673223418, 1673223418),
-('createMorada', 2, 'Criar uma morada', NULL, NULL, 1673223418, 1673223418),
-('createProduto', 2, 'Criar um produto', NULL, NULL, 1673223418, 1673223418),
-('createPromocao', 2, 'Criar uma promocao', NULL, NULL, 1673223418, 1673223418),
-('createReview', 2, 'Criar uma review', NULL, NULL, 1673223418, 1673223418),
-('createSeccao', 2, 'Criar uma seccao', NULL, NULL, 1673223418, 1673223418),
-('deleteAdmin', 2, 'Desativar um administrador', NULL, NULL, 1673223418, 1673223418),
-('deleteCategoria', 2, 'Desativar uma categoria', NULL, NULL, 1673223418, 1673223418),
-('deleteCliente', 2, 'Desativar um cliente', NULL, NULL, 1673223418, 1673223418),
-('deleteFuncionario', 2, 'Desativar um funcionário', NULL, NULL, 1673223418, 1673223418),
-('deleteGestor', 2, 'Desativar um gestor', NULL, NULL, 1673223418, 1673223418),
-('deleteIva', 2, 'Desativar uma taxa IVA', NULL, NULL, 1673223418, 1673223418),
-('deleteLoja', 2, 'Remover uma loja', NULL, NULL, 1673223418, 1673223418),
-('deleteMetodoPagamento', 2, 'Remover um metodo de pagamento', NULL, NULL, 1673223418, 1673223418),
-('deleteMorada', 2, 'Remover uma morada', NULL, NULL, 1673223418, 1673223418),
-('deleteProduto', 2, 'Desativar um produto', NULL, NULL, 1673223418, 1673223418),
-('deletePromocao', 2, 'Remover uma promocao', NULL, NULL, 1673223418, 1673223418),
-('favoritos', 2, 'Adicionar/Remover um produto aos favoritos', NULL, NULL, 1673223418, 1673223418),
-('Funcionario', 1, NULL, NULL, NULL, 1673223418, 1673223418),
-('Gestor', 1, NULL, NULL, NULL, 1673223418, 1673223418),
-('updateAdmin', 2, 'Atualizar os dados de um administrador', NULL, NULL, 1673223418, 1673223418),
-('updateCategoria', 2, 'Atualizar uma categoria', NULL, NULL, 1673223418, 1673223418),
-('updateCliente', 2, 'Atualizar os dados de um cliente', NULL, NULL, 1673223418, 1673223418),
-('updateDadosEmpresa', 2, 'Atualizar os dados de uma empresa', NULL, NULL, 1673223418, 1673223418),
-('updateEmpresa', 2, 'Atualizar os dados de uma empresa', NULL, NULL, 1673223418, 1673223418),
-('updateFuncionario', 2, 'Atualizar os dados de um funcionário', NULL, NULL, 1673223418, 1673223418),
-('updateGestor', 2, 'Atualizar os dados de um gestor', NULL, NULL, 1673223418, 1673223418),
-('updateIva', 2, 'Atualizar uma taxa IVA', NULL, NULL, 1673223418, 1673223418),
-('updateLoja', 2, 'Atualizar os dados de uma loja', NULL, NULL, 1673223418, 1673223418),
-('updateMetodoPagamento', 2, 'Atualizar um metodo de pagamento', NULL, NULL, 1673223418, 1673223418),
-('updateMorada', 2, 'Atualizar os dados de uma morada', NULL, NULL, 1673223418, 1673223418),
-('updateMoradaEncomenda', 2, 'Atualizar a morada de uma encomenda', NULL, NULL, 1673223418, 1673223418),
-('updateOwn', 2, 'Atualizar os dados do próprio utilizador', NULL, NULL, 1673223418, 1673223418),
-('updateProduto', 2, 'Atualizar um produto', NULL, NULL, 1673223418, 1673223418),
-('updatePromocao', 2, 'Atualizar os dados de uma promocao', NULL, NULL, 1673223418, 1673223418),
-('updateSeccao', 2, 'Atualizar os dados de uma seccao', NULL, NULL, 1673223418, 1673223418),
-('updateStatusEncomenda', 2, 'Atualizar o status de uma encomenda', NULL, NULL, 1673223418, 1673223418),
-('updateStock', 2, 'Atualizar o stock de um produto', NULL, NULL, 1673223418, 1673223418),
-('viewAdmin', 2, 'Ver a listagem de todos administradores', NULL, NULL, 1673223418, 1673223418),
-('viewCategorias', 2, 'Ver a listagem de todas as categorias', NULL, NULL, 1673223418, 1673223418),
-('viewCliente', 2, 'Ver os dados de um cliente', NULL, NULL, 1673223418, 1673223418),
-('viewEmpresa', 2, 'Ver os dados da empresa', NULL, NULL, 1673223418, 1673223418),
-('viewEstatisticas', 2, 'Ver as estatisticas da loja', NULL, NULL, 1673223418, 1673223418),
-('viewFuncionario', 2, 'Ver a listagem de todos funcionários', NULL, NULL, 1673223418, 1673223418),
-('viewGestor', 2, 'Ver a listagem de todos gestores', NULL, NULL, 1673223418, 1673223418),
-('viewHistoricoDeEncomendas', 2, 'Ver o historico de encomendas', NULL, NULL, 1673223418, 1673223418),
-('viewIva', 2, 'Ver a listagem de todas as taxas IVA', NULL, NULL, 1673223418, 1673223418),
-('viewLoja', 2, 'Ver os dados da loja', NULL, NULL, 1673223418, 1673223418),
-('viewMetodoPagamento', 2, 'Ver a listagem de todos os metodos de pagamento', NULL, NULL, 1673223418, 1673223418),
-('viewOwn', 2, 'Ver os dados do proprio utilizador', NULL, NULL, 1673223418, 1673223418),
-('viewPromocao', 2, 'Ver a listagem de todas as promocoes', NULL, NULL, 1673223418, 1673223418);
+('Admin', 1, NULL, NULL, NULL, 1673246550, 1673246550),
+('backend', 2, 'Aceder ao backend', NULL, NULL, 1673246550, 1673246550),
+('Cliente', 1, NULL, NULL, NULL, 1673246550, 1673246550),
+('createAdmin', 2, 'Criar um Admin', NULL, NULL, 1673246550, 1673246550),
+('createCategoria', 2, 'Criar uma categoria', NULL, NULL, 1673246550, 1673246550),
+('createCliente', 2, 'Criar um cliente', NULL, NULL, 1673246550, 1673246550),
+('createEncomenda', 2, 'Criar uma encomenda', NULL, NULL, 1673246550, 1673246550),
+('createFuncionario', 2, 'Criar um funcionário', NULL, NULL, 1673246550, 1673246550),
+('createGestor', 2, 'Criar um Gestor', NULL, NULL, 1673246550, 1673246550),
+('createIva', 2, 'Criar uma taxa IVA', NULL, NULL, 1673246550, 1673246550),
+('createLoja', 2, 'Criar uma Loja', NULL, NULL, 1673246550, 1673246550),
+('createMetodoPagamento', 2, 'Criar um tipo de pagamento', NULL, NULL, 1673246550, 1673246550),
+('createMorada', 2, 'Criar uma morada', NULL, NULL, 1673246550, 1673246550),
+('createProduto', 2, 'Criar um produto', NULL, NULL, 1673246550, 1673246550),
+('createPromocao', 2, 'Criar uma promocao', NULL, NULL, 1673246550, 1673246550),
+('createReview', 2, 'Criar uma review', NULL, NULL, 1673246550, 1673246550),
+('createSeccao', 2, 'Criar uma seccao', NULL, NULL, 1673246550, 1673246550),
+('deleteAdmin', 2, 'Desativar um administrador', NULL, NULL, 1673246550, 1673246550),
+('deleteCategoria', 2, 'Desativar uma categoria', NULL, NULL, 1673246550, 1673246550),
+('deleteCliente', 2, 'Desativar um cliente', NULL, NULL, 1673246550, 1673246550),
+('deleteFuncionario', 2, 'Desativar um funcionário', NULL, NULL, 1673246550, 1673246550),
+('deleteGestor', 2, 'Desativar um gestor', NULL, NULL, 1673246550, 1673246550),
+('deleteIva', 2, 'Desativar uma taxa IVA', NULL, NULL, 1673246550, 1673246550),
+('deleteLoja', 2, 'Remover uma loja', NULL, NULL, 1673246550, 1673246550),
+('deleteMetodoPagamento', 2, 'Remover um metodo de pagamento', NULL, NULL, 1673246550, 1673246550),
+('deleteMorada', 2, 'Remover uma morada', NULL, NULL, 1673246550, 1673246550),
+('deleteProduto', 2, 'Desativar um produto', NULL, NULL, 1673246550, 1673246550),
+('deletePromocao', 2, 'Remover uma promocao', NULL, NULL, 1673246550, 1673246550),
+('deleteSeccao', 2, 'Remover uma seccao', NULL, NULL, 1673246550, 1673246550),
+('favoritos', 2, 'Adicionar/Remover um produto aos favoritos', NULL, NULL, 1673246550, 1673246550),
+('Funcionario', 1, NULL, NULL, NULL, 1673246550, 1673246550),
+('gestaoLoja', 2, 'Gerir Loja', NULL, NULL, 1673246550, 1673246550),
+('Gestor', 1, NULL, NULL, NULL, 1673246550, 1673246550),
+('updateAdmin', 2, 'Atualizar os dados de um administrador', NULL, NULL, 1673246550, 1673246550),
+('updateCategoria', 2, 'Atualizar uma categoria', NULL, NULL, 1673246550, 1673246550),
+('updateCliente', 2, 'Atualizar os dados de um cliente', NULL, NULL, 1673246550, 1673246550),
+('updateDadosEmpresa', 2, 'Atualizar os dados de uma empresa', NULL, NULL, 1673246550, 1673246550),
+('updateEmpresa', 2, 'Atualizar os dados de uma empresa', NULL, NULL, 1673246550, 1673246550),
+('updateFuncionario', 2, 'Atualizar os dados de um funcionário', NULL, NULL, 1673246550, 1673246550),
+('updateGestor', 2, 'Atualizar os dados de um gestor', NULL, NULL, 1673246550, 1673246550),
+('updateIva', 2, 'Atualizar uma taxa IVA', NULL, NULL, 1673246550, 1673246550),
+('updateLoja', 2, 'Atualizar os dados de uma loja', NULL, NULL, 1673246550, 1673246550),
+('updateMetodoPagamento', 2, 'Atualizar um metodo de pagamento', NULL, NULL, 1673246550, 1673246550),
+('updateMorada', 2, 'Atualizar os dados de uma morada', NULL, NULL, 1673246550, 1673246550),
+('updateMoradaEncomenda', 2, 'Atualizar a morada de uma encomenda', NULL, NULL, 1673246550, 1673246550),
+('updateOwn', 2, 'Atualizar os dados do próprio utilizador', NULL, NULL, 1673246550, 1673246550),
+('updateProduto', 2, 'Atualizar um produto', NULL, NULL, 1673246550, 1673246550),
+('updatePromocao', 2, 'Atualizar os dados de uma promocao', NULL, NULL, 1673246550, 1673246550),
+('updateSeccao', 2, 'Atualizar os dados de uma seccao', NULL, NULL, 1673246550, 1673246550),
+('updateStatusEncomenda', 2, 'Atualizar o status de uma encomenda', NULL, NULL, 1673246550, 1673246550),
+('updateStock', 2, 'Atualizar o stock de um produto', NULL, NULL, 1673246550, 1673246550),
+('viewAdmin', 2, 'Ver a listagem de todos administradores', NULL, NULL, 1673246550, 1673246550),
+('viewCategorias', 2, 'Ver a listagem de todas as categorias', NULL, NULL, 1673246550, 1673246550),
+('viewCliente', 2, 'Ver os dados de um cliente', NULL, NULL, 1673246550, 1673246550),
+('viewEmpresa', 2, 'Ver os dados da empresa', NULL, NULL, 1673246550, 1673246550),
+('viewEstatisticas', 2, 'Ver as estatisticas da loja', NULL, NULL, 1673246550, 1673246550),
+('viewFuncionario', 2, 'Ver a listagem de todos funcionários', NULL, NULL, 1673246550, 1673246550),
+('viewGestor', 2, 'Ver a listagem de todos gestores', NULL, NULL, 1673246550, 1673246550),
+('viewHistoricoDeEncomendas', 2, 'Ver o historico de encomendas', NULL, NULL, 1673246550, 1673246550),
+('viewIva', 2, 'Ver a listagem de todas as taxas IVA', NULL, NULL, 1673246550, 1673246550),
+('viewLoja', 2, 'Ver os dados da loja', NULL, NULL, 1673246550, 1673246550),
+('viewMetodoPagamento', 2, 'Ver a listagem de todos os metodos de pagamento', NULL, NULL, 1673246550, 1673246550),
+('viewOwn', 2, 'Ver os dados do proprio utilizador', NULL, NULL, 1673246550, 1673246550),
+('viewProduto', 2, 'Ver produtos', NULL, NULL, 1673246550, 1673246550),
+('viewPromocao', 2, 'Ver a listagem de todas as promocoes', NULL, NULL, 1673246550, 1673246550),
+('viewSeccao', 2, 'Ver as seccoes das lojas', NULL, NULL, 1673246550, 1673246550);
 
 -- --------------------------------------------------------
 
@@ -174,7 +169,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Admin', 'deleteMorada'),
 ('Admin', 'deleteProduto'),
 ('Admin', 'deletePromocao'),
-('Admin', 'favoritos'),
+('Admin', 'deleteSeccao'),
+('Admin', 'gestaoLoja'),
 ('Admin', 'updateAdmin'),
 ('Admin', 'updateCategoria'),
 ('Admin', 'updateCliente'),
@@ -190,6 +186,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Admin', 'updateProduto'),
 ('Admin', 'updatePromocao'),
 ('Admin', 'updateSeccao'),
+('Admin', 'updateStatusEncomenda'),
 ('Admin', 'viewAdmin'),
 ('Admin', 'viewCategorias'),
 ('Admin', 'viewCliente'),
@@ -202,7 +199,9 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Admin', 'viewLoja'),
 ('Admin', 'viewMetodoPagamento'),
 ('Admin', 'viewOwn'),
+('Admin', 'viewProduto'),
 ('Admin', 'viewPromocao'),
+('Admin', 'viewSeccao'),
 ('Cliente', 'createEncomenda'),
 ('Cliente', 'createReview'),
 ('Cliente', 'deleteMorada'),
@@ -214,11 +213,12 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Funcionario', 'createCliente'),
 ('Funcionario', 'deleteCliente'),
 ('Funcionario', 'deleteMorada'),
-('Funcionario', 'favoritos'),
 ('Funcionario', 'updateCliente'),
 ('Funcionario', 'updateOwn'),
+('Funcionario', 'updateStatusEncomenda'),
 ('Funcionario', 'updateStock'),
 ('Funcionario', 'viewCliente'),
+('Funcionario', 'viewHistoricoDeEncomendas'),
 ('Funcionario', 'viewOwn'),
 ('Gestor', 'backend'),
 ('Gestor', 'createCategoria'),
@@ -238,7 +238,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Gestor', 'deleteMorada'),
 ('Gestor', 'deleteProduto'),
 ('Gestor', 'deletePromocao'),
-('Gestor', 'favoritos'),
+('Gestor', 'deleteSeccao'),
+('Gestor', 'gestaoLoja'),
 ('Gestor', 'updateCategoria'),
 ('Gestor', 'updateCliente'),
 ('Gestor', 'updateFuncionario'),
@@ -250,6 +251,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Gestor', 'updateProduto'),
 ('Gestor', 'updatePromocao'),
 ('Gestor', 'updateSeccao'),
+('Gestor', 'updateStatusEncomenda'),
 ('Gestor', 'viewCategorias'),
 ('Gestor', 'viewCliente'),
 ('Gestor', 'viewEstatisticas'),
@@ -257,8 +259,11 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Gestor', 'viewHistoricoDeEncomendas'),
 ('Gestor', 'viewIva'),
 ('Gestor', 'viewLoja'),
+('Gestor', 'viewMetodoPagamento'),
 ('Gestor', 'viewOwn'),
-('Gestor', 'viewPromocao');
+('Gestor', 'viewProduto'),
+('Gestor', 'viewPromocao'),
+('Gestor', 'viewSeccao');
 
 -- --------------------------------------------------------
 
@@ -1217,14 +1222,20 @@ ALTER TABLE `stock`
 ALTER TABLE `utilizador`
   ADD CONSTRAINT `utilizador_ibfk_1` FOREIGN KEY (`id_loja`) REFERENCES `loja` (`idLoja`);
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 CREATE DATABASE IF NOT EXISTS stuffngo_test;
 
 use stuffngo_test;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_assignment`
+--
 
 CREATE TABLE `auth_assignment` (
   `item_name` varchar(64) NOT NULL,
@@ -1266,68 +1277,72 @@ CREATE TABLE `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
-('Admin', 1, NULL, NULL, NULL, 1673223418, 1673223418),
-('backend', 2, 'Aceder ao backend', NULL, NULL, 1673223418, 1673223418),
-('Cliente', 1, NULL, NULL, NULL, 1673223418, 1673223418),
-('createAdmin', 2, 'Criar um Admin', NULL, NULL, 1673223418, 1673223418),
-('createCategoria', 2, 'Criar uma categoria', NULL, NULL, 1673223418, 1673223418),
-('createCliente', 2, 'Criar um cliente', NULL, NULL, 1673223418, 1673223418),
-('createEncomenda', 2, 'Criar uma encomenda', NULL, NULL, 1673223418, 1673223418),
-('createFuncionario', 2, 'Criar um funcionário', NULL, NULL, 1673223418, 1673223418),
-('createGestor', 2, 'Criar um Gestor', NULL, NULL, 1673223418, 1673223418),
-('createIva', 2, 'Criar uma taxa IVA', NULL, NULL, 1673223418, 1673223418),
-('createLoja', 2, 'Criar uma Loja', NULL, NULL, 1673223418, 1673223418),
-('createMetodoPagamento', 2, 'Criar um tipo de pagamento', NULL, NULL, 1673223418, 1673223418),
-('createMorada', 2, 'Criar uma morada', NULL, NULL, 1673223418, 1673223418),
-('createProduto', 2, 'Criar um produto', NULL, NULL, 1673223418, 1673223418),
-('createPromocao', 2, 'Criar uma promocao', NULL, NULL, 1673223418, 1673223418),
-('createReview', 2, 'Criar uma review', NULL, NULL, 1673223418, 1673223418),
-('createSeccao', 2, 'Criar uma seccao', NULL, NULL, 1673223418, 1673223418),
-('deleteAdmin', 2, 'Desativar um administrador', NULL, NULL, 1673223418, 1673223418),
-('deleteCategoria', 2, 'Desativar uma categoria', NULL, NULL, 1673223418, 1673223418),
-('deleteCliente', 2, 'Desativar um cliente', NULL, NULL, 1673223418, 1673223418),
-('deleteFuncionario', 2, 'Desativar um funcionário', NULL, NULL, 1673223418, 1673223418),
-('deleteGestor', 2, 'Desativar um gestor', NULL, NULL, 1673223418, 1673223418),
-('deleteIva', 2, 'Desativar uma taxa IVA', NULL, NULL, 1673223418, 1673223418),
-('deleteLoja', 2, 'Remover uma loja', NULL, NULL, 1673223418, 1673223418),
-('deleteMetodoPagamento', 2, 'Remover um metodo de pagamento', NULL, NULL, 1673223418, 1673223418),
-('deleteMorada', 2, 'Remover uma morada', NULL, NULL, 1673223418, 1673223418),
-('deleteProduto', 2, 'Desativar um produto', NULL, NULL, 1673223418, 1673223418),
-('deletePromocao', 2, 'Remover uma promocao', NULL, NULL, 1673223418, 1673223418),
-('favoritos', 2, 'Adicionar/Remover um produto aos favoritos', NULL, NULL, 1673223418, 1673223418),
-('Funcionario', 1, NULL, NULL, NULL, 1673223418, 1673223418),
-('Gestor', 1, NULL, NULL, NULL, 1673223418, 1673223418),
-('updateAdmin', 2, 'Atualizar os dados de um administrador', NULL, NULL, 1673223418, 1673223418),
-('updateCategoria', 2, 'Atualizar uma categoria', NULL, NULL, 1673223418, 1673223418),
-('updateCliente', 2, 'Atualizar os dados de um cliente', NULL, NULL, 1673223418, 1673223418),
-('updateDadosEmpresa', 2, 'Atualizar os dados de uma empresa', NULL, NULL, 1673223418, 1673223418),
-('updateEmpresa', 2, 'Atualizar os dados de uma empresa', NULL, NULL, 1673223418, 1673223418),
-('updateFuncionario', 2, 'Atualizar os dados de um funcionário', NULL, NULL, 1673223418, 1673223418),
-('updateGestor', 2, 'Atualizar os dados de um gestor', NULL, NULL, 1673223418, 1673223418),
-('updateIva', 2, 'Atualizar uma taxa IVA', NULL, NULL, 1673223418, 1673223418),
-('updateLoja', 2, 'Atualizar os dados de uma loja', NULL, NULL, 1673223418, 1673223418),
-('updateMetodoPagamento', 2, 'Atualizar um metodo de pagamento', NULL, NULL, 1673223418, 1673223418),
-('updateMorada', 2, 'Atualizar os dados de uma morada', NULL, NULL, 1673223418, 1673223418),
-('updateMoradaEncomenda', 2, 'Atualizar a morada de uma encomenda', NULL, NULL, 1673223418, 1673223418),
-('updateOwn', 2, 'Atualizar os dados do próprio utilizador', NULL, NULL, 1673223418, 1673223418),
-('updateProduto', 2, 'Atualizar um produto', NULL, NULL, 1673223418, 1673223418),
-('updatePromocao', 2, 'Atualizar os dados de uma promocao', NULL, NULL, 1673223418, 1673223418),
-('updateSeccao', 2, 'Atualizar os dados de uma seccao', NULL, NULL, 1673223418, 1673223418),
-('updateStatusEncomenda', 2, 'Atualizar o status de uma encomenda', NULL, NULL, 1673223418, 1673223418),
-('updateStock', 2, 'Atualizar o stock de um produto', NULL, NULL, 1673223418, 1673223418),
-('viewAdmin', 2, 'Ver a listagem de todos administradores', NULL, NULL, 1673223418, 1673223418),
-('viewCategorias', 2, 'Ver a listagem de todas as categorias', NULL, NULL, 1673223418, 1673223418),
-('viewCliente', 2, 'Ver os dados de um cliente', NULL, NULL, 1673223418, 1673223418),
-('viewEmpresa', 2, 'Ver os dados da empresa', NULL, NULL, 1673223418, 1673223418),
-('viewEstatisticas', 2, 'Ver as estatisticas da loja', NULL, NULL, 1673223418, 1673223418),
-('viewFuncionario', 2, 'Ver a listagem de todos funcionários', NULL, NULL, 1673223418, 1673223418),
-('viewGestor', 2, 'Ver a listagem de todos gestores', NULL, NULL, 1673223418, 1673223418),
-('viewHistoricoDeEncomendas', 2, 'Ver o historico de encomendas', NULL, NULL, 1673223418, 1673223418),
-('viewIva', 2, 'Ver a listagem de todas as taxas IVA', NULL, NULL, 1673223418, 1673223418),
-('viewLoja', 2, 'Ver os dados da loja', NULL, NULL, 1673223418, 1673223418),
-('viewMetodoPagamento', 2, 'Ver a listagem de todos os metodos de pagamento', NULL, NULL, 1673223418, 1673223418),
-('viewOwn', 2, 'Ver os dados do proprio utilizador', NULL, NULL, 1673223418, 1673223418),
-('viewPromocao', 2, 'Ver a listagem de todas as promocoes', NULL, NULL, 1673223418, 1673223418);
+('Admin', 1, NULL, NULL, NULL, 1673246550, 1673246550),
+('backend', 2, 'Aceder ao backend', NULL, NULL, 1673246550, 1673246550),
+('Cliente', 1, NULL, NULL, NULL, 1673246550, 1673246550),
+('createAdmin', 2, 'Criar um Admin', NULL, NULL, 1673246550, 1673246550),
+('createCategoria', 2, 'Criar uma categoria', NULL, NULL, 1673246550, 1673246550),
+('createCliente', 2, 'Criar um cliente', NULL, NULL, 1673246550, 1673246550),
+('createEncomenda', 2, 'Criar uma encomenda', NULL, NULL, 1673246550, 1673246550),
+('createFuncionario', 2, 'Criar um funcionário', NULL, NULL, 1673246550, 1673246550),
+('createGestor', 2, 'Criar um Gestor', NULL, NULL, 1673246550, 1673246550),
+('createIva', 2, 'Criar uma taxa IVA', NULL, NULL, 1673246550, 1673246550),
+('createLoja', 2, 'Criar uma Loja', NULL, NULL, 1673246550, 1673246550),
+('createMetodoPagamento', 2, 'Criar um tipo de pagamento', NULL, NULL, 1673246550, 1673246550),
+('createMorada', 2, 'Criar uma morada', NULL, NULL, 1673246550, 1673246550),
+('createProduto', 2, 'Criar um produto', NULL, NULL, 1673246550, 1673246550),
+('createPromocao', 2, 'Criar uma promocao', NULL, NULL, 1673246550, 1673246550),
+('createReview', 2, 'Criar uma review', NULL, NULL, 1673246550, 1673246550),
+('createSeccao', 2, 'Criar uma seccao', NULL, NULL, 1673246550, 1673246550),
+('deleteAdmin', 2, 'Desativar um administrador', NULL, NULL, 1673246550, 1673246550),
+('deleteCategoria', 2, 'Desativar uma categoria', NULL, NULL, 1673246550, 1673246550),
+('deleteCliente', 2, 'Desativar um cliente', NULL, NULL, 1673246550, 1673246550),
+('deleteFuncionario', 2, 'Desativar um funcionário', NULL, NULL, 1673246550, 1673246550),
+('deleteGestor', 2, 'Desativar um gestor', NULL, NULL, 1673246550, 1673246550),
+('deleteIva', 2, 'Desativar uma taxa IVA', NULL, NULL, 1673246550, 1673246550),
+('deleteLoja', 2, 'Remover uma loja', NULL, NULL, 1673246550, 1673246550),
+('deleteMetodoPagamento', 2, 'Remover um metodo de pagamento', NULL, NULL, 1673246550, 1673246550),
+('deleteMorada', 2, 'Remover uma morada', NULL, NULL, 1673246550, 1673246550),
+('deleteProduto', 2, 'Desativar um produto', NULL, NULL, 1673246550, 1673246550),
+('deletePromocao', 2, 'Remover uma promocao', NULL, NULL, 1673246550, 1673246550),
+('deleteSeccao', 2, 'Remover uma seccao', NULL, NULL, 1673246550, 1673246550),
+('favoritos', 2, 'Adicionar/Remover um produto aos favoritos', NULL, NULL, 1673246550, 1673246550),
+('Funcionario', 1, NULL, NULL, NULL, 1673246550, 1673246550),
+('gestaoLoja', 2, 'Gerir Loja', NULL, NULL, 1673246550, 1673246550),
+('Gestor', 1, NULL, NULL, NULL, 1673246550, 1673246550),
+('updateAdmin', 2, 'Atualizar os dados de um administrador', NULL, NULL, 1673246550, 1673246550),
+('updateCategoria', 2, 'Atualizar uma categoria', NULL, NULL, 1673246550, 1673246550),
+('updateCliente', 2, 'Atualizar os dados de um cliente', NULL, NULL, 1673246550, 1673246550),
+('updateDadosEmpresa', 2, 'Atualizar os dados de uma empresa', NULL, NULL, 1673246550, 1673246550),
+('updateEmpresa', 2, 'Atualizar os dados de uma empresa', NULL, NULL, 1673246550, 1673246550),
+('updateFuncionario', 2, 'Atualizar os dados de um funcionário', NULL, NULL, 1673246550, 1673246550),
+('updateGestor', 2, 'Atualizar os dados de um gestor', NULL, NULL, 1673246550, 1673246550),
+('updateIva', 2, 'Atualizar uma taxa IVA', NULL, NULL, 1673246550, 1673246550),
+('updateLoja', 2, 'Atualizar os dados de uma loja', NULL, NULL, 1673246550, 1673246550),
+('updateMetodoPagamento', 2, 'Atualizar um metodo de pagamento', NULL, NULL, 1673246550, 1673246550),
+('updateMorada', 2, 'Atualizar os dados de uma morada', NULL, NULL, 1673246550, 1673246550),
+('updateMoradaEncomenda', 2, 'Atualizar a morada de uma encomenda', NULL, NULL, 1673246550, 1673246550),
+('updateOwn', 2, 'Atualizar os dados do próprio utilizador', NULL, NULL, 1673246550, 1673246550),
+('updateProduto', 2, 'Atualizar um produto', NULL, NULL, 1673246550, 1673246550),
+('updatePromocao', 2, 'Atualizar os dados de uma promocao', NULL, NULL, 1673246550, 1673246550),
+('updateSeccao', 2, 'Atualizar os dados de uma seccao', NULL, NULL, 1673246550, 1673246550),
+('updateStatusEncomenda', 2, 'Atualizar o status de uma encomenda', NULL, NULL, 1673246550, 1673246550),
+('updateStock', 2, 'Atualizar o stock de um produto', NULL, NULL, 1673246550, 1673246550),
+('viewAdmin', 2, 'Ver a listagem de todos administradores', NULL, NULL, 1673246550, 1673246550),
+('viewCategorias', 2, 'Ver a listagem de todas as categorias', NULL, NULL, 1673246550, 1673246550),
+('viewCliente', 2, 'Ver os dados de um cliente', NULL, NULL, 1673246550, 1673246550),
+('viewEmpresa', 2, 'Ver os dados da empresa', NULL, NULL, 1673246550, 1673246550),
+('viewEstatisticas', 2, 'Ver as estatisticas da loja', NULL, NULL, 1673246550, 1673246550),
+('viewFuncionario', 2, 'Ver a listagem de todos funcionários', NULL, NULL, 1673246550, 1673246550),
+('viewGestor', 2, 'Ver a listagem de todos gestores', NULL, NULL, 1673246550, 1673246550),
+('viewHistoricoDeEncomendas', 2, 'Ver o historico de encomendas', NULL, NULL, 1673246550, 1673246550),
+('viewIva', 2, 'Ver a listagem de todas as taxas IVA', NULL, NULL, 1673246550, 1673246550),
+('viewLoja', 2, 'Ver os dados da loja', NULL, NULL, 1673246550, 1673246550),
+('viewMetodoPagamento', 2, 'Ver a listagem de todos os metodos de pagamento', NULL, NULL, 1673246550, 1673246550),
+('viewOwn', 2, 'Ver os dados do proprio utilizador', NULL, NULL, 1673246550, 1673246550),
+('viewProduto', 2, 'Ver produtos', NULL, NULL, 1673246550, 1673246550),
+('viewPromocao', 2, 'Ver a listagem de todas as promocoes', NULL, NULL, 1673246550, 1673246550),
+('viewSeccao', 2, 'Ver as seccoes das lojas', NULL, NULL, 1673246550, 1673246550);
 
 -- --------------------------------------------------------
 
@@ -1369,7 +1384,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Admin', 'deleteMorada'),
 ('Admin', 'deleteProduto'),
 ('Admin', 'deletePromocao'),
-('Admin', 'favoritos'),
+('Admin', 'deleteSeccao'),
+('Admin', 'gestaoLoja'),
 ('Admin', 'updateAdmin'),
 ('Admin', 'updateCategoria'),
 ('Admin', 'updateCliente'),
@@ -1385,6 +1401,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Admin', 'updateProduto'),
 ('Admin', 'updatePromocao'),
 ('Admin', 'updateSeccao'),
+('Admin', 'updateStatusEncomenda'),
 ('Admin', 'viewAdmin'),
 ('Admin', 'viewCategorias'),
 ('Admin', 'viewCliente'),
@@ -1397,7 +1414,9 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Admin', 'viewLoja'),
 ('Admin', 'viewMetodoPagamento'),
 ('Admin', 'viewOwn'),
+('Admin', 'viewProduto'),
 ('Admin', 'viewPromocao'),
+('Admin', 'viewSeccao'),
 ('Cliente', 'createEncomenda'),
 ('Cliente', 'createReview'),
 ('Cliente', 'deleteMorada'),
@@ -1409,11 +1428,12 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Funcionario', 'createCliente'),
 ('Funcionario', 'deleteCliente'),
 ('Funcionario', 'deleteMorada'),
-('Funcionario', 'favoritos'),
 ('Funcionario', 'updateCliente'),
 ('Funcionario', 'updateOwn'),
+('Funcionario', 'updateStatusEncomenda'),
 ('Funcionario', 'updateStock'),
 ('Funcionario', 'viewCliente'),
+('Funcionario', 'viewHistoricoDeEncomendas'),
 ('Funcionario', 'viewOwn'),
 ('Gestor', 'backend'),
 ('Gestor', 'createCategoria'),
@@ -1433,7 +1453,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Gestor', 'deleteMorada'),
 ('Gestor', 'deleteProduto'),
 ('Gestor', 'deletePromocao'),
-('Gestor', 'favoritos'),
+('Gestor', 'deleteSeccao'),
+('Gestor', 'gestaoLoja'),
 ('Gestor', 'updateCategoria'),
 ('Gestor', 'updateCliente'),
 ('Gestor', 'updateFuncionario'),
@@ -1445,6 +1466,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Gestor', 'updateProduto'),
 ('Gestor', 'updatePromocao'),
 ('Gestor', 'updateSeccao'),
+('Gestor', 'updateStatusEncomenda'),
 ('Gestor', 'viewCategorias'),
 ('Gestor', 'viewCliente'),
 ('Gestor', 'viewEstatisticas'),
@@ -1452,8 +1474,11 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Gestor', 'viewHistoricoDeEncomendas'),
 ('Gestor', 'viewIva'),
 ('Gestor', 'viewLoja'),
+('Gestor', 'viewMetodoPagamento'),
 ('Gestor', 'viewOwn'),
-('Gestor', 'viewPromocao');
+('Gestor', 'viewProduto'),
+('Gestor', 'viewPromocao'),
+('Gestor', 'viewSeccao');
 
 -- --------------------------------------------------------
 
@@ -2412,3 +2437,8 @@ ALTER TABLE `stock`
 ALTER TABLE `utilizador`
   ADD CONSTRAINT `utilizador_ibfk_1` FOREIGN KEY (`id_loja`) REFERENCES `loja` (`idLoja`);
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+

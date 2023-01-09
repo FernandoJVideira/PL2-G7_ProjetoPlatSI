@@ -41,22 +41,28 @@ class MoradaController extends BaseAuthController
 
     public function actionUpdate($idMorada)
     {
-        if(!Yii::$app->user->isGuest)
-            $this->showMessage('Não tem permissões para aceder a esta página.');
+        if(Yii::$app->user->isGuest){
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            return $this->redirect(['site/index']);
+        }
 
         $model = $this->findModel($idMorada);
 
         if(Utilizador::getPerfil($model->id_user) != 'Cliente')
             if(Yii::$app->user->id != $model->id_user)
-                if(!Yii::$app->user->can('updateMorada'))
-                    $this->showMessage('Não tem permissões para aceder a esta página.');
+                if(!Yii::$app->user->can('updateMorada')){
+                    Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+                    return $this->redirect(['site/index']);
+                }
 
 
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
 
-            if($model->id_user == null)
-                $this->showMessage('Morada atualizada com sucesso.', 'success');
+            if($model->id_user == null){
+                Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+                return $this->redirect(['site/index']);
+            }
             else{
                 $idUser = $model->id_user;
                 return $this->redirect(['utilizador/view', 'idUser' => $idUser, 'role' => Utilizador::getPerfil($idUser)]);
@@ -77,21 +83,25 @@ class MoradaController extends BaseAuthController
      */
     public function actionDelete($idMorada)
     {
-        if(!Yii::$app->user->isGuest)
-            $this->showMessage('Não tem permissões para aceder a esta página.');
+        if(Yii::$app->user->isGuest){
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            return $this->redirect(['site/index']);
+        }
 
         $morada = $this->findModel($idMorada);
         $idUser = $morada->id_user;
 
         if(Utilizador::getPerfil($morada->id_user) != 'Cliente')
             if(Yii::$app->user->id != $idUser)
-                if(!Yii::$app->user->can('updateMorada'))
-                    $this->showMessage('Não tem permissões para aceder a esta página.');
+                if(!Yii::$app->user->can('updateMorada')){
+                    Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+                    return $this->redirect(['site/index']);
+                }
 
-
-        if($morada->id_user == null || $morada->countMoradasUser($morada->id_user) == 1)
-            $this->showMessage('Não tem permissões para concluir esta ação.');
-
+        if($morada->id_user == null || $morada->countMoradasUser($morada->id_user) == 1){
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            return $this->redirect(['site/index']);
+        }
 
         $morada->delete();
 
@@ -100,13 +110,17 @@ class MoradaController extends BaseAuthController
 
     public function actionCreate($idUser)
     {
-        if(!Yii::$app->user->isGuest)
-            $this->showMessage('Não tem permissões para aceder a esta página.');
+        if(Yii::$app->user->isGuest){
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+            return $this->redirect(['site/index']);
+        }
 
         if(Utilizador::getPerfil($idUser) != 'Cliente')
             if(Yii::$app->user->id != $idUser)
-                if(!Yii::$app->user->can('createMorada'))
-                    $this->showMessage('Não tem permissões para aceder a esta página.');
+                if(!Yii::$app->user->can('createMorada')){
+                    Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
+                    return $this->redirect(['site/index']);
+                }
 
         $model = new Morada();
 
