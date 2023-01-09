@@ -22,10 +22,6 @@ use yii\data\ActiveDataProvider;
 
 use function PHPUnit\Framework\containsEqual;
 
-;
-
-
-
 /**
  * Site controller
  */
@@ -37,21 +33,6 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'actions' => ['signup', 'login', 'index'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => [],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
