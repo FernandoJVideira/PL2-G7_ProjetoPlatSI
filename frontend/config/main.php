@@ -14,6 +14,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'enableCsrfValidation' => false,
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -34,7 +35,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'site/index',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

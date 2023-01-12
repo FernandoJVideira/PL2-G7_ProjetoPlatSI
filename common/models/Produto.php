@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\Categoria;
 
 /**
  * This is the model class for table "produto".
@@ -24,11 +25,12 @@ use Yii;
  */
 class Produto extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
-    {
+    {   
         return 'produto';
     }
 
@@ -38,14 +40,22 @@ class Produto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'descricao', 'preco_unit', 'imagem'], 'required'],
+            [['nome', 'descricao', 'preco_unit', 'imagem','id_categoria'], 'required'],
             [['descricao'], 'string'],
             [['preco_unit'], 'number'],
             [['dataCriacao'], 'safe'],
-            [['ativo', 'id_categoria'], 'integer'],
-            [['nome', 'imagem'], 'string', 'max' => 255],
+            [['ativo', 'id_categoria'], 'integer'],  
+            [['nome'], 'string', 'max' => 255],
+            //[['imagem'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_categoria' => 'idCategoria']],
         ];
+    }
+
+    public function validateImagem()
+    {
+        $ext = substr($this->imagem, strrpos($this->imagem, '.') + 1);
+        if(!in_array($ext, ['jpg', 'jpeg', 'png']))
+            $this->addError('imagem', 'Escolha uma imagem válida');
     }
 
     /**
@@ -56,12 +66,12 @@ class Produto extends \yii\db\ActiveRecord
         return [
             'idProduto' => 'Id Produto',
             'nome' => 'Nome',
-            'descricao' => 'Descricao',
-            'preco_unit' => 'Preco Unit',
+            'descricao' => 'Descrição',
+            'preco_unit' => 'Preço',
             'dataCriacao' => 'Data Criacao',
             'imagem' => 'Imagem',
             'ativo' => 'Ativo',
-            'id_categoria' => 'Id Categoria',
+            'id_categoria' => 'Categoria',
         ];
     }
 
@@ -80,9 +90,9 @@ class Produto extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getFavoritos()
+    public function getFavoritos($id_user)
     {
-        return $this->hasMany(Favorito::class, ['id_produto' => 'idProduto']);
+        return $this->hasMany(Favorito::class, ['id_produto' => 'idProduto'])->where(['id_user' => $id_user]);
     }
 
     /**
@@ -113,5 +123,30 @@ class Produto extends \yii\db\ActiveRecord
     public function getStocks()
     {
         return $this->hasMany(Stock::class, ['id_produto' => 'idProduto']);
+    }
+
+    public function getAtivo()
+    {
+        return $this->ativo ? 'Ativo' : 'Inativo';
+    }
+
+    public function getPreco(){
+        return $this->preco_unit;
+    }
+
+    public function getIdCategoria(){
+        $Categoria = Categoria::findOne($this->id_categoria);
+        return $Categoria->nome;
+    }
+
+    public function getStockLoja($idLoja)
+    {
+        return $this->hasMany(Stock::class, ['id_produto' => 'idProduto'])->where(['id_loja' => $idLoja])->one();
+    }
+
+    public static function getTop(){
+        $query = "SELECT `linhaCarrinho`.`id_produto` FROM `carrinho` LEFT JOIN `linhaCarrinho` ON `carrinho`.`idCarrinho` = `linhaCarrinho`.`id_carrinho` WHERE (`carrinho`.`estado`='fechado') AND (`data_criacao` >= '2022-12-29') GROUP BY `id_produto` ORDER BY SUM(quantidade) DESC LIMIT 1";
+        $post = Yii::$app->db->createCommand($query)->queryOne();
+        return Produto::findOne(['idProduto' => $post['id_produto'] ?? null]);
     }
 }

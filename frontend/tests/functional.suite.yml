@@ -1,7 +1,8 @@
-suite_namespace: frontend\tests\functional
+suite_namespace: backend\tests\functional
 actor: FunctionalTester
 modules:
     enabled:
         - Filesystem
-        - Yii2
+        - Yii2:
+            configFile: 'config/test.php'
         - Asserts

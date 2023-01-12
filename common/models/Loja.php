@@ -3,7 +3,6 @@
 namespace common\models;
 
 use backend\models\Empresa;
-
 use Yii;
 
 /**
@@ -67,7 +66,7 @@ class Loja extends \yii\db\ActiveRecord
             'email' => 'Email',
             'telefone' => 'Telefone',
             'ativo' => 'Ativo',
-            'id_morada' => 'Id Morada',
+            'id_morada' => 'Morada', //Id Morada
         ];
     }
 
@@ -118,7 +117,7 @@ class Loja extends \yii\db\ActiveRecord
      */
     public function getMetodoPagamentoIdMetodos()
     {
-        return $this->hasMany(Metodopagamento::class, ['idMetodo' => 'metodoPagamento_idMetodo'])->viaTable('loja_metodopagamento', ['loja_idLoja' => 'idLoja']);
+        return $this->hasMany(Metodopagamento::class, ['idMetodo' => 'metodoPagamento_idMetodo'])->viaTable('loja_metodoPagamento', ['loja_idLoja' => 'idLoja']);
     }
 
     /**

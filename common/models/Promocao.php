@@ -10,6 +10,8 @@ use Yii;
  * @property int $idPromocao
  * @property float $percentagem
  * @property string $data_limite
+ * @property string $codigo
+ * @property string $nome_promo
  *
  * @property Carrinho[] $carrinhos
  */
@@ -29,9 +31,12 @@ class Promocao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['percentagem', 'data_limite'], 'required'],
-            [['percentagem'], 'number'],
-            [['data_limite'], 'safe'],
+            [['percentagem', 'data_limite', 'codigo', 'nome_promo'], 'required'],
+            ['percentagem', 'in', 'range' => range(1,100)],
+            [['data_limite'], 'date', 'format' => 'yyyy-MM-dd'],
+            [['codigo'], 'string','min' => 5, 'max' => 5 , 'tooShort' => 'O código tem de ter 5 caracteres', 'tooLong' => 'O código tem de ter 5 caracteres'],
+            [['codigo'], 'unique'],
+            [['nome_promo'], 'string','min' => 3, 'max' => 50],
         ];
     }
 
@@ -41,9 +46,11 @@ class Promocao extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idPromocao' => 'Id Promocao',
+            'idPromocao' => 'Id Promoção',
             'percentagem' => 'Percentagem',
             'data_limite' => 'Data Limite',
+            'codigo' => 'Codigo',
+            'nome_promo' => 'Nome',
         ];
     }
 

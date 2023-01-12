@@ -6,6 +6,8 @@ use common\models\Loja;
 use common\models\LojaSearch;
 use common\models\Morada;
 use backend\models\Empresa;
+use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
@@ -16,6 +18,33 @@ use yii\filters\VerbFilter;
  */
 class LojaController extends BaseAuthController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor'],
+                    ],
+                    [
+                        'actions' => ['create', 'delete'],
+                        'allow' => false,
+                        'roles' => ['Gestor'],
+                    ]
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
+            ]
+        ]);
+    }
+
     /**
      * Lists all Loja models.
      *
@@ -24,11 +53,8 @@ class LojaController extends BaseAuthController
     public function actionIndex()
     {
 
-        if (!\Yii::$app->user->can('viewLoja')) {
-            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
-        }
+        if (!Yii::$app->user->can('viewLoja'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $searchModel = new LojaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -47,20 +73,13 @@ class LojaController extends BaseAuthController
      */
     public function actionView($idLoja)
     {
-        if (!\Yii::$app->user->can('viewLoja')) {
-            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
-        }
+        if (!Yii::$app->user->can('viewLoja'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $model = $this->findModel($idLoja);
-        $morada = $model->morada;
-        $empresa = $model->empresa;
 
         return $this->render('view', [
             'model' => $model,
-            'morada' => $morada,
-            'empresa' => $empresa,
         ]);
     }
 
@@ -72,11 +91,8 @@ class LojaController extends BaseAuthController
     public function actionCreate()
     {
 
-        if (!\Yii::$app->user->can('createLoja')) {
-            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
-        }
+        if (!Yii::$app->user->can('createLoja'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $model = new Loja();
         $modelMorada = new Morada();
@@ -114,11 +130,8 @@ class LojaController extends BaseAuthController
     public function actionUpdate($idLoja)
     {
 
-        if (!\Yii::$app->user->can('updateLoja')) {
-            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
-        }
+        if (!Yii::$app->user->can('updateLoja'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $model = $this->findModel($idLoja);
         $modelMorada = $model->morada;
@@ -145,11 +158,8 @@ class LojaController extends BaseAuthController
      */
     public function actionDelete($idLoja)
     {
-        if (!\Yii::$app->user->can('deleteLoja')) {
-            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
-            $this->redirect(['site/index']);
-            return null;
-        }
+        if (!Yii::$app->user->can('deleteLoja'))
+            $this->showMessage('Não tem permissões para aceder a esta página.');
 
         $store = $this->findModel($idLoja);
         $store->ativo = 0;

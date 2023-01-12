@@ -22,6 +22,29 @@ use yii\filters\VerbFilter;
  */
 class UtilizadorController extends BaseAuthController
 {
+
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor', 'Funcionario'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
+            ]
+        ]);
+    }
+
     /**
      * Lists all Utilizador models.
      *
@@ -83,14 +106,16 @@ class UtilizadorController extends BaseAuthController
 
         if ($this->request->isPost) {
             $signupForm->load($this->request->post());
-            //isset($this->request->post()['SignupForm']['idLoja']) ? $loja = $this->request->post()['SignupForm']['idLoja'] : $loja = null;
-            $loja = ($this->request->post()['SignupForm']['id_loja'] ?? null); //TODO: testar se funciona
+            $loja = ($this->request->post()['SignupForm']['id_loja'] ?? null);
             $role = $this->request->post('SignupForm')['role'];
             if($signupForm->signup($role, $loja)){
                 Yii::$app->session->setFlash('success', 'Utilizador criado com sucesso.');
                 return $this->redirect(['index', 'role' => $role]);
             }
-            $erro = 'loja';
+            if(!isset($this->request->post('Utilizador')['id_loja']) && $loja == null)
+                $erro = 'loja';
+            else
+                $erro = null;
         }
         $lojas = Loja::find()->all();
         $roles = AuthItem::find()->where('type = 1')->all();
@@ -112,21 +137,33 @@ class UtilizadorController extends BaseAuthController
      */
     public function actionUpdate($idUser)
     {
+
         $role = Utilizador::getPerfil($idUser);
         if(Yii::$app->user->id != $idUser)
             if(!Yii::$app->user->can('update'.$role))
             {
                 $this->showMessage('Não tem permissões para aceder a esta página.');
             }
-
+        $erro = null;
         $model = $this->findModel($idUser);
-
         if ($this->request->isPost) {
-            if(!(($role == 'Gestor' || $role == 'Funcionario') && $this->request->post('Utilizador')['id_loja'] == null)){
-                if ($model->load($this->request->post()) && $model->save())
+            if($role == 'Gestor' || $role == 'Funcionario'){
+                if(isset($this->request->post('Utilizador')['id_loja']) && $this->request->post('Utilizador')['id_loja'] != null){
+                    $model->id_loja = $this->request->post('Utilizador')['id_loja'];
+                }
+                else
+                    $erro = 'loja';
+                if ($model->load($this->request->post()) && $model->save()){
+
                     return $this->redirect(['view', 'idUser' => $model->idUser, 'role' => Utilizador::getPerfil($idUser)]);
+                }
             }
-            $erro = 'loja';
+            else
+                if ($model->load($this->request->post()) && $model->save()){
+
+                    return $this->redirect(['view', 'idUser' => $model->idUser, 'role' => Utilizador::getPerfil($idUser)]);
+                }
+
         }
 
         $lojas = Loja::find()->all();

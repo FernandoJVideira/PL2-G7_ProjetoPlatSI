@@ -13,6 +13,7 @@ class LoginForm extends Model
     public $username;
     public $password;
     public $rememberMe = true;
+    public $cart_id;
 
     private $_user;
 
@@ -44,7 +45,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Username ou password incorretos');
             }
         }
     }
@@ -56,10 +57,23 @@ class LoginForm extends Model
      */
     public function login()
     {
+
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            $validation = Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+
+            /** @var int $cart_id */
+            $cookies = Yii::$app->request->cookies;
+            $cart_id = $cookies->getValue('cart_id');
+
+            if($cart_id){
+                $cart = Carrinho::findOne($cart_id);
+                $cart->id_user = Yii::$app->user->identity->id;
+                $cart->save();
+
+                unset(Yii::$app->response->cookies['cart_id']);
+            }
+            return $validation;
         }
-        
         return false;
     }
 

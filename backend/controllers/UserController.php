@@ -6,6 +6,7 @@ use common\models\User;
 use app\models\UserSearch;
 use common\models\Utilizador;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -15,22 +16,26 @@ use yii\filters\VerbFilter;
  */
 class UserController extends BaseAuthController
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['Admin', 'Gestor', 'Funcionario'],
                     ],
                 ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
             ]
-        );
+        ]);
     }
     public function actionUpdate($id)
     {
@@ -44,7 +49,7 @@ class UserController extends BaseAuthController
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['utilizador/view', 'idUser' => $model->id, 'role' => $role]);
+            return $this->redirect(['utilizador/view', 'idUser' => \common\models\Utilizador::findOne($model->id)->id_user, 'role' => $role]);
         }
         $user = $model;
         $utilizador = Utilizador::findOne(['idUser' => $id]);

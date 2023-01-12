@@ -11,11 +11,16 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\Loja;
+use common\models\Produto;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\User;
+use yii\data\ActiveDataProvider;
+
+use function PHPUnit\Framework\containsEqual;
 
 /**
  * Site controller
@@ -28,22 +33,6 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::class,
-                'only' => ['logout', 'signup'],
-                'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
@@ -76,7 +65,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $max = Produto::find()->count();
+
+        $offset = rand(0, $max) - 3;
+
+        $models = Produto::find()->offset($offset)->limit(3)->all();
+
+        return $this->render('index',['models' => $models]);
     }
 
     /**
@@ -86,12 +81,8 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
@@ -111,7 +102,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
+        
         return $this->goHome();
     }
 
@@ -145,6 +136,7 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        
         return $this->render('about');
     }
 
@@ -156,15 +148,16 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
             Yii::$app->session->setFlash('success', 'Registado com sucesso!');
             $user = User::find()->where(['email' => $model->email])->one();
 
-            $auth = \Yii::$app->authManager;
+            $auth = Yii::$app->authManager;
             $userRole = $auth->getRole('Cliente');
             $auth->assign($userRole, $user->id);
 
-            return $this->render('index');
+            $this->redirect(['index']);
         }
 
         return $this->render('signup', [
@@ -262,6 +255,86 @@ class SiteController extends Controller
 
         return $this->render('resendVerificationEmail', [
             'model' => $model
+        ]);
+    }
+
+    public function actionProdutos(){
+        $model = Produto::find()->andwhere(['ativo'=> 1 ]);
+
+        if(isset($_GET['input']))
+            $model->andFilterWhere(['like', 'nome', $_GET['input']]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model,
+            'pagination' => [
+                'pageSize' => 9,   
+            ],
+        ]);
+        
+        return $this->render('produtos',[
+            'model' => $model, 
+            'listDataProvider' => $dataProvider 
+        ]);
+    }
+
+    public function actionAplicacao(){
+        return $this->render('aplicacao',[
+        ]);
+    }
+
+    public function actionDetalhes($id = null){
+        $model = Produto::findOne($id);
+
+        if($id == null || $model == null)
+            return $this->redirect(['site/produtos']);
+        
+        return $this->render('detalhes',[
+            'model' => $model
+        ]);
+    }
+
+    public function actionNovidades(){
+
+        // por data 
+        
+        $Produtos_Ordem_Decrescente = Produto::find()->where(['ativo'=> 1])->orderBy(['dataCriacao'=>SORT_DESC])->limit(9)->all();
+
+        // Mandas o 9 ultimos
+
+        $ArrayModel =  $Produtos_Ordem_Decrescente;
+
+        
+        return $this->render('novidades',[
+            'model' => $ArrayModel      
+        ]);
+
+
+    }//poggers
+
+    public function actionLojas(){
+        $model = Loja::find()->where(['ativo' => 1])->all();
+
+        return $this->render('lojas',[
+            'model' => $model
+        ]);
+    }
+
+    public function actionTipo($id = null){
+        $model = Produto::find()->where(['ativo'=> 1, 'id_categoria' => $id])->one();
+
+        if(!isset($model) || $id == null)
+            return $this->redirect(['site/produtos']);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' =>  Produto::find()->where(['ativo'=> 1, 'id_categoria' => $id]),
+            'pagination' => [
+                'pageSize' => 9,   
+            ],
+        ]);
+
+        return $this->render('produtos',[
+            'model'=>$model,
+            'listDataProvider' => $dataProvider 
         ]);
     }
 }

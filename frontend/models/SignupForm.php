@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\Carrinho;
 use common\models\Morada;
 use common\models\Utilizador;
 use Yii;
@@ -16,11 +17,9 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
-
     public $nome;
     public $telemovel;
     public $nif;
-
     public $morada;
     public $pais;
     public $cidade;
@@ -54,7 +53,7 @@ class SignupForm extends Model
 
             ['telemovel', 'required', 'message' => 'O telemóvel tem de ser preenchido!'],
             ['telemovel', 'integer', 'message' => 'O telemóvel deve ser um número!'],
-            ['telemovel', 'string', 'min' => 9, 'max' => 9, 'tooShort' => 'O telemóvel deve ser um número com 9 digitos!', 'tooLong' => 'O telemóvel deve ser um número com 9 digitos!'],
+            ['telemovel', 'string', 'min' => 9, 'max' => 13, 'tooShort' => 'O telemóvel deve ser um número com 9 digitos!', 'tooLong' => 'O telemóvel deve ser um número com 9 digitos!'],
 
             ['nif', 'required', 'message' => 'O nif tem de ser preenchido!'],
             ['nif', 'integer', 'message' => 'O nif deve ser um número!'],
@@ -83,7 +82,7 @@ class SignupForm extends Model
     public function signup()
     {
         if (!$this->validate()) {
-            return null;
+            return false;
         }
         
         $user = new User();
@@ -115,6 +114,18 @@ class SignupForm extends Model
         $morada->id_user = $utilizador->idUser;
 
         $morada->save();
+
+        /** @var int $cart_id */
+        $cookies = Yii::$app->request->cookies;
+        $cart_id = $cookies->getValue('cart_id');
+
+        if($cart_id){
+            $cart = Carrinho::findOne($cart_id);
+            $cart->id_user = Yii::$app->user->identity->id;
+            $cart->save();
+
+            unset(Yii::$app->response->cookies['cart_id']);
+        }
 
         return true;
     }

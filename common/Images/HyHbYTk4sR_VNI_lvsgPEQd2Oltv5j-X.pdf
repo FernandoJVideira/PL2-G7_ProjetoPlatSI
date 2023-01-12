@@ -1,0 +1,13 @@
+<pre>An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in  on line 0. in /opt/lampp/htdocs/PL2-G7_ProjetoPlatSI/vendor/yiisoft/yii2/web/Response.php:368
+Stack trace:
+#0 /opt/lampp/htdocs/PL2-G7_ProjetoPlatSI/vendor/yiisoft/yii2/web/Response.php(341): yii\web\Response-&gt;sendHeaders()
+#1 /opt/lampp/htdocs/PL2-G7_ProjetoPlatSI/vendor/yiisoft/yii2/web/ErrorHandler.php(136): yii\web\Response-&gt;send()
+#2 /opt/lampp/htdocs/PL2-G7_ProjetoPlatSI/vendor/yiisoft/yii2/base/ErrorHandler.php(152): yii\web\ErrorHandler-&gt;renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler-&gt;handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in  on line 0. in /opt/lampp/htdocs/PL2-G7_ProjetoPlatSI/vendor/yiisoft/yii2/web/Response.php:368
+Stack trace:
+#0 /opt/lampp/htdocs/PL2-G7_ProjetoPlatSI/vendor/yiisoft/yii2/web/Response.php(341): yii\web\Response-&gt;sendHeaders()
+#1 /opt/lampp/htdocs/PL2-G7_ProjetoPlatSI/vendor/yiisoft/yii2/base/Applic

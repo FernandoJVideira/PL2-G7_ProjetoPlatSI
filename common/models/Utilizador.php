@@ -40,9 +40,11 @@ class Utilizador extends \yii\db\ActiveRecord
         return [
             [['nome', 'nif', 'telemovel'], 'required', 'message' => 'Este campo é obrigatório'],
             [['id_loja', 'id_user'], 'integer'],
-            [['nome'], 'string', 'max' => 255],
-            [['nif'], 'string', 'max' => 9],
-            [['telemovel'], 'string', 'max' => 20],
+            [['nome'], 'string','min' => 2, 'max' => 255],
+            [['nif'], 'string','min'=> 9, 'max' => 9],
+            [['nif'], 'integer', 'message' => 'O nif deve ser um número!'],
+            [['telemovel'], 'string', 'min' => 9, 'max' => 13],
+            [['telemovel'], 'integer', 'message' => 'O telemóvel deve ser um número!'],
             [['nif'], 'unique'],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
             [['id_loja'], 'exist', 'skipOnError' => true, 'targetClass' => Loja::class, 'targetAttribute' => ['id_loja' => 'idLoja']],
@@ -72,6 +74,11 @@ class Utilizador extends \yii\db\ActiveRecord
     public function getCarrinhos()
     {
         return $this->hasMany(Carrinho::class, ['id_user' => 'idUser']);
+    }
+
+    public function getCarrinhoAtivo()
+    {
+        return $this->hasOne(Carrinho::class, ['id_user' => 'idUser'])->andOnCondition(['estado' => 'aberto']);
     }
 
     /**
@@ -121,6 +128,10 @@ class Utilizador extends \yii\db\ActiveRecord
             return $model->item_name;
         }
         return null;
+    }
+
+    public static function getCount(){
+        return AuthAssignment::find()->where(['item_name' => 'Cliente'])->innerJoin('user', 'auth_assignment.user_id = user.id')->andWhere('status ='. \common\models\User::STATUS_ACTIVE)->count();
     }
 
 }

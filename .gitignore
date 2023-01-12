@@ -47,3 +47,8 @@ phpunit.phar
 
 
 common/config/main-local.php
+backend/assets/
+backend/assets/AppAsset.php!
+
+frontend/assets/
+frontend/assets/AppAsset.php!

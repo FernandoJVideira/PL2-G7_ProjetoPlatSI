@@ -4,7 +4,9 @@ namespace backend\controllers;
 
 use app\models\User;
 use backend\models\AuthAssignment;
+use common\models\Carrinho;
 use common\models\LoginForm;
+use common\models\Produto;
 use common\models\Utilizador;
 use Yii;
 use yii\filters\VerbFilter;
@@ -18,6 +20,32 @@ use yii\web\Response;
  */
 class SiteController extends BaseAuthController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(),[
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error', 'logout'],
+                        'allow' => true,
+                        'roles' => [],
+                    ],
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['Admin','Gestor', 'Funcionario'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
+            ]
+        ]);
+    }
     /**
      * {@inheritdoc}
      */
@@ -37,8 +65,36 @@ class SiteController extends BaseAuthController
      */
     public function actionIndex()
     {
-        $count_clientes = AuthAssignment::find()->where(['item_name' => 'Cliente'])->innerJoin('user', 'auth_assignment.user_id = user.id')->andWhere('status ='. \common\models\User::STATUS_ACTIVE)->count();
-        return $this->render('index', ['count_clientes' => $count_clientes]);
+        $idLoja = \common\models\Utilizador::findOne(Yii::$app->user->id)->id_loja ?? null;
+
+        $count_clientes = Utilizador::getCount();
+
+        $countCarrinhos = Carrinho::getCount();
+
+        $produto = Produto::getTop();
+
+        if($idLoja != null){
+            $encomendas_pendentes = Carrinho::find()->where(['estado' => 'emProcessamento'])->andWhere(['id_loja' => $idLoja])->count();
+            $carrinhos = Carrinho::find()->where(['estado' => 'emProcessamento'])->andWhere(['id_loja' => $idLoja])->all();
+        }
+        else{
+            $encomendas_pendentes = Carrinho::find()->where(['estado' => 'emProcessamento'])->count();
+            $carrinhos = Carrinho::find()->where(['estado' => 'emProcessamento'])->all();
+        }
+
+        $carrinhos = array_filter($carrinhos, function ($carrinho) {
+            return $carrinho->getLinhacarrinhos()->where(['estado' => 0])->count() > 0;
+        });
+        $emFalta = array_values($carrinhos);
+
+        return $this->render('index', [
+            'idLoja' => $idLoja ?? \common\models\Loja::find()->where('ativo = 1')->one()->idLoja,
+            'count_clientes' => $count_clientes,
+            'count_carrinhos' => $countCarrinhos,
+            'most_sold_product' => $produto->nome ?? 'Nenhum produto vendido',
+            'encomendas_pendentes' => $encomendas_pendentes,
+            'emFalta' => $emFalta
+            ]);
     }
 
     /**
@@ -55,6 +111,7 @@ class SiteController extends BaseAuthController
         $this->layout = 'main-login';
 
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             if(!Yii::$app->user->can("backend")){
                 Yii::$app->user->logout();

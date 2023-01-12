@@ -37,9 +37,9 @@ class Morada extends \yii\db\ActiveRecord
         return [
             [['rua', 'cidade', 'cod_postal', 'pais'], 'required', 'message' => 'Este campo é obrigatório'],
             [['id_user'], 'integer'],
-            [['rua'], 'string', 'max' => 255],
-            [['cidade', 'pais'], 'string', 'max' => 20],
-            [['cod_postal'], 'string', 'max' => 12],
+            [['rua'], 'string','min' => 2,'max' => 255],
+            [['cidade', 'pais'], 'string', 'min' =>2, 'max' => 20],
+            [['cod_postal'], 'string','min' => 4, 'max' => 12],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_user' => 'idUser']],
         ];
     }
