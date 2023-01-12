@@ -23,5 +23,6 @@ class ModuleAPI extends \yii\base\Module
 
         Yii::$app->user->enableSession = false;
         Yii::$app->user->loginUrl = null;
+        Yii::$app->errorHandler->errorAction = 'api/default/error';
     }
 }

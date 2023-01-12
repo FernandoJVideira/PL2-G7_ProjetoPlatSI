@@ -4,10 +4,10 @@ namespace backend\modules\api\controllers;
 
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\rest\ActiveController;
+use yii\web\Controller;
 use yii\web\Response;
 
-class ProdutoController extends ActiveController
+class DefaultController extends Controller
 {
     public function behaviors()
     {
@@ -18,16 +18,10 @@ class ProdutoController extends ActiveController
                     'class' => AccessControl::class,
                     'rules' => [
                         [
-                            'actions' => [],
+                            'actions' => ['error'],
                             'allow' => true,
                             'roles' => [],
                         ],
-                    ],
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
                     ],
                 ],
                 'contentNegotiator' => [
@@ -39,13 +33,25 @@ class ProdutoController extends ActiveController
             ]
         );
     }
-
-    public function actions()
+    public function actionError()
     {
-        $actions = parent::actions();
-        unset($actions['create'], $actions['update'], $actions['delete']);
-        return $actions;
-    }
+        $exception = \Yii::$app->errorHandler->exception;
 
-    public $modelClass = 'common\models\Produto';
+        if ($exception !== null) {
+            return $this->asJson([
+                'name' => $exception->getName(),
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode(),
+                'status' => $exception->statusCode,
+                'type' => get_class($exception),
+            ]);
+        }
+        return $this->asJson([
+            'name' => 'Unknown error',
+            'message' => 'Unknown error',
+            'code' => 0,
+            'status' => 500,
+            'type' => 'Unknown error',
+        ]);
+    }
 }

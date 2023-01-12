@@ -45,7 +45,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/index',
         ],
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

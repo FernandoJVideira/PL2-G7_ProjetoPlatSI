@@ -2,46 +2,67 @@
 
 namespace backend\modules\api\controllers;
 
-use Yii;
-use yii\rest\ActiveController;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 use common\models\User;
 use yii\filters\auth\HttpBasicAuth;
 use yii\web\Controller;
 
-class AuthController extends ActiveController
+class AuthController extends Controller
 {
-    public $modelClass = 'common\models\User';
     private $user;
 
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
-            'auth' => [$this, 'auth'],
-        ];
-        return $behaviors;
+        return array_merge(
+            parent::behaviors(),
+            [
+
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => [],
+                            'allow' => true,
+                            'roles' => [],
+                        ],
+                    ],
+                ],
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ],
+                ],
+                'contentNegotiator' => [
+                    'class' => 'yii\filters\ContentNegotiator',
+                    'formats' => [
+                        'application/json' => Response::FORMAT_JSON,
+                    ],
+                ],
+            ]
+        );
     }
 
-    /**
-     * @throws ForbiddenHttpException
-     */
-
-    public function auth($username, $password)
+    public function actionIndex()
     {
-        $this->user = User::findByUsername($username);
-
-        if ($this->user && $this->user->validatePassword($password)) {
-            return $this->user;
+        $headers = \Yii::$app->request->headers['Authorization'];
+        if($headers){
+            $headers = explode(' ', $headers);
+            $base = $headers[1];
+            $base = base64_decode($base);
+            $base = explode(':', $base);
+            $username = $base[0];
+            $password = $base[1];
+            $this->user = User::findByUsername($username);
+            //dd($this->user->validatePassword($password));
+            if($this->user != null && $this->user->validatePassword($password)){
+                return $this->asJson(['token' => $this->user->auth_key, 'username' => $this->user->username]);
+            }
         }
+        throw new \yii\web\HttpException(200, 'Invalid username or password', 401);
 
-        throw new ForbiddenHttpException('No authentication'); //403
-    }
-
-    public function actionLogin()
-    {
-        return $this->user;
     }
 }
