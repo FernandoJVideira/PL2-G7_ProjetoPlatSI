@@ -85,6 +85,16 @@ class PromocaoController extends BaseAuthController
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                try {
+                    $message = ["codigo" => $model->codigo, "nome_promo" => $model->nome_promo, "percentagem" => $model->percentagem, "data_limite" => $model->data_limite];
+                    $mqtt = new \PhpMqtt\Client\MqttClient(Yii::$app->params['mosquitto'], 1883, 'backend');
+                    $mqtt->connect();
+                    $mqtt->publish('promo', json_encode($message), 1);
+                    $mqtt->disconnect();
+                }catch (\Exception $e){
+                    dd($e->getMessage());
+                }
+
                 return $this->redirect(['view', 'idPromocao' => $model->idPromocao]);
             }
         } else {
