@@ -54,6 +54,12 @@ return [
                     'controller' => 'api/produto',
                     'extraPatterns' => [
                         'GET produtos/{id}' => 'view',
+                        'GET categoria/{id}' => 'categoria',
+                        'GET nome/{nome}' => 'nome',
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d[\\d,]*>',
+                        '{nome}' => '<nome:\\w+>',
                     ]
                 ],
                 [
@@ -98,8 +104,21 @@ return [
                         'PATCH produto/{id}' => 'produto_remove',
                         'DELETE {id}' => 'delete',
                     ],
-                ]
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/fatura'],
+                ],
+                [
+                'class' => 'yii\rest\UrlRule',
+                'controller' => 'api/fatura',
+                'pluralize' => false,
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/encomenda',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET' => 'index',
+                        'GET {id}' => 'view',
+                    ],
+                ],
             ],
         ],
     ],

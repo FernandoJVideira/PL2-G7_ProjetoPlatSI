@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
 use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class CarrinhoController extends ActiveController
@@ -26,19 +27,22 @@ class CarrinhoController extends ActiveController
                     'class' => CustomAuth::className(),
                     'auth' => ['backend\modules\api\components\CustomAuth', 'authCustom']
                 ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'create' => ['POST'],
-                    ],
-                ],
             ]
         );
     }
 
     public function checkAccess($action, $model = null, $params = [])
     {
-        return true;
+        if ($action === 'view') {
+            if($model)
+            {
+                if ($model->id_utilizador != $this->user->id) {
+                    throw new ForbiddenHttpException('You are not allowed to access this page.');
+                }
+            }else{
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
+        }
     }
 
     public function actions()
