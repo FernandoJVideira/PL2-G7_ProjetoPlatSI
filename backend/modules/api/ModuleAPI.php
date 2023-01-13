@@ -20,6 +20,7 @@ class ModuleAPI extends \yii\base\Module
     public function init()
     {
         parent::init();
+        ini_set( 'serialize_precision', -1 );
 
         Yii::$app->user->enableSession = false;
         Yii::$app->user->loginUrl = null;

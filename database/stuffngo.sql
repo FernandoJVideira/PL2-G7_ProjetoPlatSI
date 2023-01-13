@@ -526,21 +526,12 @@ INSERT INTO `loja_metodoPagamento` (`loja_idLoja`, `metodoPagamento_idMetodo`) V
 --
 
 CREATE TABLE `loja_seccao` (
+  `idLojaSeccao` int(11) NOT NULL,
   `loja_idLoja` int(11) NOT NULL,
-  `seccao_idSeccao` int(11) NOT NULL
+  `seccao_idSeccao` int(11) NOT NULL,
+  `numeroAtual` int(11) DEFAULT 0,
+  `ultimoNumero` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `loja_seccao`
---
-
-INSERT INTO `loja_seccao` (`loja_idLoja`, `seccao_idSeccao`) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(2, 1),
-(2, 3),
-(2, 4);
 
 -- --------------------------------------------------------
 
@@ -913,7 +904,8 @@ ALTER TABLE `loja_metodoPagamento`
 -- Indexes for table `loja_seccao`
 --
 ALTER TABLE `loja_seccao`
-  ADD PRIMARY KEY (`loja_idLoja`,`seccao_idSeccao`),
+  ADD PRIMARY KEY (`idLoja_Seccao`),
+  ADD KEY `loja_idLoja` (`loja_idLoja`),
   ADD KEY `seccao_idSeccao` (`seccao_idSeccao`);
 
 --
@@ -1099,6 +1091,9 @@ ALTER TABLE `user`
 --
 ALTER TABLE `utilizador`
   MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  
+ALTER TABLE `loja_seccao`
+  MODIFY `idLojaSeccao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

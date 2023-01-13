@@ -14,16 +14,6 @@ class ProdutoController extends ActiveController
         return array_merge(
             parent::behaviors(),
             [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'actions' => [],
-                            'allow' => true,
-                            'roles' => [],
-                        ],
-                    ],
-                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

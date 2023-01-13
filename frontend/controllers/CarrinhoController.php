@@ -116,7 +116,7 @@ class CarrinhoController extends Controller
             $carrinho->estado = 'emProcessamento';
             $carrinho->data_criacao = date('Y-m-d H:i:s');
 
-            $this->verificarStock($carrinho);
+            $carrinho->verificarStock();
 
             ($carrinho->save()) ? (Yii::$app->session->setFlash('success', 'Compra efetuada com sucesso!')) : (Yii::$app->session->setFlash('error', 'Erro ao enviar carrinho para checkout!'));
             $this->redirect(['site/index']);
@@ -163,21 +163,5 @@ class CarrinhoController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    private function verificarStock($carrinho)
-    {
-        foreach ($carrinho->linhaCarrinhos as $linhaCarrinho) {
-            $stocks = $linhaCarrinho->produto->getStockLoja($carrinho->id_loja);
-            if($stocks != null && $stocks->quant_stock >= $linhaCarrinho->quantidade){
-                $linhaCarrinho->estado = 1;
-                $stocks->quant_stock -= $linhaCarrinho->quantidade;
-            }
-            else{
-            $linhaCarrinho->estado = 0;
-            }
-
-            $linhaCarrinho->save();
-        }
     }
 }

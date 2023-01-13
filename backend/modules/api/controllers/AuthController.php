@@ -19,17 +19,6 @@ class AuthController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'actions' => [],
-                            'allow' => true,
-                            'roles' => [],
-                        ],
-                    ],
-                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -57,10 +46,8 @@ class AuthController extends Controller
             $username = $base[0];
             $password = $base[1];
             $this->user = User::findByUsername($username);
-            //dd($this->user->validatePassword($password));
-            if($this->user != null && $this->user->validatePassword($password)){
-                return $this->asJson(['token' => $this->user->auth_key, 'username' => $this->user->username]);
-            }
+            if($this->user != null && $this->user->validatePassword($password))
+                return $this->asJson(['token' => $this->user->auth_key]);
         }
         throw new \yii\web\HttpException(200, 'Invalid username or password', 401);
 

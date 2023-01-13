@@ -14,16 +14,6 @@ class DefaultController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'actions' => ['error'],
-                            'allow' => true,
-                            'roles' => [],
-                        ],
-                    ],
-                ],
                 'contentNegotiator' => [
                     'class' => 'yii\filters\ContentNegotiator',
                     'formats' => [
@@ -38,13 +28,13 @@ class DefaultController extends Controller
         $exception = \Yii::$app->errorHandler->exception;
 
         if ($exception !== null) {
-            return $this->asJson([
+            return [
                 'name' => $exception->getName(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode(),
                 'status' => $exception->statusCode,
                 'type' => get_class($exception),
-            ]);
+            ];
         }
         return $this->asJson([
             'name' => 'Unknown error',

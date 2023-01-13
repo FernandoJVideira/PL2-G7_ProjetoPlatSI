@@ -137,7 +137,7 @@ class Carrinho extends \yii\db\ActiveRecord
             $total += $linha->total;
         }
 
-        return $total;
+        return round($total ,2);
     }
 
     public function getIva()
@@ -155,12 +155,12 @@ class Carrinho extends \yii\db\ActiveRecord
     public function getTotalComDesconto()
     {
         $total = $this->getTotal();
-        return $total - ($total * (($this->promocao->percentagem ?? 0)/ 100));
+        return round($total - ($total * (($this->promocao->percentagem ?? 0)/ 100)), 2);
     }
 
     public function getDesconto(){
         $total = $this->getTotal();
-        return $total * (($this->promocao->percentagem ?? 0) / 100) ;
+        return round($total * (($this->promocao->percentagem ?? 0) / 100),2);
     }
 
     public function getNumLinhas()
@@ -170,5 +170,21 @@ class Carrinho extends \yii\db\ActiveRecord
 
     public static function getCount(){
         return Carrinho::find()->where(['estado' => 'fechado'])->count();
+    }
+
+    public function verificarStock()
+    {
+        foreach ($this->linhaCarrinhos as $linhaCarrinho) {
+            $stocks = $linhaCarrinho->produto->getStockLoja($this->id_loja);
+            if($stocks != null && $stocks->quant_stock >= $linhaCarrinho->quantidade){
+                $linhaCarrinho->estado = 1;
+                $stocks->quant_stock -= $linhaCarrinho->quantidade;
+                $stocks->save();
+            }
+            else{
+                $linhaCarrinho->estado = 0;
+            }
+            $linhaCarrinho->save();
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace backend\modules\api\controllers;
 
 use common\models\Loja;
+use common\models\LojaSeccao;
 use common\models\Seccao;
 use common\models\Senhadigital;
 use Yii;
@@ -18,16 +19,6 @@ class SeccaoController extends ActiveController
         return array_merge(
             parent::behaviors(),
             [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'actions' => ['index', 'senha'],
-                            'allow' => true,
-                            'roles' => [],
-                        ],
-                    ],
-                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -50,36 +41,27 @@ class SeccaoController extends ActiveController
     {
         $actions = parent::actions();
         unset($actions['index'], $actions['view'], $actions['create'], $actions['update'], $actions['delete']);
-        return $this->asJson($actions);
+        return $actions;
     }
 
-    public function actionIndex($idLoja)
+    public function actionIndex($id)
     {
-        $seccao = Loja::findOne($idLoja)->getSeccaoIdSeccaos()->all();
+        $seccao = Loja::findOne($id)->getLojaSeccaos()->all();
+        $seccao = array_map(function ($seccao) {
+            return ["id" =>  $seccao->idLojaSeccao, "nome" => $seccao->seccaoIdSeccao->nome, "numeroAtual" => $seccao->numeroAtual, "ultimoNumero" => $seccao->ultimoNumero];
+        }, $seccao);
         return $this->asJson($seccao);
     }
 
     public function actionSenha($id)
     {
-        $model = Seccao::findOne($id);
+        $model = LojaSeccao::findOne($id);
         if($model == null){
             return $this->asJson(['status' => 'error', 'message' => 'Seccao não encontrada']);
         }
-        $senha = SenhaDigital::find()->where(['id_seccao' => $model->idSeccao])->one();
-
-        if($senha == null){
-            $senha = new SenhaDigital();
-            $senha->id_seccao = $model->idSeccao;
-            $senha->ultimoNumero = 1;
-            $senha->save();
-            return $this->asJson(['number' => $senha->ultimoNumero]);
-        }
-        else{
-            $senha->ultimoNumero = $senha->ultimoNumero + 1;
-            $senha->save();
-            return $this->asJson(['number' => $senha->ultimoNumero]);
-        }
-
+        $model->ultimoNumero = $model->ultimoNumero + 1;
+        $model->save();
+        return $this->asJson(['number' => $model->ultimoNumero]);
     }
 
 }

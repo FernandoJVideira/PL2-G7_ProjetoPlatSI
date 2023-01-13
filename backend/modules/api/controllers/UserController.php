@@ -20,16 +20,6 @@ class UserController extends ActiveController
         return array_merge(
             parent::behaviors(),
             [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'actions' => ['dados', 'user', 'utilizador'],
-                            'allow' => true,
-                            'roles' => [],
-                        ],
-                    ],
-                ],
                 'authenticator' => [
                     'class' => CustomAuth::className(),
                     'auth' => ['backend\modules\api\components\CustomAuth', 'authCustom']
@@ -80,7 +70,7 @@ class UserController extends ActiveController
 
         $this->checkAccess('dados', $user);
 
-        return $this->asJson([$user, $user->user, $user->moradas]);
+        return [$user, $user->user, $user->moradas];
     }
 
     public function actionUtilizador()
@@ -95,7 +85,7 @@ class UserController extends ActiveController
         $user->telemovel = $data['telemovel'] ?? $user->telemovel;
 
         $user->save();
-        return $this->asJson($user);
+        return $user;
     }
 
     public function actionUser()
@@ -112,7 +102,6 @@ class UserController extends ActiveController
         }
 
         $user->save();
-
-        return $this->asJson($user);
+        return $user;
     }
 }
