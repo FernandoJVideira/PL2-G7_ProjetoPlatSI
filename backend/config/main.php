@@ -51,6 +51,7 @@ return [
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/produto'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/login'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/fatura'],
             ],
         ],
     ],
