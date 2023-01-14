@@ -124,6 +124,11 @@ return [
                     'controller' => 'api/morada',
                     'pluralize' => false,
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/favorito',
+                    'pluralize' => false,
+                ]
             ],
         ],
     ],

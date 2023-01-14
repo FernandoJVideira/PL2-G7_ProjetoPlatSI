@@ -3,15 +3,13 @@
 namespace backend\modules\api\controllers;
 
 use backend\modules\api\components\CustomAuth;
-use common\models\Morada;
+use common\models\Favorito;
 use yii\rest\ActiveController;
-use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
-use yii\web\NotFoundHttpException;
 
-class MoradaController extends ActiveController
+class FavoritoController extends ActiveController
 {
-    public $modelClass = 'common\models\Morada';
+    public $modelClass = 'common\models\Favorito';
 
     public function behaviors()
     {
@@ -34,13 +32,13 @@ class MoradaController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['index'],$actions['view'],$actions['delete']);
+        unset($actions['index'],$actions['view'],$actions['update']);
         return $actions;
     }
 
     public function checkAccess($action, $model = null, $params = [])
     {
-        if ($action === 'update' || $action === 'delete') {
+        if ($action === 'delete' || $action === 'create' || $action === 'view') {
             if ($model) {
                 if ($model->id_user != $this->user->id) {
                     throw new HttpException(403,'You are not allowed to access this page.');
@@ -51,14 +49,21 @@ class MoradaController extends ActiveController
         }
     }
 
-    public function actionDelete()
+    public function actionIndex()
     {
-        $model = Morada::findOne(['id_user' => $this->user->id]);
+        $model = Favorito::find()->where(['id_user' => $this->user->id])->all();
 
-        $this->checkAccess('delete', $model);
+        $this->checkAccess('index', $model);
 
-        $model->estado = 0;
-        $model->save();
+        return $model;
     }
 
+    public function actionView($id)
+    {
+        $model = Favorito::findOne(['id_user' => $this->user->id, 'idFavorito' => $id]);
+
+        $this->checkAccess('view', $model);
+
+        return $model;
+    }
 }
