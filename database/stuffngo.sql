@@ -599,6 +599,7 @@ CREATE TABLE `morada` (
   `cidade` varchar(20) NOT NULL,
   `cod_postal` varchar(12) NOT NULL,
   `pais` varchar(20) NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,q
   `id_user` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1817,6 +1818,7 @@ CREATE TABLE `morada` (
   `cidade` varchar(20) NOT NULL,
   `cod_postal` varchar(12) NOT NULL,
   `pais` varchar(20) NOT NULL,
+  `estado` tynint(1) NOT NULL DEFAULT 1,
   `id_user` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
