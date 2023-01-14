@@ -70,9 +70,9 @@ class CarrinhoController extends ActiveController
             'iva' => $carrinho->iva,
             'subtotal' => $carrinho->total,
             'desconto' => $carrinho->desconto,
-        ]], [$linhas]);
+        ]], ["linhascarrinho" => $linhas]);
 
-        return $linhas;
+        return ["carrinho" => $linhas];
     }
 
     public function actionCarrinho()
@@ -100,7 +100,7 @@ class CarrinhoController extends ActiveController
             throw new HttpException(400, 'Invalid request');
         }
 
-        return [$carrinho, $carrinho->linhaCarrinhos];
+        return ["carrinho" =>[ $carrinho, ["linhascarrinho" => $carrinho->linhaCarrinhos]]];
     }
 
     public function actionProduto_add(){

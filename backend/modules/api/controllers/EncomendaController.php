@@ -50,7 +50,7 @@ class EncomendaController extends ActiveController
         if(empty($carrinho)){
             throw new HttpException(404, 'No carrinho found.');
         }
-        return $carrinho;
+        return ["encomendas" => $carrinho];
     }
 
     public function actionView($id){
@@ -60,6 +60,6 @@ class EncomendaController extends ActiveController
         }
         $this->checkAccess('view', $carrinho);
 
-        return [$carrinho, $carrinho->getLinhacarrinhos()->all()];
+        return ["encomenda" => [$carrinho, ["linhasencomenda" => $carrinho->getLinhacarrinhos()->all()]]];
     }
 }

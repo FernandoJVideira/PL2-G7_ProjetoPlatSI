@@ -58,10 +58,10 @@ class FaturaController extends ActiveController
         $faturas = [];
 
         foreach ($model as $fatura) {
-            array_push($faturas, [$fatura, $fatura->linhafaturas]);
+            array_push($faturas, [$fatura, ["linhasfatura" => $fatura->linhafaturas]]);
         }
 
-        return $faturas;
+        return ["faturas" => $faturas];
     }
 
     public function actionView($id)
@@ -74,6 +74,6 @@ class FaturaController extends ActiveController
 
         $this->checkAccess('view', $model);
 
-        return [$model, $model->linhafaturas];
+        return [$model, ["linhasfatura" => $model->linhafaturas]];
     }
 }

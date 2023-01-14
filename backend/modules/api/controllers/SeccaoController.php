@@ -49,7 +49,7 @@ class SeccaoController extends ActiveController
             return ["id" =>  $seccao->idLojaSeccao, "nome" => $seccao->seccaoIdSeccao->nome, "numeroAtual" => $seccao->numeroAtual, "ultimoNumero" => $seccao->ultimoNumero];
         }, $seccao);
 
-        return $seccao;
+        return ["seccoes" => $seccao];
     }
 
     public function actionSenha($id)
