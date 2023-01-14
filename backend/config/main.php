@@ -121,7 +121,7 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/morada'
+                    'controller' => 'api/morada',
                     'pluralize' => false,
                 ],
             ],
