@@ -56,7 +56,7 @@ class FavoritoController extends ActiveController
 
         $this->checkAccess('index', $model);
 
-        return ["favoritos" => $model];
+        return $model;
     }
 
     public function actionCreate($id)

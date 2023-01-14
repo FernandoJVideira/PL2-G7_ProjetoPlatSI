@@ -67,7 +67,7 @@ class UserController extends ActiveController
         return [
             ["nome" => $user->nome, "nif" => $user->nif, "telemovel" => $user->telemovel],
             ["username" => $user->user->username, "email" => $user->user->email],
-            ["moradas" => $user->moradas]
+            $user->moradas
         ];
     }
 

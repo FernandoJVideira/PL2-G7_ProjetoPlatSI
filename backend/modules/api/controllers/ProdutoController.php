@@ -22,7 +22,7 @@ class ProdutoController extends ActiveController
         if(!$model)
             throw new HttpException(404, 'Nenhuma fatura encontrada.');
 
-        return ["produtos" => $model];
+        return $model;
     }
 
     public function actionView($id){
@@ -35,13 +35,17 @@ class ProdutoController extends ActiveController
 
     public function actionCategoria($id){
         $produto = $this->modelClass::find()->where(['id_categoria' => $id])->andWhere(['ativo' => 1])->all();
-
-        return ["produtos" => $produto];
+        if (empty($produto)){
+            throw new \yii\web\HttpException(404, 'Nenhum produto na categoria encontrado');
+        }
+        return $produto;
     }
 
     public function actionNome($nome){
         $produto = $this->modelClass::find()->where(['like', 'nome', $nome])->andWhere(['ativo' => 1])->all();
-
-        return ["produtos" => $produto];
+        if (empty($produto)){
+            throw new \yii\web\HttpException(404, 'Nenhum produto encontrado');
+        }
+        return $produto;
     }
 }

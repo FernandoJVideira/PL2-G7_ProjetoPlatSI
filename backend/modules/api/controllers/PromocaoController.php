@@ -48,10 +48,9 @@ class PromocaoController extends ActiveController
 
     public function actionIndex(){
         $this->checkAccess('index', $this->user);
-
         $promocoes = $this->modelClass::find()->where(['>', 'data_limite', date('Y-m-d H:i:s')])->all();
 
-        return ["promocoes" => $promocoes];
+        return empty($promocoes) ? throw new HttpException(404,'No Promocao available') : $promocoes;
     }
 
     public function actionValidate($id){
