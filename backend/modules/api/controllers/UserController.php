@@ -65,9 +65,18 @@ class UserController extends ActiveController
         $this->checkAccess('dados', $user);
 
         return [
-            ["nome" => $user->nome, "nif" => $user->nif, "telemovel" => $user->telemovel],
-            ["username" => $user->user->username, "email" => $user->user->email],
-            $user->moradas
+            "dadosuser" => [
+                [
+                    "nome" => $user->nome,
+                    "nif" => $user->nif,
+                    "telemovel" => $user->telemovel,
+                    "username" => $user->user->username,
+                    "email" => $user->user->email,
+                ],
+                [
+                    "moradas" => $user->moradas
+                ]
+            ]
         ];
     }
 

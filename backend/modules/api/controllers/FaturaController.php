@@ -74,6 +74,7 @@ class FaturaController extends ActiveController
 
         $this->checkAccess('view', $model);
 
-        return [$model, $model->linhafaturas];
+
+        return ["fatura" => [$model, ["linhasfatura" => $model->linhafaturas]]];
     }
 }

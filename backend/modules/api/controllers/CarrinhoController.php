@@ -54,25 +54,8 @@ class CarrinhoController extends ActiveController
         if ($carrinho == null) {
             throw new HttpException(404, 'No carrinho found.');
         }
+        return ["carrinho" =>[ $carrinho, ["linhascarrinho" => $carrinho->linhaCarrinhos]]];
 
-        $linhas = $carrinho->getLinhacarrinhos()->all();
-        $linhas = array_map(function ($linha) {
-            return [
-                "id" => $linha->idLinha,
-                "nome" => $linha->produto->nome,
-                "iva" => $linha->produto->categoria->iva->iva,
-                "quantidade" => $linha->quantidade,
-                "preco" => (float)$linha->produto->preco,
-                ];
-        }, $linhas);
-        $linhas = array_merge([[
-            'total' => $carrinho->totalcomdesconto,
-            'iva' => $carrinho->iva,
-            'subtotal' => $carrinho->total,
-            'desconto' => $carrinho->desconto,
-        ]], [$linhas]);
-
-        return $linhas;
     }
 
     public function actionCarrinho()
