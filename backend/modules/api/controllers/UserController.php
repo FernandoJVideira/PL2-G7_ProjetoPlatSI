@@ -60,11 +60,15 @@ class UserController extends ActiveController
 
     public function actionDados()
     {
-        $user = Utilizador::findOne($this->user->id);
+        $user = Utilizador::find()->where(["id_user" => $this->user->id])->one();
 
         $this->checkAccess('dados', $user);
 
-        return [$user, $user->user, $user->moradas];
+        return [
+            ["nome" => $user->nome, "nif" => $user->nif, "telemovel" => $user->telemovel],
+            ["username" => $user->user->username, "email" => $user->user->email],
+            $user->moradas
+        ];
     }
 
     public function actionUtilizador()
@@ -79,7 +83,7 @@ class UserController extends ActiveController
         $user->telemovel = $data['telemovel'] ?? $user->telemovel;
 
         $user->save();
-        return $user;
+        return ["nome" => $user->nome, "nif" => $user->nif, "telemovel" => $user->telemovel];
     }
 
     public function actionUser()
@@ -96,6 +100,6 @@ class UserController extends ActiveController
         }
         $user->save();
 
-        return $user;
+        return ["username" => $user->username, "email" => $user->email];
     }
 }

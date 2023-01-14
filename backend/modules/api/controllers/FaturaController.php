@@ -53,7 +53,7 @@ class FaturaController extends ActiveController
     public function actionIndex()
     {
         $model = Fatura::find()->where(['id_utilizador' => $this->user->id])->all();
-        if($model)
+        if(!$model)
             throw new HttpException(404, 'Nenhuma fatura encontrada.');
         $faturas = [];
 

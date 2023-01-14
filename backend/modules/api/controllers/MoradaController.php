@@ -51,14 +51,16 @@ class MoradaController extends ActiveController
         }
     }
 
-    public function actionDelete()
+    public function actionDelete($id)
     {
-        $model = Morada::findOne(['id_user' => $this->user->id]);
+        $model = Morada::findOne($id);
 
         $this->checkAccess('delete', $model);
 
         $model->estado = 0;
         $model->save();
+
+        throw new HttpException(200, 'Morada removed');
     }
 
 }

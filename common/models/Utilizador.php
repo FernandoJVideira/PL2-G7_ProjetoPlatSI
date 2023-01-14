@@ -108,7 +108,7 @@ class Utilizador extends \yii\db\ActiveRecord
      */
     public function getMoradas()
     {
-        return $this->hasMany(Morada::class, ['id_user' => 'idUser']);
+        return $this->hasMany(Morada::class, ['id_user' => 'idUser'])->where(['morada.estado' => 1]);
     }
 
     /**

@@ -13,12 +13,20 @@ class ProdutoController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['view'], $actions['create'], $actions['update'], $actions['delete']);
+        unset($actions['view'], $actions['create'], $actions['update'], $actions['delete'], $actions['index']);
         return $actions;
     }
 
+    public function actionIndex(){
+        $model = \common\models\Produto::find()->where(['ativo' => 1])->all();
+        if(!$model)
+            throw new HttpException(404, 'Nenhuma fatura encontrada.');
+
+        return $model;
+    }
+
     public function actionView($id){
-        $produto = $this->modelClass::findOne($id);
+        $produto = $this->modelClass::find()->where(['ativo' => 1])->andWhere(['idProduto' => $id])->one();
         if($produto == null){
             throw new HttpException(404,'Produto nao encontrado.');
         }
@@ -40,6 +48,4 @@ class ProdutoController extends ActiveController
         }
         return $produto;
     }
-
-
 }

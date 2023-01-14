@@ -128,6 +128,11 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/favorito',
                     'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET' => 'index',
+                        'POST {id}' => 'create',
+                        'DELETE {id}' => 'delete',
+                    ],
                 ]
             ],
         ],

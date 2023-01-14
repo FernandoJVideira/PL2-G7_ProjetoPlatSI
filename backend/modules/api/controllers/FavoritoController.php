@@ -4,6 +4,7 @@ namespace backend\modules\api\controllers;
 
 use backend\modules\api\components\CustomAuth;
 use common\models\Favorito;
+use Yii;
 use yii\rest\ActiveController;
 use yii\web\HttpException;
 
@@ -32,13 +33,13 @@ class FavoritoController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['index'],$actions['view'],$actions['update']);
+        unset($actions['index'],$actions['view'],$actions['update'],  $actions['create'], $actions['delete']);
         return $actions;
     }
 
     public function checkAccess($action, $model = null, $params = [])
     {
-        if ($action === 'delete' || $action === 'create' || $action === 'view') {
+        if ($action === 'delete' || $action === 'view') {
             if ($model) {
                 if ($model->id_user != $this->user->id) {
                     throw new HttpException(403,'You are not allowed to access this page.');
@@ -58,12 +59,31 @@ class FavoritoController extends ActiveController
         return $model;
     }
 
-    public function actionView($id)
+    public function actionCreate($id)
     {
-        $model = Favorito::findOne(['id_user' => $this->user->id, 'idFavorito' => $id]);
+        $model = Favorito::find()->where(['id_user' => $this->user->id, 'id_produto' => $id])->one();
+        if($model){
+            throw new HttpException(200, 'Produto já adicionado aos favoritos');
+        }
 
-        $this->checkAccess('view', $model);
+        $model = new Favorito();
+        $model->id_user = $this->user->id;
+        $model->id_produto = intval($id);
+
+        $model->save();
 
         return $model;
+    }
+
+    public function actionDelete($id)
+    {
+        $model = Favorito::find()->where(['id_user' => $this->user->id, 'id_produto' => $id])->one();
+        if(!$model){
+            throw new HttpException(404, 'Produto não encontrado nos favoritos');
+        }
+
+        $model->delete();
+
+        throw new HttpException(200, 'Produto removed');
     }
 }
