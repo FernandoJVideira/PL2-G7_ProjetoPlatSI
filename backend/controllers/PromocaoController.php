@@ -92,7 +92,6 @@ class PromocaoController extends BaseAuthController
                     $mqtt->publish('promo', json_encode($message), 1);
                     $mqtt->disconnect();
                 }catch (\Exception $e){
-                    dd($e->getMessage());
                 }
 
                 return $this->redirect(['view', 'idPromocao' => $model->idPromocao]);

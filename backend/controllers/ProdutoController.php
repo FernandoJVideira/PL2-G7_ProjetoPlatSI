@@ -155,7 +155,19 @@ class ProdutoController extends BaseAuthController
                 if($imagem->saveAs(self::$path . $nomeImagem))
                     $model->imagem = $nomeImagem;
             }
+            if ($model->oldAttributes['ativo'] == 1 && $model->ativo == 0) {
+                try {
+                    $message = ["idProduto" => $model->idProduto];
+                    $mqtt = new \PhpMqtt\Client\MqttClient(Yii::$app->params['mosquitto'], 1883, 'backend');
+                    $mqtt->connect();
+                    $mqtt->publish('produtos_indisponiveis', json_encode($message), 1);
+                    $mqtt->disconnect();
+                }catch (\Exception $e){
+                }
+            }
             $model->save();
+
+
             return $this->redirect(['view', 'idProduto' => $model->idProduto]);
 
         }

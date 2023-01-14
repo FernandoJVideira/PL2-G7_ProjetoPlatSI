@@ -78,6 +78,14 @@ class GestaoController extends BaseAuthController
             if (isset($_GET['idSeccao'])){
                 $seccao = Seccao::findOne($_GET['idSeccao']);
                 $loja->link('seccaoIdSeccaos', $seccao);
+                try {
+                    $message = ["loja" => $loja->descricao, "seccao" => $seccao->nome];
+                    $mqtt = new \PhpMqtt\Client\MqttClient(Yii::$app->params['mosquitto'], 1883, 'backend');
+                    $mqtt->connect();
+                    $mqtt->publish('seccao', json_encode($message), 1);
+                    $mqtt->disconnect();
+                }catch (\Exception $e){
+                }
             }
             elseif(isset($_GET['idMetodo'])){
                 $metodo = Metodopagamento::findOne($_GET['idMetodo']);
