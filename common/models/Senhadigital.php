@@ -21,7 +21,7 @@ class Senhadigital extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'senhadigital';
+        return 'senhaDigital';
     }
 
     /**

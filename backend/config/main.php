@@ -12,10 +12,17 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'api' => [
+            'class' => 'backend\modules\api\ModuleAPI',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -38,11 +45,96 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/index',
         ],
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [],
+            'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/produto',
+                    'extraPatterns' => [
+                        'GET produtos/{id}' => 'view',
+                        'GET categoria/{id}' => 'categoria',
+                        'GET nome/{nome}' => 'nome',
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                        '{nome}' => '<nome:\\w+>',
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/promocao',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET' => 'index',
+                        'GET {id}' => 'validate',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/login'
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/user',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET' => 'dados',
+                        ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/seccao',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET {id}' => 'index',
+                        'GET senha/{id}' => 'senha',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/carrinho',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET {id}' => 'index',
+                        'POST' => 'carrinho',
+                        'POST checkout' => 'checkout',
+                        'PUT produto' => 'produto_add',
+                        'PATCH produto/{id}' => 'produto_remove',
+                        'DELETE {id}' => 'delete',
+                    ],
+                ],
+                [
+                'class' => 'yii\rest\UrlRule',
+                'controller' => 'api/fatura',
+                'pluralize' => false,
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/encomenda',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET' => 'index',
+                        'GET {id}' => 'view',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/morada',
+                    'pluralize' => false,
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/favorito',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET' => 'index',
+                        'POST {id}' => 'create',
+                        'DELETE {id}' => 'delete',
+                    ],
+                ]
+            ],
         ],
     ],
     'params' => $params,

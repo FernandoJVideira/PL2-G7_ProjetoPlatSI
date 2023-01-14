@@ -52,7 +52,6 @@ class GestaoController extends BaseAuthController
             'query' => $seccao,
         ]);
 
-
         $metpagamentoLoja = $loja->getMetodoPagamentoIdMetodos()->all();
         $metpagamentoLoja = array_map(function ($metPagamento) {
             return $metPagamento->idMetodo;
@@ -68,7 +67,6 @@ class GestaoController extends BaseAuthController
             'metpagamentoProvider' => $metpagamentoProvider,
             'metpagamentoLoja' => $metpagamentoLoja,]);
     }
-
 
     public function actionCreate()
     {
@@ -88,6 +86,7 @@ class GestaoController extends BaseAuthController
         }
         catch (\Exception $e) {
             $this->showMessage('Erro', 'Não foi possível adicionar a seccao/metodo de pagamento');
+            dd($e);
         }
         return $this->redirect(['index', 'idLoja' => $_GET['idLoja']]);
     }

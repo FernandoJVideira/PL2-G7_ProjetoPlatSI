@@ -110,7 +110,7 @@ class Loja extends \yii\db\ActiveRecord
         return $this->hasMany(LojaSeccao::class, ['loja_idLoja' => 'idLoja']);
     }
 
-    /**
+    /**getSeccaoIdSeccaos
      * Gets query for [[MetodoPagamentoIdMetodos]].
      *
      * @return \yii\db\ActiveQuery

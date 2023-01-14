@@ -111,7 +111,7 @@ $this->title = "Stuff n' Go";
                <h4 style="font-size:x-large;
                padding-left:25px
                ">
-                    Utilize a aplicação e tenha a oportunidade <br> de receber cupões de descotno.
+                    Utilize a aplicação e tenha a oportunidade <br> de receber cupões de desconto.
                </h4>
           </div>
           <div>
