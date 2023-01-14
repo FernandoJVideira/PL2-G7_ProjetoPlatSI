@@ -9,6 +9,8 @@ use yii\web\Response;
 
 class PromocaoController extends ActiveController
 {
+    public $modelClass = 'common\models\Promocao';
+
     public function behaviors()
     {
         return array_merge(
@@ -28,8 +30,6 @@ class PromocaoController extends ActiveController
         );
     }
 
-    public $modelClass = 'common\models\Promocao';
-
     public function actions()
     {
         $actions = parent::actions();
@@ -41,7 +41,7 @@ class PromocaoController extends ActiveController
     {
         if ($action === 'index' || $action === 'view') {
             if (!$model) {
-                throw new HttpException(200,'You are not allowed to access this page.', 403);
+                throw new HttpException(403,'You are not allowed to access this page.');
             }
         }
     }
@@ -50,13 +50,13 @@ class PromocaoController extends ActiveController
         $this->checkAccess('index', $this->user);
         $promocoes = $this->modelClass::find()->where(['>', 'data_limite', date('Y-m-d H:i:s')])->all();
 
-        return empty($promocoes) ? throw new HttpException(200,'No Promocao available', 204) : $promocoes;
+        return empty($promocoes) ? throw new HttpException(404,'No Promocao available') : $promocoes;
     }
 
     public function actionValidate($id){
         $this->checkAccess('view', $this->user);
         $promocao = $this->modelClass::find()->where(['>', 'data_limite', date('Y-m-d H:i:s')])->andWhere(['idPromocao' => $id])->one();
 
-        return $promocao ?? throw new HttpException(200,'Promocao not found', 404);
+        return $promocao ?? throw new HttpException(404,'Promocao not found');
     }
 }

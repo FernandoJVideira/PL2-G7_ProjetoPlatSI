@@ -5,13 +5,12 @@ namespace backend\modules\api\controllers;
 use backend\modules\api\components\CustomAuth;
 use common\models\Fatura;
 use yii\rest\ActiveController;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
+use yii\web\HttpException;
 use yii\web\Response;
-use function PHPUnit\Framework\isNull;
 
 class FaturaController extends ActiveController
 {
+    public $modelClass = 'common\models\Fatura';
 
     public function behaviors()
     {
@@ -26,13 +25,6 @@ class FaturaController extends ActiveController
                 'application/json' => Response::FORMAT_JSON,
             ],
         ];
-        $behaviors['verbs'] = [
-            'class' => \yii\filters\VerbFilter::className(),
-            'actions' => [
-                'index' => ['GET'],
-                'view' => ['GET'],
-            ],
-        ];
 
         return $behaviors;
     }
@@ -44,18 +36,16 @@ class FaturaController extends ActiveController
         return $actions;
     }
 
-    public $modelClass = 'common\models\Fatura';
-
     public function checkAccess($action, $model = null, $params = [])
     {
         if ($action === 'view') {
             if($model)
             {
                 if ($model->id_utilizador != $this->user->id) {
-                    throw new ForbiddenHttpException('You are not allowed to access this page.');
+                    throw new HttpException(403,'You are not allowed to access this page.');
                 }
             }else{
-                throw new NotFoundHttpException('The requested page does not exist.');
+                throw new HttpException(403, 'The requested page does not exist.');
             }
         }
     }
@@ -63,21 +53,27 @@ class FaturaController extends ActiveController
     public function actionIndex()
     {
         $model = Fatura::find()->where(['id_utilizador' => $this->user->id])->all();
+        if($model)
+            throw new HttpException(404, 'Nenhuma fatura encontrada.');
         $faturas = [];
 
         foreach ($model as $fatura) {
             array_push($faturas, [$fatura, $fatura->linhafaturas]);
         }
 
-        return $this->asJson($faturas);
+        return $faturas;
     }
 
     public function actionView($id)
     {
         $model = Fatura::findOne($id);
+        if($model == null)
+        {
+            throw new HttpException(404, 'Nenhuma fatura encontrada.');
+        }
 
         $this->checkAccess('view', $model);
 
-        return $this->asJson([$model, $model->linhafaturas]);
+        return [$model, $model->linhafaturas];
     }
 }

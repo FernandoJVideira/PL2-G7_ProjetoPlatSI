@@ -58,7 +58,7 @@ return [
                         'GET nome/{nome}' => 'nome',
                     ],
                     'tokens' => [
-                        '{id}' => '<id:\\d[\\d,]*>',
+                        '{id}' => '<id:\\d+>',
                         '{nome}' => '<nome:\\w+>',
                     ]
                 ],

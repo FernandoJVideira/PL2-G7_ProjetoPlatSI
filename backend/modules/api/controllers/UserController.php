@@ -11,10 +11,13 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
+use yii\web\HttpException;
 use yii\web\Response;
 
 class UserController extends ActiveController
 {
+    public $modelClass = 'common\models\Utilizador';
+
     public function behaviors()
     {
         return array_merge(
@@ -23,13 +26,6 @@ class UserController extends ActiveController
                 'authenticator' => [
                     'class' => CustomAuth::className(),
                     'auth' => ['backend\modules\api\components\CustomAuth', 'authCustom']
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'user' => ['PUT'],
-                        'utilizador' => ['PUT'],
-                    ],
                 ],
                 'contentNegotiator' => [
                     'class' => 'yii\filters\ContentNegotiator',
@@ -45,12 +41,12 @@ class UserController extends ActiveController
     {
         if ($action === 'dados' || $action === 'utilizador') {
             if ($model->idUser != $this->user->id) {
-                throw new ForbiddenHttpException('You are not allowed to access this page.');
+                throw new HttpException(403,'You are not allowed to access this page.');
             }
         }
         if ($action === 'user') {
             if ($model->id != $this->user->id) {
-                throw new ForbiddenHttpException('You are not allowed to access this page.');
+                throw new HttpException(403,'You are not allowed to access this page.');
             }
         }
     }
@@ -61,8 +57,6 @@ class UserController extends ActiveController
         unset($actions['index'], $actions['view'], $actions['create'], $actions['update'], $actions['delete']);
         return $actions;
     }
-
-    public $modelClass = 'common\models\Utilizador';
 
     public function actionDados()
     {
@@ -100,8 +94,8 @@ class UserController extends ActiveController
         if (isset($data['password'])) {
             $user->setPassword($data['password']);
         }
-
         $user->save();
+
         return $user;
     }
 }

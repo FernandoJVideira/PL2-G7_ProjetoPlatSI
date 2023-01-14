@@ -4,27 +4,19 @@ namespace backend\modules\api\controllers;
 
 use common\models\Loja;
 use common\models\LojaSeccao;
-use common\models\Seccao;
-use common\models\Senhadigital;
-use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\rest\ActiveController;
+use yii\web\HttpException;
 use yii\web\Response;
 
 class SeccaoController extends ActiveController
 {
+    public $modelClass = 'common\models\Seccao';
+
     public function behaviors()
     {
         return array_merge(
             parent::behaviors(),
             [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
                 'contentNegotiator' => [
                     'class' => 'yii\filters\ContentNegotiator',
                     'formats' => [
@@ -35,8 +27,6 @@ class SeccaoController extends ActiveController
         );
     }
 
-    public $modelClass = 'common\models\Seccao';
-
     public function actions()
     {
         $actions = parent::actions();
@@ -46,22 +36,33 @@ class SeccaoController extends ActiveController
 
     public function actionIndex($id)
     {
-        $seccao = Loja::findOne($id)->getLojaSeccaos()->all();
+        $loja = Loja::findOne($id);
+        if($loja == null){
+            throw new HttpException(404,'Loja nao encontrada.');
+        }
+        $seccao = $loja->lojaSeccaos;
+        if(empty($seccao)){
+            throw new HttpException(404,'Nao existem seccoes para esta loja.');
+        }
+
         $seccao = array_map(function ($seccao) {
             return ["id" =>  $seccao->idLojaSeccao, "nome" => $seccao->seccaoIdSeccao->nome, "numeroAtual" => $seccao->numeroAtual, "ultimoNumero" => $seccao->ultimoNumero];
         }, $seccao);
-        return $this->asJson($seccao);
+
+        return $seccao;
     }
 
     public function actionSenha($id)
     {
         $model = LojaSeccao::findOne($id);
         if($model == null){
-            return $this->asJson(['status' => 'error', 'message' => 'Seccao não encontrada']);
+            throw new HttpException(404,'Senha nao encontrada.');
         }
+
         $model->ultimoNumero = $model->ultimoNumero + 1;
         $model->save();
-        return $this->asJson(['number' => $model->ultimoNumero]);
+
+        return ['number' => $model->ultimoNumero];
     }
 
 }

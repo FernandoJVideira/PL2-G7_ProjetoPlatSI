@@ -5,19 +5,15 @@ namespace backend\modules\api\controllers;
 use backend\modules\api\components\CustomAuth;
 use common\models\Carrinho;
 use common\models\Linhacarrinho;
-use common\models\LinhacarrinhoSearch;
 use common\models\Produto;
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\rest\ActiveController;
-use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
-use yii\web\NotFoundHttpException;
-use yii\web\Response;
 
 class CarrinhoController extends ActiveController
 {
+    public $modelClass = 'common\models\Carrinho';
+
     public function behaviors()
     {
         return array_merge(
@@ -37,10 +33,10 @@ class CarrinhoController extends ActiveController
             if($model)
             {
                 if ($model->id_utilizador != $this->user->id) {
-                    throw new ForbiddenHttpException('You are not allowed to access this page.');
+                    throw new HttpException(403, 'You are not allowed to access this page.');
                 }
             }else{
-                throw new NotFoundHttpException('The requested page does not exist.');
+                throw new HttpException(404, 'The requested page does not exist.');
             }
         }
     }
@@ -52,13 +48,11 @@ class CarrinhoController extends ActiveController
         return $actions;
     }
 
-    public $modelClass = 'common\models\Carrinho';
-
     public function actionIndex(){
         $carrinho = $this->clearCarrinho();
 
         if ($carrinho == null) {
-            return "no carrinho";
+            throw new HttpException(404, 'No carrinho found.');
         }
 
         $linhas = $carrinho->getLinhacarrinhos()->all();
@@ -86,7 +80,7 @@ class CarrinhoController extends ActiveController
         $data = $this->getData();
 
         if($data == null){
-            throw new HttpException(200, 'Invalid request', 400);
+            throw new HttpException(400, 'Invalid request');
         }
 
         $carrinho = $this->clearCarrinho();
@@ -103,19 +97,21 @@ class CarrinhoController extends ActiveController
 
         if($carrinho->linhaCarrinhos == null){
             $carrinho->delete();
-            return null;
+            throw new HttpException(400, 'Invalid request');
         }
+
+        return [$carrinho, $carrinho->linhaCarrinhos];
     }
 
     public function actionProduto_add(){
         $data = $this->getData();
 
         if($data == null && !isset($data['idProduto'])){
-            throw new HttpException(200, 'Invalid request', 400);
+            throw new HttpException(400, 'Invalid request');
         }
 
         if (Produto::findOne($data['idProduto']) == null) {
-            throw new HttpException(200, 'Invalid request', 400);
+            throw new HttpException(400, 'Invalid request');
         }
 
         $carrinho = $this->clearCarrinho();
@@ -130,26 +126,23 @@ class CarrinhoController extends ActiveController
 
     public function actionProduto_remove($id){
         if (Produto::findOne($id) == null) {
-            throw new HttpException(200, 'Invalid request', 400);
+            throw new HttpException(400, 'Invalid request');
         }
 
         $carrinho = $this->clearCarrinho();
 
         if ($carrinho == null) {
-            return null;
+            throw new HttpException(404, 'No carrinho found.');
         }
 
         $linha = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->idCarrinho])->andWhere(['id_produto' => $id])->one();
 
-        if($linha == null){
-            return null;
-        }
-
-        $linha->delete();
+        if($linha != null)
+            $linha->delete();
 
         $this->clearCarrinho();
 
-        return $linha;
+        throw new HttpException(200, 'Produto removed');
     }
 
     private function clearCarrinho()
@@ -158,7 +151,7 @@ class CarrinhoController extends ActiveController
 
         if(isset($carrinho) && $carrinho->linhaCarrinhos == null){
             $carrinho->delete();
-            return null;
+            throw new HttpException(404, 'No carrinho found.');
         }
         return $carrinho;
     }
@@ -199,15 +192,13 @@ class CarrinhoController extends ActiveController
         $carrinho = $this->clearCarrinho();
 
         if ($carrinho == null)
-            return null;
+            throw new HttpException(404, 'No carrinho found.');
         if($carrinho->id_loja == null || $carrinho->id_morada == null || $carrinho->id_user == null)
-            return null;
+            throw new HttpException(400, 'Invalid request');
 
         $carrinho->estado = 'emProcessamento';
         $carrinho->data_criacao = date('Y-m-d H:i:s');
-
         $carrinho->verificarStock();
-
         $carrinho->save();
 
         return $carrinho;

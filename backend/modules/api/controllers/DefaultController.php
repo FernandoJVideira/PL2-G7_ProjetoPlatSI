@@ -2,8 +2,6 @@
 
 namespace backend\modules\api\controllers;
 
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
 
@@ -36,12 +34,12 @@ class DefaultController extends Controller
                 'type' => get_class($exception),
             ];
         }
-        return $this->asJson([
+        return [
             'name' => 'Unknown error',
             'message' => 'Unknown error',
             'code' => 0,
             'status' => 500,
             'type' => 'Unknown error',
-        ]);
+        ];
     }
 }

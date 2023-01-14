@@ -2,12 +2,8 @@
 
 namespace backend\modules\api\controllers;
 
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 use common\models\User;
-use yii\filters\auth\HttpBasicAuth;
 use yii\web\Controller;
 
 class AuthController extends Controller
@@ -19,12 +15,6 @@ class AuthController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
                 'contentNegotiator' => [
                     'class' => 'yii\filters\ContentNegotiator',
                     'formats' => [
@@ -47,9 +37,9 @@ class AuthController extends Controller
             $password = $base[1];
             $this->user = User::findByUsername($username);
             if($this->user != null && $this->user->validatePassword($password))
-                return $this->asJson(['token' => $this->user->auth_key]);
+                return ['token' => $this->user->auth_key];
         }
-        throw new \yii\web\HttpException(200, 'Invalid username or password', 401);
+        throw new \yii\web\HttpException(401, 'Invalid username or password');
 
     }
 }
