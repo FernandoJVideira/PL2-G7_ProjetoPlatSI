@@ -65,4 +65,18 @@ class SeccaoController extends ActiveController
         return ['number' => $model->ultimoNumero];
     }
 
+    public function actionLojas()
+    {
+        $lojas = Loja::find()->all();
+        if(empty($lojas)){
+            throw new HttpException(200,'Nao existem lojas.');
+        }
+
+        $lojas = array_map(function ($loja) {
+            return ["id" =>  $loja->idLoja, "descricao" => $loja->descricao, "email" => $loja->email, "telefone" => $loja->telefone, "morada" => $loja->morada];
+        }, $lojas);
+
+        return $lojas;
+    }
+
 }

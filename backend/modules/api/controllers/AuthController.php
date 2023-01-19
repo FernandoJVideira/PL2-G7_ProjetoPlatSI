@@ -39,7 +39,7 @@ class AuthController extends Controller
             if($this->user != null && $this->user->validatePassword($password))
                 return ['token' => $this->user->auth_key];
         }
-        throw new \yii\web\HttpException(401, 'Invalid username or password');
+        throw new \yii\web\HttpException(200, 'Invalid username or password', 401);
 
     }
 }

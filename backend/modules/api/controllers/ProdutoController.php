@@ -20,7 +20,7 @@ class ProdutoController extends ActiveController
     public function actionIndex(){
         $model = \common\models\Produto::find()->where(['ativo' => 1])->all();
         if(!$model)
-            throw new HttpException(404, 'Nenhuma fatura encontrada.');
+            throw new HttpException(404, 'Nenhum produto encontrado.');
 
         return $model;
     }

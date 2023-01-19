@@ -79,7 +79,7 @@ class FavoritoController extends ActiveController
     {
         $model = Favorito::find()->where(['id_user' => $this->user->id, 'id_produto' => $id])->one();
         if(!$model){
-            throw new HttpException(404, 'Produto não encontrado nos favoritos');
+            throw new HttpException(200, 'Produto não encontrado nos favoritos');
         }
 
         $model->delete();
