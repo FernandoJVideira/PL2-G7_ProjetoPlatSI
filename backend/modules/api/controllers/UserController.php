@@ -40,6 +40,7 @@ class UserController extends ActiveController
     public function checkAccess($action, $model = null, $params = [])
     {
         if ($action === 'dados' || $action === 'utilizador') {
+
             if ($model->idUser != $this->user->id) {
                 throw new HttpException(403,'You are not allowed to access this page.');
             }
@@ -82,33 +83,30 @@ class UserController extends ActiveController
 
     public function actionUtilizador()
     {
-        $user = Utilizador::findOne($this->user->id);
-
-        $this->checkAccess('utilizador', $user);
-
-        $data = json_decode(Yii::$app->request->getRawBody(), true);
-        $user->nome = $data['nome'] ?? $user->nome;
-        $user->nif = $data['nif'] ?? $user->nif;
-        $user->telemovel = $data['telemovel'] ?? $user->telemovel;
-
-        $user->save();
-        return ["nome" => $user->nome, "nif" => $user->nif, "telemovel" => $user->telemovel];
-    }
-
-    public function actionUser()
-    {
+        $utilizador = Utilizador::findOne($this->user->id);
         $user = User::findOne($this->user->id);
 
-        $this->checkAccess('user', $user);
+
+        $this->checkAccess('utilizador', $utilizador);
 
         $data = json_decode(Yii::$app->request->getRawBody(), true);
+
         $user->username = $data['username'] ?? $user->username;
         $user->email = $data['email'] ?? $user->email;
         if (isset($data['password'])) {
             $user->setPassword($data['password']);
         }
+        $utilizador->nome = $data['nome'] ?? $utilizador->nome;
+        $utilizador->nif = $data['nif'] ?? $utilizador->nif;
+        $utilizador->telemovel = $data['telemovel'] ?? $utilizador->telemovel;
+
+        $utilizador->save();
         $user->save();
 
-        return ["username" => $user->username, "email" => $user->email];
+        return [
+            ["nome" => $utilizador->nome, "nif" => $utilizador->nif, "telemovel" => $utilizador->telemovel],
+            ["username" => $user->username, "email" => $user->email],
+            $utilizador->moradas
+        ];
     }
 }
