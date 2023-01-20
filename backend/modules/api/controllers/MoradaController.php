@@ -4,6 +4,7 @@ namespace backend\modules\api\controllers;
 
 use backend\modules\api\components\CustomAuth;
 use common\models\Morada;
+use Yii;
 use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
@@ -34,7 +35,7 @@ class MoradaController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['index'],$actions['view'],$actions['delete']);
+        unset($actions['index'],$actions['create'],$actions['view'],$actions['delete']);
         return $actions;
     }
 
@@ -49,6 +50,23 @@ class MoradaController extends ActiveController
                 throw new HttpException(404, 'The requested page does not exist.');
             }
         }
+    }
+
+    public function actionCreate()
+    {
+        $morada = new Morada();
+
+        $data = json_decode(Yii::$app->request->getRawBody(), true);
+
+        $morada->rua = $data['rua'];
+        $morada->cod_postal = $data['cod_postal'];
+        $morada->cidade = $data['cidade'];
+        $morada->pais = $data['pais'];
+        $morada->id_user = $this->user->id;
+
+        $morada->save();
+
+        return $morada;
     }
 
     public function actionDelete($id)
