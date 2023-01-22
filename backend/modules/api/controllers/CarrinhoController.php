@@ -52,10 +52,9 @@ class CarrinhoController extends ActiveController
         $carrinho = $this->clearCarrinho();
 
         if ($carrinho == null) {
-            throw new HttpException(404, 'No carrinho found.');
+            throw new HttpException(200, 'No carrinho found.', 404);
         }
-        return ["carrinho" =>[ $carrinho, ["linhascarrinho" => $carrinho->linhaCarrinhos]]];
-
+        return ["carrinho" => $carrinho,"dados"=>["subTotal" => $carrinho->total, "iva" => $carrinho->iva, "desconto" => $carrinho->desconto, "total" => $carrinho->totalcomdesconto], "linhascarrinho" => $carrinho->linhaCarrinhos];
     }
 
     public function actionCarrinho()
@@ -115,7 +114,7 @@ class CarrinhoController extends ActiveController
         $carrinho = $this->clearCarrinho();
 
         if ($carrinho == null) {
-            throw new HttpException(404, 'No carrinho found.');
+            throw new HttpException(200, 'No carrinho found.');
         }
 
         $linha = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->idCarrinho])->andWhere(['id_produto' => $id])->one();
@@ -125,6 +124,10 @@ class CarrinhoController extends ActiveController
 
         $this->clearCarrinho();
 
+        if($carrinho == null){
+            throw new HttpException(200, 'No carrinho found.');
+        }
+        
         throw new HttpException(200, 'Produto removed');
     }
 
@@ -173,6 +176,9 @@ class CarrinhoController extends ActiveController
 
     public function actionCheckout(){
         $carrinho = $this->clearCarrinho();
+        $data = $this->getData();
+        $carrinho->id_morada = $data['id_morada'];
+        $carrinho->id_loja = $data['id_loja'];
 
         if ($carrinho == null)
             throw new HttpException(404, 'No carrinho found.');
