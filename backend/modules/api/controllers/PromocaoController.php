@@ -53,10 +53,10 @@ class PromocaoController extends ActiveController
         return empty($promocoes) ? throw new HttpException(404,'No Promocao available') : $promocoes;
     }
 
-    public function actionValidate($id){
+    public function actionValidate($promo){
         $this->checkAccess('view', $this->user);
-        $promocao = $this->modelClass::find()->where(['>', 'data_limite', date('Y-m-d H:i:s')])->andWhere(['idPromocao' => $id])->one();
+        $promocao = $this->modelClass::find()->where(['>', 'data_limite', date('Y-m-d H:i:s')])->andWhere(['codigo' => $promo])->one();
 
-        return $promocao ?? throw new HttpException(404,'Promocao not found');
+        return $promocao ?? throw new HttpException(200,'Promocao not found', 404);
     }
 }

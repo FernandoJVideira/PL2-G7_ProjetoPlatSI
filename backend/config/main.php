@@ -68,8 +68,11 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET' => 'index',
-                        'GET {id}' => 'validate',
+                        'GET {promo}' => 'validate',
                     ],
+                    'tokens' => [
+                        '{promo}' => '<promo:\\w+>',
+                    ]
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
