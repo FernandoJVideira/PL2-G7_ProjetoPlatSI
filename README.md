@@ -14,7 +14,7 @@
 >  - Jorge Lopes Nº2211883
 #### Descrição:
 > Pretende-se implementar uma aplicação de compra/venda para um supermercado denominado Stuff n' Go
-> [Link Repositório](https://github.com/JoaoRodrigoGoncalves/PSI_PWS_PL1-A)
+> [Link Repositório](https://github.com/FernandoJVideira/PL2-G7_ProjetoPlatSI)
 > 
 > Este projeto foi desenvolvido com:
 > - [AdminLTE](https://adminlte.io)
