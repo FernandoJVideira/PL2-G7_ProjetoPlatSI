@@ -3,6 +3,7 @@
 namespace backend\modules\api\controllers;
 
 use backend\modules\api\components\CustomAuth;
+use common\models\Carrinho;
 use yii\rest\ActiveController;
 use yii\web\HttpException;
 use yii\web\Response;
@@ -56,7 +57,20 @@ class PromocaoController extends ActiveController
     public function actionValidate($promo){
         $this->checkAccess('view', $this->user);
         $promocao = $this->modelClass::find()->where(['>', 'data_limite', date('Y-m-d H:i:s')])->andWhere(['codigo' => $promo])->one();
+        if($promocao == null){
+            throw new HttpException(200,'Promocao not found', 404);
+        }
 
-        return $promocao ?? throw new HttpException(200,'Promocao not found', 404);
+        //get the carrinho
+        $carrinho = Carrinho::find()->where(['id_user' => $this->user->id])->andWhere(['estado' => 'aberto'])->one();
+        if(empty($carrinho)){
+            throw new HttpException(200,'Carrinho not found', 404);
+        }
+
+        $carrinho->id_promocao = $promocao->idPromocao;
+        $carrinho->save();
+
+        return ["carrinho" => $carrinho,"dados"=>["subTotal" => $carrinho->total, "iva" => $carrinho->iva, "desconto" => $carrinho->desconto, "total" => $carrinho->totalcomdesconto], "linhascarrinho" => $carrinho->linhaCarrinhos];
+
     }
 }
