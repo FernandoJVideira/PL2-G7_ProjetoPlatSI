@@ -46,20 +46,30 @@ class EncomendaController extends ActiveController
     }
 
     public function actionIndex(){
-        $carrinho = $this->modelClass::find()->where(['id_user' => $this->user->id])->andWhere(['estado' => 'emProcessamento'])->all();
+        $carrinho = $this->modelClass::find()->andwhere(['id_user' => $this->user->id])->andWhere(['<>','estado', "aberto"])->all();
+        $carrinhos = [];
+        foreach ($carrinho as $carrinho){
+            $carrinhos[] = [
+                "encomenda" => $carrinho,
+                "linhas" => $carrinho->getLinhacarrinhos()->all()
+            ];
+        }
         if(empty($carrinho)){
             throw new HttpException(404, 'No carrinho found.');
         }
-        return $carrinho;
+        return $carrinhos;
     }
 
     public function actionView($id){
-        $carrinho = $this->modelClass::find()->where(['id_user' => $this->user->id])->andWhere(['estado' => 'emProcessamento'])->andWhere(['idCarrinho' => $id])->one();
+        $carrinho = $this->modelClass::find()->where(['id_user' => $this->user->id])->andWhere(['idCarrinho' => $id])->one();
         if($carrinho == null){
             throw new HttpException(404, 'No carrinho found.');
         }
         $this->checkAccess('view', $carrinho);
 
-        return [$carrinho, $carrinho->getLinhacarrinhos()->all()];
+        return [
+            "encomenda" => $carrinho,
+            "linhas" => $carrinho->getLinhacarrinhos()->all()
+        ];
     }
 }

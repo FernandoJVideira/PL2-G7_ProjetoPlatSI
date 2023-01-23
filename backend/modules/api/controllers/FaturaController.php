@@ -4,6 +4,7 @@ namespace backend\modules\api\controllers;
 
 use backend\modules\api\components\CustomAuth;
 use common\models\Fatura;
+use Dompdf\Dompdf;
 use yii\rest\ActiveController;
 use yii\web\HttpException;
 use yii\web\Response;
@@ -66,7 +67,7 @@ class FaturaController extends ActiveController
 
     public function actionView($id)
     {
-        $model = Fatura::findOne($id);
+        $model = Fatura::find()->where(['id_carrinho' => $id])->one();
         if($model == null)
         {
             throw new HttpException(404, 'Nenhuma fatura encontrada.');
@@ -75,6 +76,18 @@ class FaturaController extends ActiveController
         $this->checkAccess('view', $model);
 
 
-        return ["fatura" => [$model, ["linhasfatura" => $model->linhafaturas]]];
+        $content = $this->renderPartial('//fatura/fatura', ['model' => $model]);
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($content);
+
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        $pdf = $dompdf->output();
+
+        return ["fatura" => base64_encode($pdf)];
     }
 }
