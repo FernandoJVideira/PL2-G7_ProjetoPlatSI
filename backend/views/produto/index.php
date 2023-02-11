@@ -32,6 +32,7 @@ $this->title = 'Produtos';
                     ],
                     'nome',
                     'descricao:ntext',
+                    'referencia',
                     [
                         'attribute'=>'preco_unit',
                         'value'=> 'Preco',

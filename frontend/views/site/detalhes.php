@@ -24,6 +24,9 @@ $this->title = "Stuff n' Go";
                 <p style="font-size:medium;
                                     text-align:justify;
                                     opacity:60%"> <?= ucfirst($model->categoria->nome) ?></p>
+                <p style="font-size:medium;
+                                    text-align:justify;
+                                    opacity:60%"> <b>Referencia : </b><?= $model->referencia?></p>
             </span>
         </h1>
         <br>

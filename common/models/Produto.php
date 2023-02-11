@@ -40,12 +40,13 @@ class Produto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'descricao', 'preco_unit', 'imagem','id_categoria'], 'required'],
+            [['nome', 'descricao', 'preco_unit', 'imagem','id_categoria','referencia'], 'required'],
             [['descricao'], 'string'],
             [['preco_unit'], 'number'],
             [['dataCriacao'], 'safe'],
             [['ativo', 'id_categoria'], 'integer'],  
             [['nome'], 'string', 'max' => 255],
+            [['referencia'], 'string', 'max' => 80],
             //[['imagem'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_categoria' => 'idCategoria']],
         ];
@@ -66,6 +67,7 @@ class Produto extends \yii\db\ActiveRecord
         return [
             'idProduto' => 'Id Produto',
             'nome' => 'Nome',
+            'referencia'=>'Referencia',
             'descricao' => 'Descrição',
             'preco_unit' => 'Preço',
             'dataCriacao' => 'Data Criacao',

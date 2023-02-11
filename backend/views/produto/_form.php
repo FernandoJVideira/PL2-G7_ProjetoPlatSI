@@ -27,6 +27,9 @@ use yii\widgets\ActiveForm;
                             <div class="col-lg-12 form-group">
                                 <?= $form->field($model, 'descricao')->textarea(['rows' => 3, 'maxlength'=>150, 'style' => 'resize:none; word-wrap:break-word;']) ?>
                             </div>
+                            <div class="col-lg-12 form-group">
+                                <?= $form->field($model, 'referencia')->textInput() ?>
+                            </div>
                             <div class="col-md-6 form-group">
                                 <?= $form->field($model, 'id_categoria')->dropDownList(ArrayHelper::map($categorias,'idCategoria','nome'),['prompt'=>'--Selecionar Categoria--'])  ?>
                             </div>

@@ -41,6 +41,7 @@ $this->title = $model->nome;
         'attributes' => [
             'nome',
             'descricao:ntext',
+            'referencia',
             [
                     'attribute' => 'preco_unit',
                     'value' => $model->preco_unit . " €"

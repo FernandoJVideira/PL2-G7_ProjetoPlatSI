@@ -48,7 +48,7 @@ class ProdutoSearch extends Produto
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['attributes' => ['nome', 'descricao', 'preco_unit', 'dataCriacao', 'ativo', 'id_categoria']],
+            'sort' => ['attributes' => ['nome', 'descricao', 'referencia','preco_unit', 'dataCriacao', 'ativo', 'id_categoria']],
         ]);
 
         $this->load($params);

@@ -21,6 +21,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'descricao') ?>
 
+    <?= $form->field($model, 'referencia') ?>
+
     <?= $form->field($model, 'preco_unit') ?>
 
     <?= $form->field($model, 'dataCriacao') ?>
