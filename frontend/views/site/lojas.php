@@ -1,5 +1,5 @@
 <?php
-
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 
@@ -28,7 +28,7 @@ $this->title = "Stuff n' Go";
             <b style="font-size:medium;
                 text-align:justify;
                 padding-top:25px;
-                opacity:80% "><?= $model->telefone ?></b>
+                opacity:80% "><?= $model->telefone ?></b> <b><a style="margin-left:10px;opacity:50%" href="<?= Url::toRoute(['seccoes','id'=>$model->idLoja])?>"><i> Acompanhar senhas</i></a></b>
             <hr>
         </div>
     <?php } ?>

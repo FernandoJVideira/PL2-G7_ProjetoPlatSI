@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 use common\models\Loja;
+use common\models\LojaSeccao;
 use common\models\Produto;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -335,6 +336,16 @@ class SiteController extends Controller
         return $this->render('produtos',[
             'model'=>$model,
             'listDataProvider' => $dataProvider 
+        ]);
+    }
+
+    public function actionSeccoes($id){
+        
+        $model = LojaSeccao::find()->where(['loja_idLoja'=> $id])->all();
+        $loja = Loja::findOne($id);
+        return $this->render('seccoes',[
+            'model' => $model,
+            'loja'=> $loja,
         ]);
     }
 }
