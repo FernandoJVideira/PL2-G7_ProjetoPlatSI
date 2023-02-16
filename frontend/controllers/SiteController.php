@@ -9,7 +9,6 @@ use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use common\models\LoginForm;
 use common\models\Loja;
 use common\models\LojaSeccao;
@@ -103,8 +102,10 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
+
+        Yii::$app->session->setFlash('success', 'Logout efetuado com sucesso.');
         
-        return $this->goHome();
+        return $this->redirect(['site/index']);
     }
 
     /**
@@ -285,6 +286,8 @@ class SiteController extends Controller
 
     public function actionDetalhes($id = null){
         $model = Produto::findOne($id);
+
+
 
         if($id == null || $model == null)
             return $this->redirect(['site/produtos']);

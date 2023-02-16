@@ -29,7 +29,7 @@ $this->title = 'Perfil';
                     <dt class="col-sm-3 lead"><strong>Nome:</strong></dt>
                     <dd class="col-sm-9 lead"><?= $model->nome ?></dd>
 
-                    <dt class="col-sm-3 lead"><strong>Nif:</strong></dt>
+                    <dt class="col-sm-3 lead"><strong>NIF:</strong></dt>
                     <dd class="col-sm-9 lead"><?= $model->nif ?>
                     </dd>
                     <dt class="col-sm-3 lead"><strong>Telemóvel:</strong></dt>
@@ -38,29 +38,36 @@ $this->title = 'Perfil';
                     </dd>
                 </dl>
                 <hr>
-                <div class="">
-                    <?= DetailView::widget([
-                        'model' => $user ?? $model->user,
-                        'buttons1' => '{update}',
-                        'panel' => [
-                            'heading' => 'Informações de Login',
-                            'type' => DetailView::TYPE_INFO,
-                        ],
-                        'formOptions' => ['action' => ['user/update', 'id' => $model->id_user], 'method' => 'post'],
-                        'attributes' => [
-                            [
-                                'label' => 'Username',
-                                'attribute' => 'username',
-                            ],
-                            [
-                                'label' => 'Email',
-                                'attribute' => 'email',
-                            ],
-                        ],
-                    ]) ?>
-                </div>
             </div>
         </div>
+    <br>
+    <div class="card w-75 mx-auto">
+        <div class="card-header">
+            <?= Html::a('Actualizar', ['user/update', 'id' => $model->idUser], ['class' => 'btn btn-primary']); ?>
+            <?= Html::a('Alterar password', ['user/password', 'id' => $model->idUser], [
+                'class' => 'btn btn-dark',
+                'style' => 'float:right',
+            ]) ?>
+        </div>
+        <div class="card-body">
+            <?= DetailView::widget([
+                'model' => $user ?? $model->user,
+                'formOptions' => ['action' => ['user/update', 'id' => $model->id_user], 'method' => 'post'],
+                'attributes' => [
+                    [
+                        'label' => 'Username',
+                        'attribute' => 'username',
+                    ],
+                    [
+                        'label' => 'Email',
+                        'attribute' => 'email',
+                    ],
+                ],
+            ]) ?>
+        </div>
+    </div>
+
+
     <br>
     <div class="card w-75 mx-auto">
         <div class="card-header">

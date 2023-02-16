@@ -17,6 +17,21 @@ $this->title = 'Gestão de stock de ' . (\common\models\Loja::findOne($_GET['idL
 ?>
 <div class="stock-index">
     <div class="card w-75 mx-auto">
+        <div class="card-header">
+            <?php $form = ActiveForm::begin([
+                'action' => ['index', 'idLoja' => $_GET['idLoja'] ?? null],
+                'method' => 'get',
+            ]); ?>
+
+            <?= $form->field($searchModel, 'referencia')->label("Pesquisa por referencia") ?>
+
+            <div class="form-group">
+                <?= Html::submitButton('Procurar', ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Limpar pesquisa',['index','idLoja' => $_GET['idLoja']], ['class' => 'btn btn-secondary']) ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
+        </div>
         <div class="card-body">
             <?php if(isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)['Admin'])){ ?>
                 <div class="w-25" style="margin-bottom: 1em">
@@ -49,6 +64,10 @@ $this->title = 'Gestão de stock de ' . (\common\models\Loja::findOne($_GET['idL
                             'value' => function ($model) {
                                 return $model['quant_req'] ?? 0;
                             },
+                    ],
+                    [
+                        'label' => 'Referência',
+                        'attribute' => 'referencia',
                     ],
                     [
                         'label' => 'Produto',

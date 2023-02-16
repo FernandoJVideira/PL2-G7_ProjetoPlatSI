@@ -146,6 +146,31 @@ class Produto extends \yii\db\ActiveRecord
         return $this->hasMany(Stock::class, ['id_produto' => 'idProduto'])->where(['id_loja' => $idLoja])->one();
     }
 
+    public function getAllStocks()
+    {
+        $array = array();
+
+        foreach (Loja::find()->all() as $loja) {
+                $array = array_merge($array, array($loja->descricao => $this->disponibilidade($loja)));
+        }
+        return $array;
+    }
+
+    private function disponibilidade($loja)
+    {
+        $stock = $this->getstockLoja($loja->idLoja)->quant_stock ?? null;
+            if($stock != null) {
+                if ($stock == 0) {
+                    return 'Sem stock';
+                } elseif ($stock <= 5) {
+                    return "Stock baixo";
+                }
+                return 'Em stock';
+            } else {
+                return 'Sem stock';
+            }
+    }
+
     public static function getTop(){
         $query = "SELECT `linhaCarrinho`.`id_produto` FROM `carrinho` LEFT JOIN `linhaCarrinho` ON `carrinho`.`idCarrinho` = `linhaCarrinho`.`id_carrinho` WHERE (`carrinho`.`estado`='fechado') AND (`data_criacao` >= '2022-12-29') GROUP BY `id_produto` ORDER BY SUM(quantidade) DESC LIMIT 1";
         $post = Yii::$app->db->createCommand($query)->queryOne();

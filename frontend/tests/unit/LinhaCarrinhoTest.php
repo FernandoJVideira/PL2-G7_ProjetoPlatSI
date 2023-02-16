@@ -46,6 +46,7 @@ class LinhaCarrinhoTest extends \Codeception\Test\Unit
         $produto->preco_unit = 10;
         $produto->dataCriacao = '2021-01-01 12:00:00';
         $produto->imagem = 'path_to_img';
+        $produto->referencia = 'ref';
         $produto->ativo = 1;
         $produto->id_categoria = $categoria->idCategoria;
         $produto->save();
@@ -143,6 +144,7 @@ class LinhaCarrinhoTest extends \Codeception\Test\Unit
         $produto->preco_unit = 10;
         $produto->dataCriacao = '2021-01-01 12:00:00';
         $produto->imagem = 'path_to_img';
+        $produto->referencia = 'ref';
         $produto->ativo = 1;
         $produto->id_categoria = $categoria->idCategoria;
         $produto->save();

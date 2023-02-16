@@ -30,6 +30,21 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+    public $old_password;
+    public $new_password;
+    public $repeat_password;
+
+
+    //Define the rules for old_password, new_password and repeat_password with changePwd Scenario.
+
+    //matching the old password with your existing password.
+    public function findPasswords($attribute, $params)
+    {
+        $user = User::find()->where(['id' => Yii::$app->user->id])->one();
+        if ($user->password != md5($this->old_password))
+            $this->addError($attribute, 'Old password is incorrect.');
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -59,6 +74,10 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'email'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            [['old_password', 'new_password', 'repeat_password'], 'required', 'on' => 'changePwd'],
+            [['old_password', 'new_password', 'repeat_password'], 'string', 'min' => 6, 'on' => 'changePwd'],
+            ['repeat_password', 'compare', 'compareAttribute' => 'new_password', 'message' => "Passwords don't match", 'on' => 'changePwd'],
+            ['old_password', 'findPasswords', 'on' => 'changePwd'],
         ];
     }
 

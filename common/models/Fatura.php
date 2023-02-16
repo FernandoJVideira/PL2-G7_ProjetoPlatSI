@@ -57,9 +57,9 @@ class Fatura extends \yii\db\ActiveRecord
         return [
             'idFatura' => 'Id Fatura',
             'nomeUtilizador' => 'Nome Utilizador',
-            'nifUtilizador' => 'Nif Utilizador',
+            'nifUtilizador' => 'NIF Utilizador',
             'nomeEmpresa' => 'Nome Empresa',
-            'nifEmpresa' => 'Nif Empresa',
+            'nifEmpresa' => 'NIF Empresa',
             'descricaoLoja' => 'Descricao Loja',
             'dataCriacao' => 'Data Criacao',
             'id_metodo' => 'Id Metodo',

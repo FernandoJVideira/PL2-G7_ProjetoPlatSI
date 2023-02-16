@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use backend\models\ChangePasswordForm;
 use common\models\User;
 use common\models\Utilizador;
 use Yii;
@@ -55,11 +56,24 @@ class UserController extends Controller
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['utilizador/view', 'idUser' => \common\models\Utilizador::findOne($model->id)->id_user]);
         }
-        $user = $model;
-        $utilizador = Utilizador::findOne(['idUser' => $id]);
-        return $this->render('//utilizador/view', [
-            'model' => $utilizador,
-            'user' => $user,
+
+        return $this->render('update', [
+            'model' => $model,
+
+        ]);
+    }
+
+    public function actionPassword()
+    {
+        $model = new ChangePasswordForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->changePassword()) {
+            Yii::$app->session->setFlash('success', 'Password alterada com sucesso!');
+            return $this->redirect(['index']);
+        }
+
+        return $this->render('changepassword', [
+            'model' => $model,
         ]);
     }
 

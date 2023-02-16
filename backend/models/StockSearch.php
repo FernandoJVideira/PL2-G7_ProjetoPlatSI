@@ -14,12 +14,13 @@ class StockSearch extends Stock
     /**
      * {@inheritdoc}
      */
-    public $nome;
+    public $nome, $referencia;
 
     public function rules()
     {
         return [
             [['idStock', 'quant_stock', 'quant_req', 'id_produto', 'id_loja', 'nome'], 'integer'],
+            [['referencia'], 'string'],
         ];
     }
 
@@ -42,7 +43,7 @@ class StockSearch extends Stock
     public function search($params, $idLoja)
     {
         $query = Stock::find()
-            ->select(['produto.nome','produto.idProduto', 'stock.quant_stock', 'stock.quant_req', 'stock.idStock', 'stock.id_produto'])
+            ->select(['produto.nome','produto.idProduto', 'stock.quant_stock', 'stock.quant_req', 'stock.idStock', 'stock.id_produto', 'produto.referencia'])
             ->rightJoin('produto', 'produto.idProduto = stock.id_produto AND stock.id_loja = :idLoja', [':idLoja' => $idLoja])->asArray();
 
         $dataProvider = new ActiveDataProvider([
@@ -54,6 +55,7 @@ class StockSearch extends Stock
                     'quant_req',
                     'idStock',
                     'id_produto',
+                    'referencia',
                 ],
             ],
         ]);
@@ -65,6 +67,8 @@ class StockSearch extends Stock
             // $query->where('0=1');
             return $dataProvider;
         }
+
+        $query->andFilterWhere(['like', 'referencia', $this->referencia]);
 
         // grid filtering conditions
         return $dataProvider;

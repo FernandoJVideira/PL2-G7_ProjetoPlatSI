@@ -8,6 +8,13 @@ use yii\helpers\Url;
         <a href="<?= URL::toRoute(['site/detalhes', 'id' => $model->idProduto ?? $model->produtos]) ?>" ><h5 id="linkproduto" class="card-title"><?= $model->nome ?? $model->produtos->nome ?></h5></a>
         <b> <span style="color:black"><?= $model->categoria->nome ?? $model->nome  ?></span> <span style="float:right;color:#FFD333">€<?= $model->preco_unit ?? $model->produtos->preco_unit ?>/unit</span> </b>
     </div>
+    <div class="mt-auto p-2">
+        <div class="btn-group justify-content-end" role="group" aria-label="Basic example">
+            <a href="<?= \yii\helpers\Url::toRoute('linhacarrinho/create') ?>?idProduto=<?= $model->idProduto ?>" ><button name="btCarrinho" type="button" class="btn btn-primary">Carrinho</button></a>
+            <button onclick="location.href='<?= \yii\helpers\Url::toRoute('favorito/create') ?>?idProduto=<?= $model->idProduto ?>'" type="button" class="btn btn-dark"><i class="<?= ($model->getFavoritos(Yii::$app->user->id)->one() != null) ? 'fas' : 'far'?> fa-heart"></i></button>
+
+        </div>
+    </div>
 </div>
 <br>
 

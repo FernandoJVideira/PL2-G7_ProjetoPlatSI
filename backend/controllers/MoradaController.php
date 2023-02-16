@@ -87,7 +87,8 @@ class MoradaController extends BaseAuthController
             $this->showMessage('Não tem permissões para concluir esta ação.');
 
 
-        $morada->delete();
+        $morada->estado = 0;
+        $morada->save();
 
         return $this->redirect(['utilizador/view', 'idUser' => $idUser, 'role' => Utilizador::getPerfil($idUser)]);
     }

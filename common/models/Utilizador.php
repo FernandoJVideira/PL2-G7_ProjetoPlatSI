@@ -59,7 +59,7 @@ class Utilizador extends \yii\db\ActiveRecord
         return [
             'idUser' => 'Id User',
             'nome' => 'Nome',
-            'nif' => 'Nif',
+            'nif' => 'NIF',
             'telemovel' => 'Telemovel',
             'id_loja' => 'Loja',
             'id_user' => 'Id User',
@@ -108,7 +108,7 @@ class Utilizador extends \yii\db\ActiveRecord
      */
     public function getMoradas()
     {
-        return $this->hasMany(Morada::class, ['id_user' => 'idUser']);
+        return $this->hasMany(Morada::class, ['id_user' => 'idUser'])->where(['morada.estado' => '1']);
     }
 
     /**

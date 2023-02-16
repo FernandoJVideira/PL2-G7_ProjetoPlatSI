@@ -38,7 +38,7 @@ $this->title = 'Signup';
                             <?= $form->field($model, 'telemovel')->label('Telemóvel')->textInput(['maxlength' => 9, 'class' => 'form-control', 'placeholder' => 'Telemóvel']) ?>
                         </div>
                         <div class="col-md-6 form-group">
-                            <?= $form->field($model, 'nif')->label('Nif')->textInput(['maxlength' => 9, 'class' => 'form-control', 'placeholder' => 'Nif']) ?>
+                            <?= $form->field($model, 'nif')->label('NIF')->textInput(['maxlength' => 9, 'class' => 'form-control', 'placeholder' => 'Nif']) ?>
                         </div>
                     </div>
                     <div class="row">

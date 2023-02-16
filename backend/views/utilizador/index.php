@@ -1,8 +1,6 @@
 <?php
 
-use backend\models\AuthAssignment;
 use common\models\Utilizador;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;

@@ -89,7 +89,7 @@ class FavoritoController extends Controller
     public function actionCreate($idProduto, $fav = null)
     {
         if (!\Yii::$app->user->can('favoritos')) {
-            \Yii::$app->session->setFlash('error', 'Faça login para adicionar produtos aos favoritos.');
+            \Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a esta página.');
             $this->redirect(['site/index']);
             return null;
         }
@@ -107,7 +107,8 @@ class FavoritoController extends Controller
         }
         if($fav != null)
             return $this->redirect(['favorito/index']);
-        return $this->redirect(['site/detalhes', 'id' => $idProduto]);
+
+        return $this->redirect(\Yii::$app->request->referrer);
 
     }
 

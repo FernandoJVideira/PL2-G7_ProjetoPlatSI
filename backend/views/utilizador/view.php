@@ -8,7 +8,7 @@ use kartik\detail\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\Utilizador $model */
 
-$this->title = $model->user->username;
+$this->title = "Dados de " . $model->user->username;
 //$this->params['breadcrumbs'][] = ['label' => 'Utilizadores', 'url' => ['index']];
 //$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -46,7 +46,7 @@ $this->title = $model->user->username;
                     <dt class="col-sm-3 lead"><strong>Nome:</strong></dt>
                     <dd class="col-sm-9 lead"><?= $model->nome ?></dd>
 
-                    <dt class="col-sm-3 lead"><strong>Nif:</strong></dt>
+                    <dt class="col-sm-3 lead"><strong>NIF:</strong></dt>
                     <dd class="col-sm-9 lead"><?= $model->nif ?>
                     </dd>
                     <dt class="col-sm-3 lead"><strong>Telemóvel:</strong></dt>
@@ -57,32 +57,29 @@ $this->title = $model->user->username;
                         <dt class="col-sm-3 lead"><strong>Loja:</strong></dt>
                         <dd class="col-sm-9 lead"><?= $model->loja->descricao ?></dd>
                     <?php } ?>
-
-
                 </dl>
-                <hr>
-                <div class="">
-                    <?= DetailView::widget([
-                        'model' => $user ?? $model->user,
-                        'buttons1' => '{update}',
-                        'panel' => [
-                            'heading' => 'Informações de Login',
-                            'type' => DetailView::TYPE_INFO,
-                        ],
-                        'formOptions' => ['action' => ['user/update', 'id' => $model->id_user], 'method' => 'post'],
-                        'attributes' => [
-                            [
-                                'label' => 'Username',
-                                'attribute' => 'username',
-                            ],
-                            [
-                                'label' => 'Email',
-                                'attribute' => 'email',
-                            ],
-                        ],
-                    ]) ?>
-                </div>
             </div>
+        </div>
+        <br>
+        <div class="card w-75 mx-auto">
+            <div class="card-header">
+                <?= Html::a('Actualizar', ['user/update', 'id' => $model->idUser], ['class' => 'btn btn-primary']); ?>
+                <?= Html::a('Alterar password', ['user/password', 'id' => $model->idUser], [
+                    'class' => 'btn btn-secondary',
+                    'style' => 'float:right',
+                ]) ?>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3 lead"><strong>Username:</strong></dt>
+                    <dd class="col-sm-9 lead"><?= $model->user->username ?></dd>
+
+                    <dt class="col-sm-3 lead"><strong>Email:</strong></dt>
+                    <dd class="col-sm-9 lead"><?= $model->user->email ?>
+                    </dd>
+                </dl>
+            </div>
+        </div>
         </div>
     </div>
     <div class="card w-75 mx-auto">

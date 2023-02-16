@@ -55,7 +55,7 @@ class Empresa extends \yii\db\ActiveRecord
             'descricao_social' => 'Descricao Social',
             'email' => 'Email',
             'telefone' => 'Telefone',
-            'nif' => 'Nif',
+            'nif' => 'NIF',
             'id_morada' => 'Morada', // Id Morada
         ];
     }

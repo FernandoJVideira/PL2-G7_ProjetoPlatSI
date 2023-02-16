@@ -22,7 +22,7 @@ class LoginCest
     public function loginUser(FunctionalTester $I)
     {
         $I->fillField('LoginForm[username]', 'admin');
-        $I->fillField('LoginForm[password]', '84518451');
+        $I->fillField('LoginForm[password]', 'asdasdasd');
         $I->click('submit');
 
         $I->see('Gestão de Utilizadores');
