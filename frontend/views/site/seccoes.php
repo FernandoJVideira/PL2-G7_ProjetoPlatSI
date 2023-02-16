@@ -17,16 +17,12 @@ $this->title = "Stuff n' Go";
     <div class="container">
         <div class="row row-cols-3">
             <?php foreach ($model as $model) { ?>
-
-                <div style="padding:30px">
-                    <h4 style="opacity:70%"><b> <span style="color:black;"><?= $model->seccaoIdSeccao->nome  ?> :</span> </b></h4>
-                    <div class="card" style="width: 18rem;background-color:white;">
-                        <div style="margin-top:3vh;" class="col ">
-                            <div style="height:30vh; width:16vw;">
-                                <!-- object-fit:cover -->
-                                <h1 style="padding-top:50px;text-align:center"><?= $model->numeroAtual ?></h1>
-                            </div>
-                        </div>
+                <div class="card text-center mx-0 w-25">
+                    <div class="card-header">
+                        <h4 style="opacity:70%"><b> <span style="color:black;"><?= $model->seccaoIdSeccao->nome  ?> :</span> </b></h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 style="padding:20px;text-align:center;"><?= $model->numeroAtual ?></h1>
                     </div>
                 </div>
             <?php } ?>

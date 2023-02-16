@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'summary' => 'A mostrar {begin} - {end} de {totalCount} resultados',
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'nome_promo',
